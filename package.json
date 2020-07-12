@@ -1,0 +1,53 @@
+{
+  "name": "tdameritrade",
+  "version": "0.1.0",
+  "description": "TD Ameritrade Library for Node.js",
+  "keywords": [
+    "TDAmeritrade",
+    "Trading"
+  ],
+  "license": "MIT",
+  "author": "@knicola",
+  "main": "src/index.js",
+  "types": "types",
+  "scripts": {
+    "lint": "eslint ./src",
+    "test": "node_modules/jest/bin/jest.js --notify",
+    "coverage": "node_modules/jest/bin/jest.js --coverage",
+    "build": "node_modules/parcel/bin/cli.js build src/index.js",
+    "authorize": "node scripts/authorize.js",
+    "refresh_token": "node scripts/refreshToken.js",
+    "user_principals": "node scripts/getUserPrincipals"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/tests/**/*.spec.js"
+    ],
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.js"
+    ],
+    "globalSetup": "./tests/setup/jest.setup.js",
+    "globalTeardown": "./tests/setup/jest.teardown.js",
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.7",
+    "@types/jest": "^25.2.3",
+    "debug": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "express": "^4.17.1",
+    "jest": "^25.5.4",
+    "opn": "^6.0.0",
+    "parcel": "^1.12.4"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cuid": "^2.1.8",
+    "eventemitter3": "^4.0.4",
+    "isomorphic-ws": "^4.0.1",
+    "lodash": "^4.17.19",
+    "ws": "^7.3.1"
+  }
+}

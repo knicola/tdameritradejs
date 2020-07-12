@@ -1,0 +1,9 @@
+/node_modules
+/coverage
+/dist
+/.cache
+npm-debug.log
+.env
+**/*.crt
+**/*.key
+**/*.cache.json
