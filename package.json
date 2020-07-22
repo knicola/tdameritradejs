@@ -10,6 +10,9 @@
   "author": "@knicola",
   "main": "src/index.js",
   "types": "types",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "scripts": {
     "lint": "eslint ./src",
     "test": "node_modules/jest/bin/jest.js --notify",
