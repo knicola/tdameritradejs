@@ -1163,5 +1163,12 @@ describe('TDStreamer', () => {
                 }]
             })
         }) // test
+        td('should receive heartbeat notification and emit `heartbeat` event', (streamer, done) => {
+            streamer.once('heartbeat', data => {
+                expect(data).toEqual('1595384500929')
+                done()
+            })
+            streamer.send({ notify: [{ heartbeat: '1595384500929' }] })
+        }) // test
     }) // group
 }) // group

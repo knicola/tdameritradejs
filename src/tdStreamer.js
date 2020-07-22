@@ -649,13 +649,11 @@ function handleResponse(emitter, response) {
  * @returns {void}
  */
 function handleNotification(emitter, notification) {
-    switch (notification) {
-    case 'heartbeat':
-        emitter.emit('heartbeat', notification)
-        break
-    default:
-        emitter.emit(ERROR.UNKNOWN_NOTIFICATION, notification)
+    if (notification.heartbeat) {
+        return emitter.emit('heartbeat', notification.heartbeat)
     }
+
+    emitter.emit(ERROR.UNKNOWN_NOTIFICATION, notification)
 } // handleNotification()
 
 /**
