@@ -1,3 +1,5 @@
 import { TDAmeritrade } from './tdAmeritrade'
 import { TDAccount } from './tdAccount'
-export { TDAmeritrade, TDAccount }
+import TDStreamer from '../src/tdStreamer'
+
+export { TDAmeritrade, TDAccount, TDStreamer }
