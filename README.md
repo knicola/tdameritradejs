@@ -19,11 +19,22 @@ A third interface (`TDStreamer`) is also in the works, but far from being comple
 
 An attempt to provide typescript definitions is also in progress.
 
+## Installing
+
+Using npm:
+```sh
+$ npm install @knicola/tdameritrade
+```
+
+Using yarn:
+```sh
+$ yarn add @knicola/tdameritrade
+```
 
 ## Usage
 
 ```js
-const { TDAmeritrade, TDAccount, TDStreamer } = require('./src')
+const { TDAmeritrade, TDAccount, TDStreamer } = require('@knicola/tdameritrade')
 const config = {
     accessToken: 'access_token',
     apiKey: 'testClientId@AMER.OAUTHAP'
