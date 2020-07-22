@@ -1,5 +1,5 @@
 {
-  "name": "tdameritrade",
+  "name": "@knicola/tdameritrade",
   "version": "0.1.0",
   "description": "TD Ameritrade Library for Node.js",
   "keywords": [
