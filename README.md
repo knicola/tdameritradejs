@@ -60,7 +60,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout selfsigned.key -out 
 
 For live tests create an access token:
 - [Register for a developer's account](https://developer.tdameritrade.com/user/register) and [add a new app](https://developer.tdameritrade.com/user/me/apps/add).
-- Copy `.env.sample` to `.env` and fill in the `CLIENT_ID` var with the app's `Consumer Key`.
+- Copy `.env.example` to `.env` and fill in the `CLIENT_ID` var with the app's `Consumer Key`.
 - Run `npm run authorize` and login with your regular TD Ameritrade account.
 
 
