@@ -9,6 +9,11 @@
   "license": "MIT",
   "author": "@knicola",
   "main": "src/index.js",
+  "repository": "knicola/tdameritradejs",
+  "bugs": {
+    "url": "https://github.com/knicola/tdameritradejs/issues"
+  },
+  "homepage": "https://github.com/knicola/tdameritradejs#readme",
   "types": "types",
   "scripts": {
     "lint": "eslint ./src",
