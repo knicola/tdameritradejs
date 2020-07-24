@@ -12,10 +12,14 @@ This library is still in its early stages of development and thus far from ready
 
 
 ## Status
+There are 3 interfaces available:
+* `TDAmeritrade` - the main API interface.
+* `TDAccount` - a helper interface to ease the use of account specific functions.
+* `TDStreamer` - the data streaming interface.
 
-The main API client is more or less complete. It provides two interfaces `TDAmeritrade`, which is the main api interface, and `TDAccount` to help target a specific account rather than passing `accountId` as a parameter all the time.
+The API client is very close to being complete. All documented API methods have been implemented and I do not expect to introduce any breaking changes for the time being. I'd say feel free to give it a spin.
 
-A third interface (`TDStreamer`) is also in the works, but far from being complete. This interface will be used to subscribe to TD Ameritrade's data streaming service.
+The data streaming interface implements most of what the documentation talks about. The only (documented) services that have not been implemented yet are the Actives, the Level 1 & 2 data and the Chart Futures History. I do expect breaking changes to be introduced to this interfaces. Mainly to the user provided config and the events.
 
 An attempt to provide typescript definitions is also in progress.
 
@@ -66,7 +70,7 @@ Official API documentation can be found here: https://developer.tdameritrade.com
 
 Generate an SSL certificate and place it in the root folder before running any tests:
 ```sh
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout selfsigned.key -out selfsigned.crt -batch
+$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout selfsigned.key -out selfsigned.crt -batch
 ```
 
 For live tests create an access token:
