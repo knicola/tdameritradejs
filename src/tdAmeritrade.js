@@ -11,10 +11,15 @@ const watchlist = require('./resources/watchlist')
 const transaction = require('./resources/transaction')
 
 const defaults = require('./config')
+const apiKeySuffix = '@AMER.OAUTHAP'
 
 function TDAmeritrade(config) {
-    this.config = Object.assign({}, defaults, config)
-}
+    this.config = Object.assign({}, defaults, config, {
+        apiKey: (config.apiKey + '').endsWith(apiKeySuffix)
+            ? config.apiKey
+            : config.apiKey + apiKeySuffix
+    })
+} // TDAmeritrade()
 
 TDAmeritrade.prototype.http = http
 

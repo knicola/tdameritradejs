@@ -37,7 +37,7 @@ $ yarn add @knicola/tdameritrade
 const { TDAmeritrade, TDAccount, TDStreamer } = require('@knicola/tdameritrade')
 const config = {
     accessToken: 'access_token',
-    apiKey: 'testClientId@AMER.OAUTHAP'
+    apiKey: 'testClientId' // `@AMER.OAUTHAP` suffix is not required
 }
 
 // main api interface

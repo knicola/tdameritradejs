@@ -6,11 +6,13 @@ const debug = require('debug')('ameritrade:tests') // eslint-disable-line no-unu
 const { TDAmeritrade } = require('../src/')
 const { assertApiCall } = require('./setup/common')
 
-const api = new TDAmeritrade({
+const config = {
     baseURL: 'https://localhost:3331/api',
     accessToken: 'test_access_token',
     apiKey: 'testClientId@AMER.OAUTHAP'
-})
+}
+
+const api = new TDAmeritrade(config)
 
 const expectedAuthorization = { authorization: 'Bearer test_access_token' }
 const expectedApiKey = { apikey: 'testClientId@AMER.OAUTHAP' }
@@ -546,5 +548,19 @@ describe('TDAmeritrade', () => {
                     })
                 })
         }) // test
+    }) // group
+    describe('Other', () => {
+        it('should add apiKey suffix, if it is not provided', () => {
+            const api = new TDAmeritrade(Object.assign({}, config, {
+                apiKey: config.apiKey.replace('@AMER.OAUTHAP', '')
+            }))
+            return api
+                .getQuote('symbol')
+                .then(({data}) => {
+                    assertApiCall(data, {
+                        params: expectedApiKey,
+                    })
+                })
+        })
     }) // group
 }) // group
