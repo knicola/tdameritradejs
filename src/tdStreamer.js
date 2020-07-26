@@ -572,6 +572,32 @@ class TDStreamer {
             },
         })
     } // unsubsTimesaleForex()
+
+    /**
+     * The Chart history futures options object
+     *
+     * @typedef {Object} ChartHistoryFuturesOptions
+     * @property {'m1'|'m5'|'m10'|'m30'|'h1'|'d1'|'w1'|'n1'} frequency Frequency
+     * @property {string=} period Time period. eg. d5, w4, n10, y1, y10 (d=day, w=week, n=month, y=year)
+     * @property {string=} START_TIME Start time of chart in milliseconds since Epoch
+     * @property {string=} END_TIME End time of chart in milliseconds since Epoch
+     */
+    /**
+     * Get historical data for Futures
+     *
+     * @param {string|string[]} symbols Ticker symbols
+     * @param {ChartHistoryFuturesOptions} options Chart history futures options
+     * @returns {object[]} The request objects sent to the server
+     */
+    getChartHistoryFutures(symbols, options) {
+        return this.sendRequest({
+            service: SERVICES.CHART_HISTORY_FUTURES,
+            command: COMMANDS.GET,
+            parameters: Object.assign({}, options, {
+                symbol: [].concat(symbols).join(',').toUpperCase()
+            })
+        })
+    } // getChartHistoryFutures()
 } // TDStreamer()
 
 /**

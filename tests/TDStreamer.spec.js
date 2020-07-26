@@ -974,6 +974,32 @@ describe('TDStreamer', () => {
         }) // test
     }) // group
 
+    describe('.subsChartHistoryFutures()', () => {
+        td('should get Chart History Futures data', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'CHART_HISTORY_FUTURES',
+                        command: 'GET',
+                        parameters: {
+                            symbol: '/ES',
+                            frequency: 'm1',
+                            period: 'd1'
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.getChartHistoryFutures('/ES', {
+                frequency: 'm1',
+                period: 'd1',
+            })
+        }) // test
+    }) // group
+
     describe('Events and Transforms', () => {
         td('should receive CHART_EQUITY data and emit `chart` event', (streamer, done) => {
             streamer.once('chart', data => {

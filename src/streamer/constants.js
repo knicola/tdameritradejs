@@ -50,6 +50,7 @@ const COMMANDS = Object.freeze({
     VIEW: 'VIEW',
     /** Log out of Streamer Server to end streaming session. */
     LOGOUT: 'LOGOUT',
+    GET: 'GET',
 })
 
 const SERVICES = Object.freeze({
