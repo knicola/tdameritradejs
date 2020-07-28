@@ -974,6 +974,72 @@ describe('TDStreamer', () => {
         }) // test
     }) // group
 
+    describe('.subsLevelOneEquity()', () => {
+        td('should subscribe for Level One Equity updates', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'QUOTE',
+                        command: 'SUBS',
+                        parameters: {
+                            keys: 'SYMBOL',
+                            fields: '0,1,2,3,4,5,6,7,8,9,10,11,'  +
+                                    '12,13,14,15,16,17,18,22,23,' +
+                                    '24,25,26,27,28,29,30,31,32,' +
+                                    '33,34,37,38,39,40,41,42,43,' +
+                                    '44,45,46,47,48,49,50,51,52',
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.subsLevelOneEquity('SYMBOL')
+        }) // test
+        td('should choose which fields to subscribe for', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'QUOTE',
+                        command: 'SUBS',
+                        parameters: {
+                            keys: 'SYMBOL',
+                            fields: '0,1,2'
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.subsLevelOneEquity('SYMBOL', ['symbol', 'bidPrice', 'askPrice'])
+        }) // test
+    }) // group
+
+    describe('.unsubsLevelOneEquity()', () => {
+        td('should unsubscribe from Chart Options updates', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'QUOTE',
+                        command: 'UNSUBS',
+                        parameters: {
+                            keys: 'SYMBOL'
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.unsubsLevelOneEquity('SYMBOL')
+        }) // test
+    }) // group
+
     describe('Events and Transforms', () => {
         td('should receive CHART_EQUITY data and emit `chart` event', (streamer, done) => {
             streamer.once('chart', data => {
@@ -1160,6 +1226,119 @@ describe('TDStreamer', () => {
                         '9': false,
                         '10': 'DJCNEWS'
                     }]
+                }]
+            })
+        }) // test
+        td('should receive QUOTE data and emit `level_one_equity` event', (streamer, done) => {
+            streamer.once('level_one_equity', data => {
+                expect(data).toEqual({
+                    service: 'QUOTE',
+                    command: 'SUBS',
+                    timestamp: 1595785007371,
+                    content: [{
+                        key: 'SPY',
+                        assetMainType: 'EQUITY',
+                        assetSubType: 'ETF',
+                        cusip: '78462F103',
+                        delayed: false,
+                        bidPrice: 320.15,
+                        askPrice: 320.3,
+                        lastPrice: 320.88,
+                        bidSize: 1,
+                        askSize: 4,
+                        askID: 'P',
+                        bidID: 'P',
+                        totalVolume: 73766597,
+                        lastSize: 6546,
+                        tradeTime: 72000,
+                        quoteTime: 71995,
+                        highPrice: 321.99,
+                        lowPrice: 319.246,
+                        bidTick: ' ',
+                        closePrice: 320.88,
+                        exchangeID: 'p',
+                        marginable: true,
+                        shortable: true,
+                        quoteDay: 18467,
+                        tradeDay: 18467,
+                        volatility: 0.0072,
+                        description: 'SPDR S&P 500',
+                        lastID: 'P',
+                        digits: 2,
+                        openPrice: 320.95,
+                        '52WeekHigh': 339.08,
+                        '52WeekLow': 218.26,
+                        dividendAmount: 5.7254,
+                        dividendYield: 1.78,
+                        exchangeName: 'PACIFIC',
+                        dividendDate: '2020-06-19 00:00:00.000',
+                        regularMarketQuote: true,
+                        regularMarketLastPrice: 320.88,
+                        regularMarketLastSize: 9,
+                        regularMarketTradeTime: 72000,
+                        regularMarketTradeDay: 18467,
+                        securityStatus: 'Normal',
+                        mark: 320.88,
+                        quoteTimeInLong: 1595635195538,
+                        tradeTimeInLong: 1595635200001,
+                        regularMarketTradeTimeInLong: 1595635200001
+                    }]
+                })
+                done()
+            })
+            streamer.send({
+                data: [{
+                    service: 'QUOTE',
+                    command: 'SUBS',
+                    timestamp: 1595785007371,
+                    content: [{
+                        '1': 320.15,
+                        '10': 72000,
+                        '11': 71995,
+                        '12': 321.99,
+                        '13': 319.246,
+                        '14': ' ',
+                        '15': 320.88,
+                        '16': 'p',
+                        '17': true,
+                        '18': true,
+                        '2': 320.3,
+                        '22': 18467,
+                        '23': 18467,
+                        '24': 0.0072,
+                        '25': 'SPDR S&P 500',
+                        '26': 'P',
+                        '27': 2,
+                        '28': 320.95,
+                        '3': 320.88,
+                        '30': 339.08,
+                        '31': 218.26,
+                        '33': 5.7254,
+                        '34': 1.78,
+                        '39': 'PACIFIC',
+                        '4': 1,
+                        '40': '2020-06-19 00:00:00.000',
+                        '41': true,
+                        '43': 320.88,
+                        '44': 9,
+                        '45': 72000,
+                        '46': 18467,
+                        '48': 'Normal',
+                        '49': 320.88,
+                        '5': 4,
+                        '50': 1595635195538,
+                        '51': 1595635200001,
+                        '52': 1595635200001,
+                        '6': 'P',
+                        '7': 'P',
+                        '8': 73766597,
+                        '9': 6546,
+                        'assetMainType': 'EQUITY',
+                        'assetSubType': 'ETF',
+                        'cusip': '78462F103',
+                        'delayed': false,
+                        'key': 'SPY'
+                    }],
                 }]
             })
         }) // test
