@@ -1475,5 +1475,47 @@ describe('TDStreamer', () => {
             })
             streamer.send('invalid json')
         }) // test
+        td('should receive an unknown message and emit `unknown_message` event', (streamer, done) => {
+            streamer.once('unknown_message', data => {
+                expect(data).toEqual({ unknown: 'value' })
+                done()
+            })
+            streamer.send({ unknown: 'value' })
+        }) // test
+        td('should receive an unknown response message and emit `unknown_response` event', (streamer, done) => {
+            streamer.once('unknown_response', data => {
+                expect(data).toEqual({
+                    unknown: 'value'
+                })
+                done()
+            })
+            streamer.send({
+                response: [{
+                    unknown: 'value'
+                }]
+            })
+        }) // test
+        td('should receive an unknown notification message and emit `unknown_notification` event', (streamer, done) => {
+            streamer.once('unknown_notification', data => {
+                expect(data).toEqual('unknown')
+                done()
+            })
+            streamer.send({
+                notify: ['unknown']
+            })
+        }) // test
+        td('should receive an unknown data message and emit `unknown_data` event', (streamer, done) => {
+            streamer.once('unknown_data', data => {
+                expect(data).toEqual({
+                    unknown: 'value',
+                })
+                done()
+            })
+            streamer.send({
+                data: [{
+                    unknown: 'value',
+                }]
+            })
+        }) // test
     }) // group
 }) // group
