@@ -19,7 +19,7 @@ There are 3 interfaces available:
 
 The API client is very close to being complete. All documented API methods have been implemented and I do not expect to introduce any breaking changes for the time being. I'd say feel free to give it a spin.
 
-The data streaming interface implements most of what the documentation talks about. The only (documented) services that have not been implemented yet are the Actives, the Level 1 & 2 data and the Chart Futures History. I do expect breaking changes to be introduced to this interfaces. Mainly to the user provided config and the events.
+The data streaming interface implements most of what the documentation talks about. The only (documented) services that have not been implemented yet are the Actives, the Level 1 Options, Level 2 order book and the Chart Futures History. I do expect breaking changes to be introduced to this interfaces. Mainly to the user provided config and the events.
 
 An attempt to provide typescript definitions is also in progress.
 
