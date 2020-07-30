@@ -1040,6 +1040,71 @@ describe('TDStreamer', () => {
         }) // test
     }) // group
 
+    describe('.subsLevelOneFutures()', () => {
+        td('should subscribe for Level One Futures updates', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'LEVELONE_FUTURES',
+                        command: 'SUBS',
+                        parameters: {
+                            keys: 'SYMBOL',
+                            fields: '0,1,2,3,4,5,6,7,8,9,10,11,'  +
+                                    '12,13,14,15,16,17,18,19,20,' +
+                                    '21,22,23,24,25,26,27,28,29,' +
+                                    '30,31,32,33,34,35',
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.subsLevelOneFutures('SYMBOL')
+        }) // test
+        td('should choose which fields to subscribe for', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'LEVELONE_FUTURES',
+                        command: 'SUBS',
+                        parameters: {
+                            keys: 'SYMBOL',
+                            fields: '0,2,5'
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.subsLevelOneFutures('SYMBOL', ['symbol', 'askPrice', 'askSize'])
+        }) // test
+    }) // group
+
+    describe('.unsubsLevelOneFutures()', () => {
+        td('should unsubscribe from Chart Options updates', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'LEVELONE_FUTURES',
+                        command: 'UNSUBS',
+                        parameters: {
+                            keys: 'SYMBOL'
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.unsubsLevelOneFutures('SYMBOL')
+        }) // test
+    }) // group
+
     describe('Events and Transforms', () => {
         td('should receive CHART_EQUITY data and emit `chart` event', (streamer, done) => {
             streamer.once('chart', data => {
@@ -1339,6 +1404,53 @@ describe('TDStreamer', () => {
                         'delayed': false,
                         'key': 'SPY'
                     }],
+                }]
+            })
+        }) // test
+        td('should receive LEVELONE_FUTURES data and emit `level_one_equity` event', (streamer, done) => {
+            streamer.once('level_one_futures', data => {
+                expect(data).toEqual({
+                    command: 'SUBS',
+                    content: [{
+                        key: '/ES',
+                        bidPrice: 3250.25,
+                        askPrice: 3250.5,
+                        lastPrice: 3250.25,
+                        bidSize: 5,
+                        askSize: 24,
+                        totalVolume: 25893,
+                        lastSize: 3,
+                        quoteTime: 1596072756018,
+                        tradeTime: 1596072755753,
+                        netChange: -2.25,
+                        futurePercentChange: -0.0007,
+                        mark: 3250.25,
+                    }],
+                    service: 'LEVELONE_FUTURES',
+                    timestamp: 1596072756064
+                })
+                done()
+            })
+            streamer.send({
+                data: [{
+                    command: 'SUBS',
+                    content: [{
+                        '1': 3250.25,
+                        '10': 1596072756018,
+                        '11': 1596072755753,
+                        '19': -2.25,
+                        '2': 3250.5,
+                        '20': -0.0007,
+                        '24': 3250.25,
+                        '3': 3250.25,
+                        '4': 5,
+                        '5': 24,
+                        '8': 25893,
+                        '9': 3,
+                        'key': '/ES'
+                    }],
+                    service: 'LEVELONE_FUTURES',
+                    timestamp: 1596072756064
                 }]
             })
         }) // test
