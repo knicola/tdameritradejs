@@ -665,8 +665,11 @@ function handleMessage(emitter, message) {
 
     try {
         msg = JSON.parse(message)
+        if (! msg || typeof msg !== 'object') {
+            throw Error()
+        }
     } catch (error) {
-        emitter.emit(ERROR.INVALID_MESSAGE, message)
+        return emitter.emit(ERROR.INVALID_MESSAGE, message)
     }
 
     debug('Received message %j', msg)

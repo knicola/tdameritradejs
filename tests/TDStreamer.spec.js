@@ -1461,5 +1461,19 @@ describe('TDStreamer', () => {
             })
             streamer.send({ notify: [{ heartbeat: '1595384500929' }] })
         }) // test
+        td('should receive null and emit `invalid_message` event', (streamer, done) => {
+            streamer.once('invalid_message', data => {
+                expect(data).toEqual('null')
+                done()
+            })
+            streamer.send(null)
+        }) // test
+        td('should receive invalid JSON and emit `invalid_message` event', (streamer, done) => {
+            streamer.once('invalid_message', data => {
+                expect(data).toEqual('"invalid json"')
+                done()
+            })
+            streamer.send('invalid json')
+        }) // test
     }) // group
 }) // group
