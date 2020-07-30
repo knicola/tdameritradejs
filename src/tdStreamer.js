@@ -754,7 +754,6 @@ function handleData(emitter, data) {
         emitter.emit(EVENT.CHART, transform.chartEquityNormalized(data))
         break
     case SERVICES.CHART_FUTURES:
-    case SERVICES.CHART_OPTIONS:
         emitter.emit(EVENT.CHART, transform.chartFuturesOptions(data))
         break
     case SERVICES.NEWS_HEADLINE:
