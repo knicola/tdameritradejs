@@ -23,6 +23,7 @@ const EVENT = Object.freeze({
     // TIMESALE_OPTIONS: 'timesale_options',
     // TIMESALE_FOREX: 'timesale_forex',
     LEVEL_ONE_EQUITY: 'level_one_equity',
+    LEVEL_ONE_FUTURES: 'level_one_futures',
     ERROR: 'error',
 })
 
@@ -283,7 +284,46 @@ const FIELDS = Object.freeze({
         quoteTimeInLong: 50, // Last quote time in milliseconds since Epoch
         tradeTimeInLong: 51, // Last trade time in milliseconds since Epoch
         regularMarketTradeTimeInLong: 52, // Regular market trade time in milliseconds since Epoch
-    })
+    }),
+
+    LEVEL_ONE_FUTURES: Object.freeze({
+        symbol: 0, // Ticker symbol in upper case.
+        bidPrice: 1, // Current Best Bid Price
+        askPrice: 2, // Current Best Ask Price
+        lastPrice: 3, // Price at which the last trade was matched
+        bidSize: 4, // Number of shares for bid
+        askSize: 5, // Number of shares for ask
+        askID: 6, // Exchange with the best ask
+        bidID: 7, // Exchange with the best bid
+        totalVolume: 8, // Aggregated shares traded throughout the day, including pre/post market hours.
+        lastSize: 9, // Number of shares traded with last trade
+        quoteTime: 10, // Trade time of the last quote in milliseconds since epoch
+        tradeTime: 11, // Trade time of the last trade in milliseconds since epoch
+        highPrice: 12, // Day’s high trade price
+        lowPrice: 13, // Day’s low trade price
+        closePrice: 14, // Previous day’s closing price
+        exchangeID: 15, // Primary "listing" Exchange
+        description: 16, // Description of the product
+        lastID: 17, // Exchange where last trade was executed
+        openPrice: 18, // Day's Open Price
+        netChange: 19, // Current Last-Prev Close
+        futurePercentChange: 20, // Current percent change
+        exhangeName: 21, // Name of exchange
+        securityStatus: 22, // Trading status of the symbol
+        openInterest: 23, // The total number of futures ontracts that are not closed or delivered on a particular day
+        mark: 24, // Mark-to-Market value is calculated daily using current prices to determine profit/loss
+        tick: 25, // Minimum price movement
+        tickAmount: 26, // Minimum amount that the price of the market can change
+        product: 27, // Futures product
+        futurePriceFormat: 28, // Display in fraction or decimal format.
+        futureTradingHours: 29, // Trading hours
+        futureIsTradable: 30, // Flag to indicate if this future contract is tradable
+        futureMultiplier: 31, // Point value
+        futureIsActive: 32, // Indicates if this contract is active
+        futureSettlementPrice: 33, // Closing price
+        futureActiveSymbol: 34, // Symbol of the active contract
+        futureExpirationDate: 35, // Expiration date of this contract
+    }),
 }) // FIELDS
 
 module.exports = {

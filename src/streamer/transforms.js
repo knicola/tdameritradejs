@@ -162,6 +162,51 @@ function levelOneEquity(data) {
     })
 } // levelOneEquity()
 
+function levelOneFutures(data) {
+    return Object.assign({}, data, {
+        content: data.content.map(entry => {
+            return {
+                key: entry.key,
+                bidPrice: entry[1],
+                askPrice: entry[2],
+                lastPrice: entry[3],
+                bidSize: entry[4],
+                askSize: entry[5],
+                askID: entry[6],
+                bidID: entry[7],
+                totalVolume: entry[8],
+                lastSize: entry[9],
+                quoteTime: entry[10],
+                tradeTime: entry[11],
+                highPrice: entry[12],
+                lowPrice: entry[13],
+                closePrice: entry[14],
+                exchangeID: entry[15],
+                description: entry[16],
+                lastID: entry[17],
+                openPrice: entry[18],
+                netChange: entry[19],
+                futurePercentChange: entry[20],
+                exhangeName: entry[21],
+                securityStatus: entry[22],
+                openInterest: entry[23],
+                mark: entry[24],
+                tick: entry[25],
+                tickAmount: entry[26],
+                product: entry[27],
+                futurePriceFormat: entry[28],
+                futureTradingHours: entry[29],
+                futureIsTradable: entry[30],
+                futureMultiplier: entry[31],
+                futureIsActive: entry[32],
+                futureSettlementPrice: entry[33],
+                futureActiveSymbol: entry[34],
+                futureExpirationDate: entry[35],
+            }
+        })
+    })
+} // levelOneFutures()
+
 module.exports = {
     accountActivity,
     // chartEquity,
@@ -170,4 +215,5 @@ module.exports = {
     newsHeadline,
     timesale,
     levelOneEquity,
+    levelOneFutures,
 }

@@ -613,6 +613,44 @@ class TDStreamer {
             }
         })
     } // unsubsLevelOneEquity()
+
+    /**
+     * Subscribe to Level One Equity service
+     *
+     * @param {string|string[]} symbols Ticker symbols to subscribe to
+     * @param {Array<'symbol'|'bidPrice'|'askPrice'|'lastPrice'|'bidSize'|'askSize'|'askID'|'bidID'|'totalVolume'|
+        'lastSize'|'quoteTime'|'tradeTime'|'highPrice'|'lowPrice'|'closePrice'|'exchangeID'|'description'|'lastID'|
+        'openPrice'|'netChange'|'futurePercentChange'|'exhangeName'|'securityStatus'|'openInterest'|'mark'|'tick'|
+        'tickAmount'|'product'|'futurePriceFormat'|'futureTradingHours'|'futureIsTradable'|'futureMultiplier'|
+        'futureIsActive'|'futureSettlementPrice'|'futureActiveSymbol'|'futureExpirationDate'> =} fields fields
+     * @returns {object[]} object
+     */
+    subsLevelOneFutures(symbols, fields) {
+        return this.subscribe({
+            service: SERVICES.LEVELONE_FUTURES,
+            parameters: {
+                keys: [].concat(symbols).join(',').toUpperCase(),
+                fields: fields
+                    ? fields.map(field => FIELDS.LEVEL_ONE_FUTURES[field]).join(',')
+                    : Object.values(FIELDS.LEVEL_ONE_FUTURES).join(',')
+            }
+        })
+    } // subsLevelOneFutures()
+
+    /**
+     * Unsbscribe from Level One Futures service
+     *
+     * @param {string|string[]} symbols Ticker symbols to unsubscribe from
+     * @returns {object[]} The request objects sent to the server
+     */
+    unsubsLevelOneFutures(symbols) {
+        return this.unsubscribe({
+            service: SERVICES.LEVELONE_FUTURES,
+            parameters: {
+                keys: [].concat(symbols).join(',').toUpperCase(),
+            }
+        })
+    } // unsubsLevelOneFutures()
 } // TDStreamer()
 
 /**
@@ -728,6 +766,9 @@ function handleData(emitter, data) {
     case SERVICES.QUOTE:
         emitter.emit(EVENT.LEVEL_ONE_EQUITY, transform.levelOneEquity(data))
         break
+    case SERVICES.LEVELONE_FUTURES:
+        emitter.emit(EVENT.LEVEL_ONE_FUTURES, transform.levelOneFutures(data))
+        break
     default:
         emitter.emit(ERROR.UNKNOWN_DATA, data)
     }
@@ -784,7 +825,7 @@ function jsonToQueryString(json) {
 module.exports = TDStreamer
 
 /**
- * @typedef {'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'error'} Event
+ * @typedef {'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'level_one_futures'|'error'} Event
  * @typedef {'connecting'|'connected'|'authenticated'|'disconnecting'|'disconnected'} State
  * @typedef {'unknown_error'|'unknown_message'|'unknown_response'|'unknown_notification'|'unknown_data'|'invalid_message'|'connection_refused'|'authentication_failed'} Error
  */
