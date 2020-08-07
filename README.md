@@ -41,24 +41,31 @@ $ yarn add @knicola/tdameritrade
 const { TDAmeritrade, TDAccount, TDStreamer } = require('@knicola/tdameritrade')
 const config = {
     accessToken: 'access_token',
-    apiKey: 'testClientId' // `@AMER.OAUTHAP` suffix is not required
+    apiKey: 'testClientId', // `@AMER.OAUTHAP` suffix is not required
+    returnFullResponse: false, // Set to true to return the full axios response (default: false)
 }
 
 // main api interface
 const api = new TDAmeritrade(config)
 const accounts = await api.getAccounts()
-api.getOrders(accounts[0].accountId).then( ... )
+const orders = api.getOrders(accounts[0].accountId).then(orders => {
+    // do something with orders ..
+    return orders
+})
 
 // account specific interface
 const account = new TDAccount(accounts[0].accountId, config)
-account.getOrders().then( ... )
+const orders = account.getOrders()
 
 // data streamer
-const userPrincipals = api.getUserPrincipals(['streamerSubscriptionKeys', 'streamerConnectionInfo'])
+const userPrincipals = await api.getUserPrincipals([
+    'streamerSubscriptionKeys',
+    'streamerConnectionInfo',
+])
 const streamer = new TDStreamer(userPrincipals)
 streamer.on('authenticated', () => streamer.subsChartEquity('SPY'))
 streamer.on('chart', data => {
-    // ..
+    // do something with chart data ..
 })
 streamer.connect()
 ```

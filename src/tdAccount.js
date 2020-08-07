@@ -9,11 +9,8 @@ const watchlist = require('./resources/watchlist')
 const transaction = require('./resources/transaction')
 const userPrincipal = require('./resources/userPrincipal')
 
-const defaults = require('./config')
-
 function TDAccount(accountId, config) {
-    this.config = Object.assign({}, defaults, config)
-    this.http = http
+    http.call(this, config)
 
     // ACCOUNT INFO
     this.getAccount = partial(account.getAccount, accountId)
