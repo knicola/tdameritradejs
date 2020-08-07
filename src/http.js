@@ -20,6 +20,10 @@ function http(config) {
 
         return request
     })
+
+    if (! this.config.returnFullResponse) {
+        this.axios.interceptors.response.use(response => response.data)
+    }
 } // http()
 
 module.exports = http
