@@ -1,8 +1,7 @@
 'use strict'
 
 function getMarketHours(markets, date) {
-    return this.http({
-        url: '/marketdata/hours',
+    return this.axios.get('/marketdata/hours', {
         params: {
             markets: [].concat(markets).join(','),
             date,
@@ -12,8 +11,7 @@ function getMarketHours(markets, date) {
 } // getMarketHours()
 
 function getMovers(index, direction, change) {
-    return this.http({
-        url: `/marketdata/${index}/movers`,
+    return this.axios.get(`/marketdata/${index}/movers`, {
         params: {
             direction,
             change,
@@ -23,8 +21,7 @@ function getMovers(index, direction, change) {
 } // getMovers()
 
 function getQuotes(symbols) {
-    return this.http({
-        url: '/marketdata/quotes',
+    return this.axios.get('/marketdata/quotes', {
         params: {
             symbol: [].concat(symbols).join(','),
             apikey: this.config.apiKey,
@@ -33,8 +30,7 @@ function getQuotes(symbols) {
 } // getQuotes()
 
 function getQuote(symbol) {
-    return this.http({
-        url: `/marketdata/${symbol}/quotes`,
+    return this.axios.get(`/marketdata/${symbol}/quotes`, {
         params: {
             apikey: this.config.apiKey,
         },
@@ -42,15 +38,13 @@ function getQuote(symbol) {
 } // getQuote()
 
 function getPriceHistory(symbol, params) {
-    return this.http({
-        url: `/marketdata/${symbol}/pricehistory`,
+    return this.axios.get(`/marketdata/${symbol}/pricehistory`, {
         params: Object.assign({}, params, { apikey: this.config.apiKey }),
     })
 } // getPriceHistory()
 
 function getOptionChain(symbol, params) {
-    return this.http({
-        url: '/marketdata/chains',
+    return this.axios.get('/marketdata/chains', {
         params: Object.assign({}, params, { symbol, apikey: this.config.apiKey }),
     })
 } // getOptionChain()

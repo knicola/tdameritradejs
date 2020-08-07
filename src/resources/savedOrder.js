@@ -1,31 +1,23 @@
 'use strict'
 
 function getSavedOrder(accountId, savedOrderId) {
-    return this.http({ url: `/accounts/${accountId}/savedorders/${savedOrderId}` })
+    return this.axios.get(`/accounts/${accountId}/savedorders/${savedOrderId}`)
 } // getSavedOrder()
 
 function getSavedOrders(accountId) {
-    return this.http({ url: `/accounts/${accountId}/savedorders` })
+    return this.axios.get(`/accounts/${accountId}/savedorders`)
 } // getSavedOrdersByPath()
 
 function createSavedOrder(accountId, savedOrder) {
-    return this.http({
-        method: 'POST',
-        url: `/accounts/${accountId}/savedorders`,
-        data: savedOrder,
-    })
+    return this.axios.post(`/accounts/${accountId}/savedorders`, savedOrder)
 } // createSavedOrder()
 
 function replaceSavedOrder(accountId, savedOrderId, savedOrder) {
-    return this.http({
-        method: 'PUT',
-        url: `/accounts/${accountId}/savedorders/${savedOrderId}`,
-        data: savedOrder
-    })
+    return this.axios.put(`/accounts/${accountId}/savedorders/${savedOrderId}`, savedOrder)
 } // replaceSavedOrder()
 
 function deleteSavedOrder(accountId, savedOrderId) {
-    return this.http({ method: 'DELETE', url: `/accounts/${accountId}/savedorders/${savedOrderId}` })
+    return this.axios.delete(`/accounts/${accountId}/savedorders/${savedOrderId}`)
 } // deleteSavedOrder()
 
 module.exports = {

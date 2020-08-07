@@ -1,8 +1,7 @@
 'use strict'
 
 function searchInstruments(symbol, projection) {
-    return this.http({
-        url: '/instruments',
+    return this.axios.get('/instruments', {
         params: {
             symbol,
             projection,
@@ -12,8 +11,7 @@ function searchInstruments(symbol, projection) {
 } // searchInstruments()
 
 function getInstrument(cusip) {
-    return this.http({
-        url: `/instruments/${cusip}`,
+    return this.axios.get(`/instruments/${cusip}`, {
         params: {
             apikey: this.config.apiKey,
         }
