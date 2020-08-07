@@ -42,22 +42,23 @@ const { TDAmeritrade, TDAccount, TDStreamer } = require('@knicola/tdameritrade')
 const config = {
     accessToken: 'access_token',
     apiKey: 'testClientId', // `@AMER.OAUTHAP` suffix is not required
+    returnFullResponse: false, // Set to true to return the full axios response (default: false)
 }
 
 // main api interface
 const api = new TDAmeritrade(config)
-const { data: accounts } = await api.getAccounts()
-const orders = api.getOrders(accounts[0].accountId).then(res => {
-    // do something with res.data ..
-    return res.data
+const accounts = await api.getAccounts()
+const orders = api.getOrders(accounts[0].accountId).then(orders => {
+    // do something with orders ..
+    return orders
 })
 
 // account specific interface
 const account = new TDAccount(accounts[0].accountId, config)
-const { data: orders } = account.getOrders()
+const orders = account.getOrders()
 
 // data streamer
-const { data: userPrincipals } = await api.getUserPrincipals([
+const userPrincipals = await api.getUserPrincipals([
     'streamerSubscriptionKeys',
     'streamerConnectionInfo',
 ])
