@@ -2,6 +2,7 @@
 
 const axios = require('axios').default
 const defaults = require('./config')
+const token = require('./resources/token')
 const apiKeySuffix = '@AMER.OAUTHAP'
 
 function http(config) {
@@ -10,6 +11,9 @@ function http(config) {
             ? config.apiKey
             : config.apiKey + apiKeySuffix
     })
+
+    this.authenticate = token.authenticate
+    this.refreshToken = token.refreshToken
 
     this.axios = axios.create({ baseURL: this.config.baseURL })
 
