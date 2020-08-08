@@ -1407,7 +1407,7 @@ describe('TDStreamer', () => {
                 }]
             })
         }) // test
-        td('should receive LEVELONE_FUTURES data and emit `level_one_equity` event', (streamer, done) => {
+        td('should receive LEVELONE_FUTURES data and emit `level_one_futures` event', (streamer, done) => {
             streamer.once('level_one_futures', data => {
                 expect(data).toEqual({
                     command: 'SUBS',
