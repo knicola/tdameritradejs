@@ -1,20 +1,18 @@
 'use strict'
 
 function getStreamerSubscriptionKeys(accountIds) {
-    return this.http({
-        url: '/userprincipals/streamersubscriptionkeys',
+    return this.axios.get('/userprincipals/streamersubscriptionkeys', {
         params: {
-            accountIds: [].concat(accountIds).join(','),
-        },
+            accountIds: [].concat(accountIds).join(',')
+        }
     })
 } // getStreamerSubscriptionKeys()
 
 function getUserPrincipals(fields) {
-    return this.http({
-        url: '/userprincipals',
+    return this.axios.get('/userprincipals', {
         params: {
-            fields: [].concat(fields).join(','),
-        },
+            fields: [].concat(fields).join(',')
+        }
     })
 } // getUserPrincipals()
 

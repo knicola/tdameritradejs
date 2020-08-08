@@ -1000,6 +1000,137 @@ describe('TDStreamer', () => {
         }) // test
     }) // group
 
+    describe('.subsLevelOneEquity()', () => {
+        td('should subscribe for Level One Equity updates', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'QUOTE',
+                        command: 'SUBS',
+                        parameters: {
+                            keys: 'SYMBOL',
+                            fields: '0,1,2,3,4,5,6,7,8,9,10,11,'  +
+                                    '12,13,14,15,16,17,18,22,23,' +
+                                    '24,25,26,27,28,29,30,31,32,' +
+                                    '33,34,37,38,39,40,41,42,43,' +
+                                    '44,45,46,47,48,49,50,51,52',
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.subsLevelOneEquity('SYMBOL')
+        }) // test
+        td('should choose which fields to subscribe for', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'QUOTE',
+                        command: 'SUBS',
+                        parameters: {
+                            keys: 'SYMBOL',
+                            fields: '0,1,2'
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.subsLevelOneEquity('SYMBOL', ['symbol', 'bidPrice', 'askPrice'])
+        }) // test
+    }) // group
+
+    describe('.unsubsLevelOneEquity()', () => {
+        td('should unsubscribe from Chart Options updates', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'QUOTE',
+                        command: 'UNSUBS',
+                        parameters: {
+                            keys: 'SYMBOL'
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.unsubsLevelOneEquity('SYMBOL')
+        }) // test
+    }) // group
+
+    describe('.subsLevelOneFutures()', () => {
+        td('should subscribe for Level One Futures updates', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'LEVELONE_FUTURES',
+                        command: 'SUBS',
+                        parameters: {
+                            keys: 'SYMBOL',
+                            fields: '0,1,2,3,4,5,6,7,8,9,10,11,'  +
+                                    '12,13,14,15,16,17,18,19,20,' +
+                                    '21,22,23,24,25,26,27,28,29,' +
+                                    '30,31,32,33,34,35',
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.subsLevelOneFutures('SYMBOL')
+        }) // test
+        td('should choose which fields to subscribe for', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'LEVELONE_FUTURES',
+                        command: 'SUBS',
+                        parameters: {
+                            keys: 'SYMBOL',
+                            fields: '0,2,5'
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.subsLevelOneFutures('SYMBOL', ['symbol', 'askPrice', 'askSize'])
+        }) // test
+    }) // group
+
+    describe('.unsubsLevelOneFutures()', () => {
+        td('should unsubscribe from Chart Options updates', (streamer, done) => {
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 'test_requestid',
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'LEVELONE_FUTURES',
+                        command: 'UNSUBS',
+                        parameters: {
+                            keys: 'SYMBOL'
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.unsubsLevelOneFutures('SYMBOL')
+        }) // test
+    }) // group
+
     describe('Events and Transforms', () => {
         td('should receive CHART_EQUITY data and emit `chart` event', (streamer, done) => {
             streamer.once('chart', data => {
@@ -1189,12 +1320,228 @@ describe('TDStreamer', () => {
                 }]
             })
         }) // test
+        td('should receive QUOTE data and emit `level_one_equity` event', (streamer, done) => {
+            streamer.once('level_one_equity', data => {
+                expect(data).toEqual({
+                    service: 'QUOTE',
+                    command: 'SUBS',
+                    timestamp: 1595785007371,
+                    content: [{
+                        key: 'SPY',
+                        assetMainType: 'EQUITY',
+                        assetSubType: 'ETF',
+                        cusip: '78462F103',
+                        delayed: false,
+                        bidPrice: 320.15,
+                        askPrice: 320.3,
+                        lastPrice: 320.88,
+                        bidSize: 1,
+                        askSize: 4,
+                        askID: 'P',
+                        bidID: 'P',
+                        totalVolume: 73766597,
+                        lastSize: 6546,
+                        tradeTime: 72000,
+                        quoteTime: 71995,
+                        highPrice: 321.99,
+                        lowPrice: 319.246,
+                        bidTick: ' ',
+                        closePrice: 320.88,
+                        exchangeID: 'p',
+                        marginable: true,
+                        shortable: true,
+                        quoteDay: 18467,
+                        tradeDay: 18467,
+                        volatility: 0.0072,
+                        description: 'SPDR S&P 500',
+                        lastID: 'P',
+                        digits: 2,
+                        openPrice: 320.95,
+                        '52WeekHigh': 339.08,
+                        '52WeekLow': 218.26,
+                        dividendAmount: 5.7254,
+                        dividendYield: 1.78,
+                        exchangeName: 'PACIFIC',
+                        dividendDate: '2020-06-19 00:00:00.000',
+                        regularMarketQuote: true,
+                        regularMarketLastPrice: 320.88,
+                        regularMarketLastSize: 9,
+                        regularMarketTradeTime: 72000,
+                        regularMarketTradeDay: 18467,
+                        securityStatus: 'Normal',
+                        mark: 320.88,
+                        quoteTimeInLong: 1595635195538,
+                        tradeTimeInLong: 1595635200001,
+                        regularMarketTradeTimeInLong: 1595635200001
+                    }]
+                })
+                done()
+            })
+            streamer.send({
+                data: [{
+                    service: 'QUOTE',
+                    command: 'SUBS',
+                    timestamp: 1595785007371,
+                    content: [{
+                        '1': 320.15,
+                        '10': 72000,
+                        '11': 71995,
+                        '12': 321.99,
+                        '13': 319.246,
+                        '14': ' ',
+                        '15': 320.88,
+                        '16': 'p',
+                        '17': true,
+                        '18': true,
+                        '2': 320.3,
+                        '22': 18467,
+                        '23': 18467,
+                        '24': 0.0072,
+                        '25': 'SPDR S&P 500',
+                        '26': 'P',
+                        '27': 2,
+                        '28': 320.95,
+                        '3': 320.88,
+                        '30': 339.08,
+                        '31': 218.26,
+                        '33': 5.7254,
+                        '34': 1.78,
+                        '39': 'PACIFIC',
+                        '4': 1,
+                        '40': '2020-06-19 00:00:00.000',
+                        '41': true,
+                        '43': 320.88,
+                        '44': 9,
+                        '45': 72000,
+                        '46': 18467,
+                        '48': 'Normal',
+                        '49': 320.88,
+                        '5': 4,
+                        '50': 1595635195538,
+                        '51': 1595635200001,
+                        '52': 1595635200001,
+                        '6': 'P',
+                        '7': 'P',
+                        '8': 73766597,
+                        '9': 6546,
+                        'assetMainType': 'EQUITY',
+                        'assetSubType': 'ETF',
+                        'cusip': '78462F103',
+                        'delayed': false,
+                        'key': 'SPY'
+                    }],
+                }]
+            })
+        }) // test
+        td('should receive LEVELONE_FUTURES data and emit `level_one_futures` event', (streamer, done) => {
+            streamer.once('level_one_futures', data => {
+                expect(data).toEqual({
+                    command: 'SUBS',
+                    content: [{
+                        key: '/ES',
+                        bidPrice: 3250.25,
+                        askPrice: 3250.5,
+                        lastPrice: 3250.25,
+                        bidSize: 5,
+                        askSize: 24,
+                        totalVolume: 25893,
+                        lastSize: 3,
+                        quoteTime: 1596072756018,
+                        tradeTime: 1596072755753,
+                        netChange: -2.25,
+                        futurePercentChange: -0.0007,
+                        mark: 3250.25,
+                    }],
+                    service: 'LEVELONE_FUTURES',
+                    timestamp: 1596072756064
+                })
+                done()
+            })
+            streamer.send({
+                data: [{
+                    command: 'SUBS',
+                    content: [{
+                        '1': 3250.25,
+                        '10': 1596072756018,
+                        '11': 1596072755753,
+                        '19': -2.25,
+                        '2': 3250.5,
+                        '20': -0.0007,
+                        '24': 3250.25,
+                        '3': 3250.25,
+                        '4': 5,
+                        '5': 24,
+                        '8': 25893,
+                        '9': 3,
+                        'key': '/ES'
+                    }],
+                    service: 'LEVELONE_FUTURES',
+                    timestamp: 1596072756064
+                }]
+            })
+        }) // test
         td('should receive heartbeat notification and emit `heartbeat` event', (streamer, done) => {
             streamer.once('heartbeat', data => {
                 expect(data).toEqual('1595384500929')
                 done()
             })
             streamer.send({ notify: [{ heartbeat: '1595384500929' }] })
+        }) // test
+        td('should receive null and emit `invalid_message` event', (streamer, done) => {
+            streamer.once('invalid_message', data => {
+                expect(data).toEqual('null')
+                done()
+            })
+            streamer.send(null)
+        }) // test
+        td('should receive invalid JSON and emit `invalid_message` event', (streamer, done) => {
+            streamer.once('invalid_message', data => {
+                expect(data).toEqual('"invalid json"')
+                done()
+            })
+            streamer.send('invalid json')
+        }) // test
+        td('should receive an unknown message and emit `unknown_message` event', (streamer, done) => {
+            streamer.once('unknown_message', data => {
+                expect(data).toEqual({ unknown: 'value' })
+                done()
+            })
+            streamer.send({ unknown: 'value' })
+        }) // test
+        td('should receive an unknown response message and emit `unknown_response` event', (streamer, done) => {
+            streamer.once('unknown_response', data => {
+                expect(data).toEqual({
+                    unknown: 'value'
+                })
+                done()
+            })
+            streamer.send({
+                response: [{
+                    unknown: 'value'
+                }]
+            })
+        }) // test
+        td('should receive an unknown notification message and emit `unknown_notification` event', (streamer, done) => {
+            streamer.once('unknown_notification', data => {
+                expect(data).toEqual('unknown')
+                done()
+            })
+            streamer.send({
+                notify: ['unknown']
+            })
+        }) // test
+        td('should receive an unknown data message and emit `unknown_data` event', (streamer, done) => {
+            streamer.once('unknown_data', data => {
+                expect(data).toEqual({
+                    unknown: 'value',
+                })
+                done()
+            })
+            streamer.send({
+                data: [{
+                    unknown: 'value',
+                }]
+            })
         }) // test
     }) // group
 }) // group

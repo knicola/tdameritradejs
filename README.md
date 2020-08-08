@@ -19,7 +19,7 @@ There are 3 interfaces available:
 
 The API client is very close to being complete. All documented API methods have been implemented and I do not expect to introduce any breaking changes for the time being. I'd say feel free to give it a spin.
 
-The data streaming interface implements most of what the documentation talks about. The only (documented) services that have not been implemented yet are the Actives, the Level 1 & 2 data and the Chart Futures History. I do expect breaking changes to be introduced to this interfaces. Mainly to the user provided config and the events.
+The data streaming interface implements most of what the documentation talks about. The only (documented) services that have not been implemented yet are the Actives, the Level 1 Options, Level 2 order book and the Chart Futures History. I do expect breaking changes to be introduced to this interface. Mainly to the user provided config and the events.
 
 An attempt to provide typescript definitions is also in progress.
 
@@ -41,24 +41,31 @@ $ yarn add @knicola/tdameritrade
 const { TDAmeritrade, TDAccount, TDStreamer } = require('@knicola/tdameritrade')
 const config = {
     accessToken: 'access_token',
-    apiKey: 'testClientId' // `@AMER.OAUTHAP` suffix is not required
+    apiKey: 'testClientId', // `@AMER.OAUTHAP` suffix is not required
+    returnFullResponse: false, // Set to true to return the full axios response (default: false)
 }
 
 // main api interface
 const api = new TDAmeritrade(config)
 const accounts = await api.getAccounts()
-api.getOrders(accounts[0].accountId).then( ... )
+const orders = api.getOrders(accounts[0].accountId).then(orders => {
+    // do something with orders ..
+    return orders
+})
 
 // account specific interface
 const account = new TDAccount(accounts[0].accountId, config)
-account.getOrders().then( ... )
+const orders = account.getOrders()
 
 // data streamer
-const userPrincipals = api.getUserPrincipals(['streamerSubscriptionKeys', 'streamerConnectionInfo'])
+const userPrincipals = await api.getUserPrincipals([
+    'streamerSubscriptionKeys',
+    'streamerConnectionInfo',
+])
 const streamer = new TDStreamer(userPrincipals)
 streamer.on('authenticated', () => streamer.subsChartEquity('SPY'))
 streamer.on('chart', data => {
-    // ..
+    // do something with chart data ..
 })
 streamer.connect()
 ```

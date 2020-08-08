@@ -598,6 +598,85 @@ class TDStreamer {
             })
         })
     } // getChartHistoryFutures()
+
+    /**
+     * Subscribe to Level One Equity service
+     *
+     * @param {string|string[]} symbols Ticker symbols to subscribe to
+     * @param {Array<'symbol'|'bidPrice'|'askPrice'|'lastPrice'|'bidSize'|'askSize'|'askID'|'bidID'|'totalVolume'|
+        'lastSize'|'tradeTime'|'quoteTime'|'highPrice'|'lowPrice'|'bidTick'|'closePrice'|'exchangeID'|
+        'marginable'|'shortable'|'quoteDay'|'tradeDay'|'volatility'|'description'|'lastID'|'digits'|
+        'openPrice'|'netChange'|'52WeekHigh'|'52WeekLow'|'peRatio'|'dividendAmount'|'dividendYield'|'nav'|
+        'fundPrice'|'exchangeName'|'dividendDate'|'regularMarketQuote'|'regularMarketTrade'|'regularMarketLastPrice'|
+        'regularMarketLastSize'|'regularMarketTradeTime'|'regularMarketTradeDay'|'regularMarketNetChange'|
+        'securityStatus'|'mark'|'quoteTimeInLong'|'tradeTimeInLong'|'regularMarketTradeTimeInLong'> =} fields fields
+     * @returns {object[]} object
+     */
+    subsLevelOneEquity(symbols, fields) {
+        return this.subscribe({
+            service: SERVICES.QUOTE,
+            parameters: {
+                keys: [].concat(symbols).join(',').toUpperCase(),
+                fields: fields
+                    ? fields.map(field => FIELDS.LEVEL_ONE_EQUITY[field]).join(',')
+                    // : '0,1,2,3,4,5,6,7,8' // as seen in doc example
+                    : Object.values(FIELDS.LEVEL_ONE_EQUITY).join(',')
+            }
+        })
+    } // subsLevelOneEquity()
+
+    /**
+     * Unsbscribe from Level One Equity service
+     *
+     * @param {string|string[]} symbols Ticker symbols to unsubscribe from
+     * @returns {object[]} The request objects sent to the server
+     */
+    unsubsLevelOneEquity(symbols) {
+        return this.unsubscribe({
+            service: SERVICES.QUOTE,
+            parameters: {
+                keys: [].concat(symbols).join(',').toUpperCase(),
+            }
+        })
+    } // unsubsLevelOneEquity()
+
+    /**
+     * Subscribe to Level One Equity service
+     *
+     * @param {string|string[]} symbols Ticker symbols to subscribe to
+     * @param {Array<'symbol'|'bidPrice'|'askPrice'|'lastPrice'|'bidSize'|'askSize'|'askID'|'bidID'|'totalVolume'|
+        'lastSize'|'quoteTime'|'tradeTime'|'highPrice'|'lowPrice'|'closePrice'|'exchangeID'|'description'|'lastID'|
+        'openPrice'|'netChange'|'futurePercentChange'|'exhangeName'|'securityStatus'|'openInterest'|'mark'|'tick'|
+        'tickAmount'|'product'|'futurePriceFormat'|'futureTradingHours'|'futureIsTradable'|'futureMultiplier'|
+        'futureIsActive'|'futureSettlementPrice'|'futureActiveSymbol'|'futureExpirationDate'> =} fields fields
+     * @returns {object[]} object
+     */
+    subsLevelOneFutures(symbols, fields) {
+        return this.subscribe({
+            service: SERVICES.LEVELONE_FUTURES,
+            parameters: {
+                keys: [].concat(symbols).join(',').toUpperCase(),
+                fields: fields
+                    ? fields.map(field => FIELDS.LEVEL_ONE_FUTURES[field]).join(',')
+                    : Object.values(FIELDS.LEVEL_ONE_FUTURES).join(',')
+            }
+        })
+    } // subsLevelOneFutures()
+
+    /**
+     * Unsbscribe from Level One Futures service
+     *
+     * @param {string|string[]} symbols Ticker symbols to unsubscribe from
+     * @returns {object[]} The request objects sent to the server
+     */
+    unsubsLevelOneFutures(symbols) {
+        return this.unsubscribe({
+            service: SERVICES.LEVELONE_FUTURES,
+            parameters: {
+                keys: [].concat(symbols).join(',').toUpperCase(),
+            }
+        })
+    } // unsubsLevelOneFutures()
 } // TDStreamer()
 
 /**
@@ -612,8 +691,11 @@ function handleMessage(emitter, message) {
 
     try {
         msg = JSON.parse(message)
+        if (! msg || typeof msg !== 'object') {
+            throw Error()
+        }
     } catch (error) {
-        emitter.emit(ERROR.INVALID_MESSAGE, message)
+        return emitter.emit(ERROR.INVALID_MESSAGE, message)
     }
 
     debug('Received message %j', msg)
@@ -698,7 +780,6 @@ function handleData(emitter, data) {
         emitter.emit(EVENT.CHART, transform.chartEquityNormalized(data))
         break
     case SERVICES.CHART_FUTURES:
-    case SERVICES.CHART_OPTIONS:
         emitter.emit(EVENT.CHART, transform.chartFuturesOptions(data))
         break
     case SERVICES.NEWS_HEADLINE:
@@ -709,6 +790,12 @@ function handleData(emitter, data) {
     case SERVICES.TIMESALE_OPTIONS:
     case SERVICES.TIMESALE_FOREX:
         emitter.emit(EVENT.TIMESALE, transform.timesale(data))
+        break
+    case SERVICES.QUOTE:
+        emitter.emit(EVENT.LEVEL_ONE_EQUITY, transform.levelOneEquity(data))
+        break
+    case SERVICES.LEVELONE_FUTURES:
+        emitter.emit(EVENT.LEVEL_ONE_FUTURES, transform.levelOneFutures(data))
         break
     default:
         emitter.emit(ERROR.UNKNOWN_DATA, data)
@@ -766,7 +853,7 @@ function jsonToQueryString(json) {
 module.exports = TDStreamer
 
 /**
- * @typedef {'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'error'} Event
+ * @typedef {'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'level_one_futures'|'error'} Event
  * @typedef {'connecting'|'connected'|'authenticated'|'disconnecting'|'disconnected'} State
  * @typedef {'unknown_error'|'unknown_message'|'unknown_response'|'unknown_notification'|'unknown_data'|'invalid_message'|'connection_refused'|'authentication_failed'} Error
  */

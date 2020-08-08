@@ -22,6 +22,8 @@ const EVENT = Object.freeze({
     // TIMESALE_FUTURES: 'timesale_futures',
     // TIMESALE_OPTIONS: 'timesale_options',
     // TIMESALE_FOREX: 'timesale_forex',
+    LEVEL_ONE_EQUITY: 'level_one_equity',
+    LEVEL_ONE_FUTURES: 'level_one_futures',
     ERROR: 'error',
 })
 
@@ -227,7 +229,102 @@ const FIELDS = Object.freeze({
         lastSize: 3,
         /** Number of shares for bid */
         lastSequence: 4,
-    })
+    }),
+
+    LEVEL_ONE_EQUITY: Object.freeze({
+        symbol: 0, // Ticker symbol in upper case.
+        bidPrice: 1, // Current Best Bid Price
+        askPrice: 2, // Current Best Ask Price
+        lastPrice: 3, // Price at which the last trade was matched
+        bidSize: 4, // Number of shares for bid
+        askSize: 5, // Number of shares for ask
+        askID: 6, // Exchange with the best ask
+        bidID: 7, // Exchange with the best bid
+        totalVolume: 8, // Aggregated shares traded throughout the day, including pre/post market hours.
+        lastSize: 9, // Number of shares traded with last trade
+        tradeTime: 10, // Trade time of the last trade
+        quoteTime: 11, // Trade time of the last quote
+        highPrice: 12, // Day’s high trade price
+        lowPrice: 13, // Day’s low trade price
+        bidTick: 14, // Indicates Up or Downtick (NASDAQ NMS & Small Cap)
+        closePrice: 15, // Previous day’s closing price
+        exchangeID: 16, // Primary "listing" Exchange
+        marginable: 17, // Stock approved by the Federal Reserve and an investor's broker as being suitable for providing collateral for margin debt.
+        shortable: 18, // Stock can be sold short.
+        // islandBid: 19, // No longer used
+        // islandAsk: 20, // No longer used
+        // islandVolume: 21, // No longer used
+        quoteDay: 22, // Day of the quote
+        tradeDay: 23, // Day of the trade
+        volatility: 24, // Option Risk/Volatility Measurement
+        description: 25, // A company, index or fund name
+        lastID: 26, // Exchange where last trade was executed
+        digits: 27, // Valid decimal points
+        openPrice: 28, // Day's Open Price
+        netChange: 29, // Current Last-Prev Close
+        '52WeekHigh': 30, // Higest price traded in the past 12 months, or 52 weeks
+        '52WeekLow': 31, // Lowest price traded in the past 12 months, or 52 weeks
+        peRatio: 32,
+        dividendAmount: 33, // Earnings Per Share
+        dividendYield: 34, // Dividend Yield
+        // islandBidSize: 35, // No longer used
+        // islandAskSize: 36, // No longer used
+        nav: 37, // Mutual Fund Net Asset Value
+        fundPrice: 38,
+        exchangeName: 39, // Display name of exchange
+        dividendDate: 40,
+        regularMarketQuote: 41,
+        regularMarketTrade: 42,
+        regularMarketLastPrice: 43,
+        regularMarketLastSize: 44,
+        regularMarketTradeTime: 45,
+        regularMarketTradeDay: 46,
+        regularMarketNetChange: 47,
+        securityStatus: 48,
+        mark: 49, // Mark Price
+        quoteTimeInLong: 50, // Last quote time in milliseconds since Epoch
+        tradeTimeInLong: 51, // Last trade time in milliseconds since Epoch
+        regularMarketTradeTimeInLong: 52, // Regular market trade time in milliseconds since Epoch
+    }),
+
+    LEVEL_ONE_FUTURES: Object.freeze({
+        symbol: 0, // Ticker symbol in upper case.
+        bidPrice: 1, // Current Best Bid Price
+        askPrice: 2, // Current Best Ask Price
+        lastPrice: 3, // Price at which the last trade was matched
+        bidSize: 4, // Number of shares for bid
+        askSize: 5, // Number of shares for ask
+        askID: 6, // Exchange with the best ask
+        bidID: 7, // Exchange with the best bid
+        totalVolume: 8, // Aggregated shares traded throughout the day, including pre/post market hours.
+        lastSize: 9, // Number of shares traded with last trade
+        quoteTime: 10, // Trade time of the last quote in milliseconds since epoch
+        tradeTime: 11, // Trade time of the last trade in milliseconds since epoch
+        highPrice: 12, // Day’s high trade price
+        lowPrice: 13, // Day’s low trade price
+        closePrice: 14, // Previous day’s closing price
+        exchangeID: 15, // Primary "listing" Exchange
+        description: 16, // Description of the product
+        lastID: 17, // Exchange where last trade was executed
+        openPrice: 18, // Day's Open Price
+        netChange: 19, // Current Last-Prev Close
+        futurePercentChange: 20, // Current percent change
+        exhangeName: 21, // Name of exchange
+        securityStatus: 22, // Trading status of the symbol
+        openInterest: 23, // The total number of futures ontracts that are not closed or delivered on a particular day
+        mark: 24, // Mark-to-Market value is calculated daily using current prices to determine profit/loss
+        tick: 25, // Minimum price movement
+        tickAmount: 26, // Minimum amount that the price of the market can change
+        product: 27, // Futures product
+        futurePriceFormat: 28, // Display in fraction or decimal format.
+        futureTradingHours: 29, // Trading hours
+        futureIsTradable: 30, // Flag to indicate if this future contract is tradable
+        futureMultiplier: 31, // Point value
+        futureIsActive: 32, // Indicates if this contract is active
+        futureSettlementPrice: 33, // Closing price
+        futureActiveSymbol: 34, // Symbol of the active contract
+        futureExpirationDate: 35, // Expiration date of this contract
+    }),
 }) // FIELDS
 
 module.exports = {

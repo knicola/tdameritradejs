@@ -22,7 +22,7 @@ describe('TDAmeritrade', () => {
         it('should get all Accounts', () => {
             return api
                 .getAccounts()
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts',
@@ -35,7 +35,7 @@ describe('TDAmeritrade', () => {
         it('should get a single account', () => {
             return api
                 .getAccount('123')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123',
@@ -48,7 +48,7 @@ describe('TDAmeritrade', () => {
         it('should get the user principals', () => {
             return api
                 .getUserPrincipals()
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/userprincipals',
@@ -59,7 +59,7 @@ describe('TDAmeritrade', () => {
         it('should get the user principals with additional fields', () => {
             return api
                 .getUserPrincipals(['field-one', 'field-two'])
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/userprincipals',
@@ -73,7 +73,7 @@ describe('TDAmeritrade', () => {
         it('should get a single account', () => {
             return api
                 .getStreamerSubscriptionKeys(['some-account', 'some-other-account'])
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/userprincipals/streamersubscriptionkeys',
@@ -87,7 +87,7 @@ describe('TDAmeritrade', () => {
         it('should get the account\'s preferences', () => {
             return api
                 .getPreferences('123')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123/preferences',
@@ -100,7 +100,7 @@ describe('TDAmeritrade', () => {
         it('should update the account\'s preferences', () => {
             return api
                 .updatePreferences('123', { field: 'new value' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'PUT',
                         url: '/accounts/123/preferences',
@@ -114,7 +114,7 @@ describe('TDAmeritrade', () => {
         it('should get all orders from all accounts', () => {
             return api
                 .getAllOrders()
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/orders',
@@ -125,7 +125,7 @@ describe('TDAmeritrade', () => {
         it('should get all orders from all accounts using a filter', () => {
             return api
                 .getAllOrders({ filter: 'value' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/orders',
@@ -139,7 +139,7 @@ describe('TDAmeritrade', () => {
         it('should get all orders from a single account', () => {
             return api
                 .getOrders('123')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123/orders',
@@ -150,7 +150,7 @@ describe('TDAmeritrade', () => {
         it('should get all orders from a single account using a filter', () => {
             return api
                 .getOrders('123', { filter: 'value' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123/orders',
@@ -164,7 +164,7 @@ describe('TDAmeritrade', () => {
         it('should get a single order from a single account', () => {
             return api
                 .getOrder('123', '456')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123/orders/456',
@@ -177,7 +177,7 @@ describe('TDAmeritrade', () => {
         it('should place a new order', () => {
             return api
                 .placeOrder('123', { name: 'new order' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'POST',
                         url: '/accounts/123/orders',
@@ -191,7 +191,7 @@ describe('TDAmeritrade', () => {
         it('should replace an existing order', () => {
             return api
                 .replaceOrder('123', '456', { name: 'updated order' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'PUT',
                         url: '/accounts/123/orders/456',
@@ -205,7 +205,7 @@ describe('TDAmeritrade', () => {
         it('should cancel an existing order', () => {
             return api
                 .cancelOrder('123', '456')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'DELETE',
                         url: '/accounts/123/orders/456',
@@ -218,7 +218,7 @@ describe('TDAmeritrade', () => {
         it('should get all saved orders of a single account', () => {
             return api
                 .getSavedOrders('123')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123/savedorders',
@@ -231,7 +231,7 @@ describe('TDAmeritrade', () => {
         it('should get an existing saved order', () => {
             return api
                 .getSavedOrder('123', '456')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123/savedorders/456',
@@ -244,7 +244,7 @@ describe('TDAmeritrade', () => {
         it('should create a new saved order', () => {
             return api
                 .createSavedOrder('123', { name: 'new saved order' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'POST',
                         url: '/accounts/123/savedorders',
@@ -258,7 +258,7 @@ describe('TDAmeritrade', () => {
         it('should create a new saved order', () => {
             return api
                 .replaceSavedOrder('123', '456', { name: 'updated saved order' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'PUT',
                         url: '/accounts/123/savedorders/456',
@@ -272,7 +272,7 @@ describe('TDAmeritrade', () => {
         it('should create a new saved order', () => {
             return api
                 .deleteSavedOrder('123', '456')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'DELETE',
                         url: '/accounts/123/savedorders/456',
@@ -285,7 +285,7 @@ describe('TDAmeritrade', () => {
         it('should get all watchlists for all accounts', () => {
             return api
                 .getAllWatchlists()
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/watchlists',
@@ -298,7 +298,7 @@ describe('TDAmeritrade', () => {
         it('should get all watchlists for a single account', () => {
             return api
                 .getWatchlists('123')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123/watchlists',
@@ -311,7 +311,7 @@ describe('TDAmeritrade', () => {
         it('should get a single watchlist', () => {
             return api
                 .getWatchlist('123', '456')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123/watchlists/456',
@@ -324,7 +324,7 @@ describe('TDAmeritrade', () => {
         it('should create a new watchlist', () => {
             return api
                 .createWatchlist('123', { name: 'new watchlist' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'POST',
                         url: '/accounts/123/watchlists',
@@ -338,7 +338,7 @@ describe('TDAmeritrade', () => {
         it('should replace an existing watchlist', () => {
             return api
                 .replaceWatchlist('123', '456', { name: 'updated watchlist' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'PUT',
                         url: '/accounts/123/watchlists/456',
@@ -352,7 +352,7 @@ describe('TDAmeritrade', () => {
         it('should update an existing watchlist', () => {
             return api
                 .updateWatchlist('123', '456', { name: 'updated watchlist' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'PATCH',
                         url: '/accounts/123/watchlists/456',
@@ -366,7 +366,7 @@ describe('TDAmeritrade', () => {
         it('should delete an existing watchlist', () => {
             return api
                 .deleteWatchlist('123', '456')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'DELETE',
                         url: '/accounts/123/watchlists/456',
@@ -379,7 +379,7 @@ describe('TDAmeritrade', () => {
         it('should get transaction history for a specific account', () => {
             return api
                 .getTransactions('123')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123/transactions',
@@ -390,7 +390,7 @@ describe('TDAmeritrade', () => {
         it('should get transaction history for a specific account using a filter', () => {
             return api
                 .getTransactions('123', { name: 'some-filter' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123/transactions',
@@ -404,7 +404,7 @@ describe('TDAmeritrade', () => {
         it('should get a single transaction for a specific account', () => {
             return api
                 .getTransaction('123', '456')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/accounts/123/transactions/456',
@@ -417,7 +417,7 @@ describe('TDAmeritrade', () => {
         it('should get market hours for a specific date', () => {
             return api
                 .getMarketHours('equity', '2020-01-01')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/marketdata/hours',
@@ -431,7 +431,7 @@ describe('TDAmeritrade', () => {
         it('should get mover information by index symbol, direction type and change', () => {
             return api
                 .getMovers('index', 'direction', 'change')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/marketdata/index/movers',
@@ -445,7 +445,7 @@ describe('TDAmeritrade', () => {
         it('should get quotes for one or more symbols', () => {
             return api
                 .getQuotes(['symbol1', 'symbol2'])
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/marketdata/quotes',
@@ -459,7 +459,7 @@ describe('TDAmeritrade', () => {
         it('should get quotes for one or more symbols', () => {
             return api
                 .getQuote('symbol1')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/marketdata/symbol1/quotes',
@@ -473,7 +473,7 @@ describe('TDAmeritrade', () => {
         it('should get price history for a symbol', () => {
             return api
                 .getPriceHistory('symbol1')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/marketdata/symbol1/pricehistory',
@@ -485,7 +485,7 @@ describe('TDAmeritrade', () => {
         it('should get price history for a symbol using a filter', () => {
             return api
                 .getPriceHistory('symbol1', { name: 'some filter' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/marketdata/symbol1/pricehistory',
@@ -499,7 +499,7 @@ describe('TDAmeritrade', () => {
         it('should get option chain for an optionable Symbol', () => {
             return api
                 .getOptionChain('symbol1')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/marketdata/chains',
@@ -511,7 +511,7 @@ describe('TDAmeritrade', () => {
         it('should get option chain for an optionable Symbol using a filter', () => {
             return api
                 .getOptionChain('symbol1', { name: 'some filter' })
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/marketdata/chains',
@@ -525,7 +525,7 @@ describe('TDAmeritrade', () => {
         it('should get an instrument by CUSIP', () => {
             return api
                 .getInstrument('some-cusip')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/instruments/some-cusip',
@@ -539,13 +539,247 @@ describe('TDAmeritrade', () => {
         it('should search or retrieve instrument data, including fundamental data', () => {
             return api
                 .searchInstruments('symbol1', 'symbol-search')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         method: 'GET',
                         url: '/instruments',
                         params: Object.assign({}, expectedApiKey, { symbol: 'symbol1', projection: 'symbol-search' }),
                         headers: expectedAuthorization,
                     })
+                })
+        }) // test
+    }) // group
+    describe('.authenticate()', () => {
+        it('should request an access token', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                redirectUri: 'https://localhost:8080',
+                authCode: 'test_authorization_code',
+            })
+
+            return api
+                .authenticate()
+                .then(res => {
+                    expect(res.headers).not.toHaveProperty('authorization')
+                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.data).toEqual({
+                        grant_type: 'authorization_code',
+                        access_type: 'offline',
+                        client_id: 'testClientId@AMER.OAUTHAP',
+                        redirect_uri: 'https://localhost:8080',
+                        code: 'test_authorization_code'
+                    })
+                })
+        }) // test
+        it('should use the given authCode when provided, instead of the one in the config', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                redirectUri: 'https://localhost:8080',
+                authCode: 'not_this_auth_code',
+            })
+
+            return api
+                .authenticate('some_auth_code')
+                .then(res => {
+                    expect(res.headers).not.toHaveProperty('authorization')
+                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.data).toEqual({
+                        grant_type: 'authorization_code',
+                        access_type: 'offline',
+                        client_id: 'testClientId@AMER.OAUTHAP',
+                        redirect_uri: 'https://localhost:8080',
+                        code: 'some_auth_code'
+                    })
+                })
+        }) // test
+        it('should update config with the access and refresh tokens', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                redirectUri: 'https://localhost:8080',
+                authCode: 'test_authorization_code',
+            })
+
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            const interceptor = () => mockResponse
+
+            // mock the response
+            api.axios.interceptors.response.use(interceptor)
+
+            return api
+                .authenticate()
+                .then(res => {
+                    expect(api.config.accessToken).toEqual('new_test_access_token')
+                    expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    // make sure we're only tapping into the
+                    // response and not intercepting it.
+                    expect(res).toEqual(mockResponse)
+                })
+                .finally(() => {
+                    // cleanup time
+                    api.axios.interceptors.response.eject(interceptor)
+                })
+        }) // test
+        it('should update config even when the full http response is returned', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'test_refresh_token',
+                returnFullResponse: true,
+            })
+
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            const interceptor = response => {
+                response.data = mockResponse
+                return response
+            }
+
+            // mock the response
+            api.axios.interceptors.response.use(interceptor)
+
+            return api
+                .authenticate()
+                .then(res => {
+                    expect(api.config.accessToken).toEqual('new_test_access_token')
+                    expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    expect(res.data).toEqual(mockResponse)
+                })
+                .finally(() => {
+                    // cleanup time
+                    api.axios.interceptors.response.eject(interceptor)
+                })
+        }) // test
+    }) // group
+    describe('.refreshToken()', () => {
+        it('should request for a "fresh" access token', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'test_refresh_token',
+            })
+
+            return api
+                .refreshToken()
+                .then(res => {
+                    expect(res.headers).not.toHaveProperty('authorization')
+                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.data).toEqual({
+                        grant_type: 'refresh_token',
+                        access_type: 'offline',
+                        client_id: 'testClientId@AMER.OAUTHAP',
+                        refresh_token: 'test_refresh_token',
+                    })
+                })
+        }) // test
+        it('should use the given refreshToken when provided, instead of the one in the config', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'not_this_refresh_token',
+            })
+
+            return api
+                .refreshToken('some_refresh_token')
+                .then(res => {
+                    expect(res.headers).not.toHaveProperty('authorization')
+                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.data).toEqual({
+                        grant_type: 'refresh_token',
+                        access_type: 'offline',
+                        client_id: 'testClientId@AMER.OAUTHAP',
+                        refresh_token: 'some_refresh_token',
+                    })
+                })
+        }) // test
+        it('should update config with the new access and refresh tokens', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'test_refresh_token',
+            })
+
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            const interceptor = () => mockResponse
+
+            // mock the response
+            api.axios.interceptors.response.use(interceptor)
+
+            return api
+                .refreshToken()
+                .then(res => {
+                    expect(api.config.accessToken).toEqual('new_test_access_token')
+                    expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    // make sure we're only tapping into the
+                    // response and not intercepting it.
+                    expect(res).toEqual(mockResponse)
+                })
+                .finally(() => {
+                    // cleanup time
+                    api.axios.interceptors.response.eject(interceptor)
+                })
+        }) // test
+        it('should update config even when the full http response is returned', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'test_refresh_token',
+                returnFullResponse: true,
+            })
+
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            const interceptor = response => {
+                response.data = mockResponse
+                return response
+            }
+
+            // mock the response
+            api.axios.interceptors.response.use(interceptor)
+
+            return api
+                .refreshToken()
+                .then(res => {
+                    expect(api.config.accessToken).toEqual('new_test_access_token')
+                    expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    expect(res.data).toEqual(mockResponse)
+                })
+                .finally(() => {
+                    // cleanup time
+                    api.axios.interceptors.response.eject(interceptor)
                 })
         }) // test
     }) // group
@@ -556,11 +790,29 @@ describe('TDAmeritrade', () => {
             }))
             return api
                 .getQuote('symbol')
-                .then(({data}) => {
+                .then(data => {
                     assertApiCall(data, {
                         params: expectedApiKey,
                     })
                 })
-        })
+        }) // test
+        it('should return the full axios response, if `returnFullResponse` is set to true', () => {
+            const api = new TDAmeritrade(Object.assign({}, config, {
+                returnFullResponse: true
+            }))
+            return api
+                .getQuote('symbol')
+                .then(res => {
+                    expect(res).toHaveProperty('data')
+                    expect(res).toHaveProperty('headers')
+                    expect(res).toHaveProperty('status', 200)
+                    assertApiCall(res.data, {
+                        method: 'GET',
+                        url: '/marketdata/symbol/quotes',
+                        params: expectedApiKey,
+                        headers: expectedAuthorization,
+                    })
+                })
+        }) // test
     }) // group
 }) // group
