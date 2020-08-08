@@ -7,6 +7,12 @@ import { SubscriptionKeys, UserPrincipal } from "./resources/userPrincipals";
 
 export class TDAccount {
     constructor(accountId: string, config: object)
+
+    axios: AxiosInstance
+
+    authenticate(authCode?:string): AxiosPromise
+    refreshToken(refreshToken?: string): AxiosPromise
+
     getAccount(): AxiosPromise<SecuritiesAccount[]>
     getPreferences(): AxiosPromise<Preferences>
     updatePreferences(preferences: Preferences): AxiosPromise

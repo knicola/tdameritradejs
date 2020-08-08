@@ -549,6 +549,240 @@ describe('TDAmeritrade', () => {
                 })
         }) // test
     }) // group
+    describe('.authenticate()', () => {
+        it('should request an access token', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                redirectUri: 'https://localhost:8080',
+                authCode: 'test_authorization_code',
+            })
+
+            return api
+                .authenticate()
+                .then(res => {
+                    expect(res.headers).not.toHaveProperty('authorization')
+                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.data).toEqual({
+                        grant_type: 'authorization_code',
+                        access_type: 'offline',
+                        client_id: 'testClientId@AMER.OAUTHAP',
+                        redirect_uri: 'https://localhost:8080',
+                        code: 'test_authorization_code'
+                    })
+                })
+        }) // test
+        it('should use the given authCode when provided, instead of the one in the config', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                redirectUri: 'https://localhost:8080',
+                authCode: 'not_this_auth_code',
+            })
+
+            return api
+                .authenticate('some_auth_code')
+                .then(res => {
+                    expect(res.headers).not.toHaveProperty('authorization')
+                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.data).toEqual({
+                        grant_type: 'authorization_code',
+                        access_type: 'offline',
+                        client_id: 'testClientId@AMER.OAUTHAP',
+                        redirect_uri: 'https://localhost:8080',
+                        code: 'some_auth_code'
+                    })
+                })
+        }) // test
+        it('should update config with the access and refresh tokens', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                redirectUri: 'https://localhost:8080',
+                authCode: 'test_authorization_code',
+            })
+
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            const interceptor = () => mockResponse
+
+            // mock the response
+            api.axios.interceptors.response.use(interceptor)
+
+            return api
+                .authenticate()
+                .then(res => {
+                    expect(api.config.accessToken).toEqual('new_test_access_token')
+                    expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    // make sure we're only tapping into the
+                    // response and not intercepting it.
+                    expect(res).toEqual(mockResponse)
+                })
+                .finally(() => {
+                    // cleanup time
+                    api.axios.interceptors.response.eject(interceptor)
+                })
+        }) // test
+        it('should update config even when the full http response is returned', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'test_refresh_token',
+                returnFullResponse: true,
+            })
+
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            const interceptor = response => {
+                response.data = mockResponse
+                return response
+            }
+
+            // mock the response
+            api.axios.interceptors.response.use(interceptor)
+
+            return api
+                .authenticate()
+                .then(res => {
+                    expect(api.config.accessToken).toEqual('new_test_access_token')
+                    expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    expect(res.data).toEqual(mockResponse)
+                })
+                .finally(() => {
+                    // cleanup time
+                    api.axios.interceptors.response.eject(interceptor)
+                })
+        }) // test
+    }) // group
+    describe('.refreshToken()', () => {
+        it('should request for a "fresh" access token', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'test_refresh_token',
+            })
+
+            return api
+                .refreshToken()
+                .then(res => {
+                    expect(res.headers).not.toHaveProperty('authorization')
+                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.data).toEqual({
+                        grant_type: 'refresh_token',
+                        access_type: 'offline',
+                        client_id: 'testClientId@AMER.OAUTHAP',
+                        refresh_token: 'test_refresh_token',
+                    })
+                })
+        }) // test
+        it('should use the given refreshToken when provided, instead of the one in the config', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'not_this_refresh_token',
+            })
+
+            return api
+                .refreshToken('some_refresh_token')
+                .then(res => {
+                    expect(res.headers).not.toHaveProperty('authorization')
+                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.data).toEqual({
+                        grant_type: 'refresh_token',
+                        access_type: 'offline',
+                        client_id: 'testClientId@AMER.OAUTHAP',
+                        refresh_token: 'some_refresh_token',
+                    })
+                })
+        }) // test
+        it('should update config with the new access and refresh tokens', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'test_refresh_token',
+            })
+
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            const interceptor = () => mockResponse
+
+            // mock the response
+            api.axios.interceptors.response.use(interceptor)
+
+            return api
+                .refreshToken()
+                .then(res => {
+                    expect(api.config.accessToken).toEqual('new_test_access_token')
+                    expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    // make sure we're only tapping into the
+                    // response and not intercepting it.
+                    expect(res).toEqual(mockResponse)
+                })
+                .finally(() => {
+                    // cleanup time
+                    api.axios.interceptors.response.eject(interceptor)
+                })
+        }) // test
+        it('should update config even when the full http response is returned', () => {
+            const api = new TDAmeritrade({
+                baseURL: 'https://localhost:3331/api',
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'test_refresh_token',
+                returnFullResponse: true,
+            })
+
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            const interceptor = response => {
+                response.data = mockResponse
+                return response
+            }
+
+            // mock the response
+            api.axios.interceptors.response.use(interceptor)
+
+            return api
+                .refreshToken()
+                .then(res => {
+                    expect(api.config.accessToken).toEqual('new_test_access_token')
+                    expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    expect(res.data).toEqual(mockResponse)
+                })
+                .finally(() => {
+                    // cleanup time
+                    api.axios.interceptors.response.eject(interceptor)
+                })
+        }) // test
+    }) // group
     describe('Other', () => {
         it('should add apiKey suffix, if it is not provided', () => {
             const api = new TDAmeritrade(Object.assign({}, config, {
@@ -561,7 +795,7 @@ describe('TDAmeritrade', () => {
                         params: expectedApiKey,
                     })
                 })
-        })
+        }) // test
         it('should return the full axios response, if `returnFullResponse` is set to true', () => {
             const api = new TDAmeritrade(Object.assign({}, config, {
                 returnFullResponse: true
@@ -579,6 +813,6 @@ describe('TDAmeritrade', () => {
                         headers: expectedAuthorization,
                     })
                 })
-        })
+        }) // test
     }) // group
 }) // group

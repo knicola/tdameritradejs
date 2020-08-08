@@ -1,37 +1,45 @@
 'use strict'
 
-function authorize(authorizationCode) {
-    return this.axios
-        .post('/oauth2/token', {
-            grant_type: 'authorization_code',
-            access_type: this.config.accessType || 'offline',
-            client_id: `${this.config.apiKey}@AMER.OAUTHAP`,
-            redirect_uri: this.config.redirectUri,
-            code: authorizationCode || this.config.authorizationCode,
-        })
-        .then(res => {
-            this.config.accessToken = res.data.access_token
-            this.config.refreshToken = res.data.refresh_token
-            return res
-        })
-} // authorize()
+function authenticate(authCode) {
+    const params = new URLSearchParams()
+    params.append('grant_type', 'authorization_code')
+    params.append('access_type', this.config.accessType || 'offline')
+    params.append('client_id', this.config.apiKey)
+    params.append('redirect_uri', this.config.redirectUri)
+    params.append('code', authCode || this.config.authCode)
 
-function refresh(refreshToken) {
+    delete this.config.accessToken
+
     return this.axios
-        .post('/oauth2/token', {
-            grant_type: 'refresh_token',
-            access_type: this.config.accessType || 'offline',
-            client_id: `${this.config.apiKey}@AMER.OAUTHAP`,
-            refresh_token: refreshToken || this.config.refreshToken,
-        })
+        .post('/oauth2/token', params)
         .then(res => {
-            this.config.accessToken = res.data.access_token
-            this.config.refreshToken = res.data.refresh_token
+            const data = this.config.returnFullResponse ? res.data : res
+            this.config.accessToken = data.access_token
+            this.config.refreshToken = data.refresh_token
             return res
         })
-} // refresh()
+} // authenticate()
+
+function refreshToken(refreshToken) {
+    const params = new URLSearchParams()
+    params.append('grant_type', 'refresh_token')
+    params.append('access_type', 'offline')
+    params.append('client_id', this.config.apiKey)
+    params.append('refresh_token', refreshToken || this.config.refreshToken)
+
+    delete this.config.accessToken
+
+    return this.axios
+        .post('/oauth2/token', params)
+        .then(res => {
+            const data = this.config.returnFullResponse ? res.data : res
+            this.config.accessToken = data.access_token
+            this.config.refreshToken = data.refresh_token
+            return res
+        })
+} // refreshToken()
 
 module.exports = {
-    authorize,
-    refresh,
+    authenticate,
+    refreshToken,
 }

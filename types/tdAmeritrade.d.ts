@@ -1,4 +1,4 @@
-import { AxiosPromise } from "axios"
+import { AxiosPromise, AxiosInstance } from "axios"
 import { OrdersQuery, Order } from "./resources/order"
 import { SecuritiesAccount, Preferences } from "./resources/account"
 import { UserPrincipal, SubscriptionKeys } from "./resources/userPrincipals"
@@ -8,6 +8,12 @@ import { MarketHours, Mover, CandleList, PriceHistoryQuery, OptionChainQuery } f
 
 export class TDAmeritrade {
     constructor(config: object)
+
+    axios: AxiosInstance
+
+    authenticate(authCode?): AxiosPromise
+    refreshToken(refreshToken?): AxiosPromise
+
     getMarketHours(markets: string|string[], date: string): AxiosPromise
     getMovers(index: string, direction?: 'up'|'down', change?: 'value'|'percent'): AxiosPromise<Mover[]>
     getQuotes(symbols: string|string[]): AxiosPromise
