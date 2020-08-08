@@ -1,56 +1,65 @@
 'use strict'
 
-const routes = require('express').Router()
+const pub = require('express').Router()
+const unauth = require('express').Router()
+const auth = require('express').Router()
 const { apiResponse } = require('./common')
 
+// AUTHENTICATION
+pub.post('/oauth2/token', apiResponse)
+
 // MARKET
-routes.get('/marketdata/hours', apiResponse)
-routes.get('/marketdata/:index/movers', apiResponse)
-routes.get('/marketdata/quotes', apiResponse)
-routes.get('/marketdata/:symbol/quotes', apiResponse)
-routes.get('/marketdata/:symbol/pricehistory', apiResponse)
-routes.get('/marketdata/chains', apiResponse)
+unauth.get('/marketdata/hours', apiResponse)
+unauth.get('/marketdata/:index/movers', apiResponse)
+unauth.get('/marketdata/quotes', apiResponse)
+unauth.get('/marketdata/:symbol/quotes', apiResponse)
+unauth.get('/marketdata/:symbol/pricehistory', apiResponse)
+unauth.get('/marketdata/chains', apiResponse)
 
 // INSTRUMENT
-routes.get('/instruments', apiResponse)
-routes.get('/instruments/:cusip', apiResponse)
+unauth.get('/instruments', apiResponse)
+unauth.get('/instruments/:cusip', apiResponse)
 
 // ACCOUNTS
-routes.get('/accounts', apiResponse)
-routes.get('/accounts/:accountId', apiResponse)
-routes.get('/accounts/:accountId/preferences', apiResponse)
-routes.put('/accounts/:accountId/preferences', apiResponse)
+auth.get('/accounts', apiResponse)
+auth.get('/accounts/:accountId', apiResponse)
+auth.get('/accounts/:accountId/preferences', apiResponse)
+auth.put('/accounts/:accountId/preferences', apiResponse)
 
 // ORDERS
-routes.get('/orders', apiResponse)
-routes.get('/accounts/:accountId/orders', apiResponse)
-routes.post('/accounts/:accountId/orders', apiResponse)
-routes.get('/accounts/:accountId/orders/:orderId', apiResponse)
-routes.put('/accounts/:accountId/orders/:orderId', apiResponse)
-routes.delete('/accounts/:accountId/orders/:orderId', apiResponse)
+auth.get('/orders', apiResponse)
+auth.get('/accounts/:accountId/orders', apiResponse)
+auth.post('/accounts/:accountId/orders', apiResponse)
+auth.get('/accounts/:accountId/orders/:orderId', apiResponse)
+auth.put('/accounts/:accountId/orders/:orderId', apiResponse)
+auth.delete('/accounts/:accountId/orders/:orderId', apiResponse)
 
 // SAVED ORDERS
-routes.get('/accounts/:accountId/savedorders', apiResponse)
-routes.post('/accounts/:accountId/savedorders', apiResponse)
-routes.get('/accounts/:accountId/savedorders/:savedOrderId', apiResponse)
-routes.put('/accounts/:accountId/savedorders/:savedOrderId', apiResponse)
-routes.delete('/accounts/:accountId/savedorders/:savedOrderId', apiResponse)
+auth.get('/accounts/:accountId/savedorders', apiResponse)
+auth.post('/accounts/:accountId/savedorders', apiResponse)
+auth.get('/accounts/:accountId/savedorders/:savedOrderId', apiResponse)
+auth.put('/accounts/:accountId/savedorders/:savedOrderId', apiResponse)
+auth.delete('/accounts/:accountId/savedorders/:savedOrderId', apiResponse)
 
 // TRANSACTIONS
-routes.get('/accounts/:accountId/transactions', apiResponse)
-routes.get('/accounts/:accountId/transactions/:transactionId', apiResponse)
+auth.get('/accounts/:accountId/transactions', apiResponse)
+auth.get('/accounts/:accountId/transactions/:transactionId', apiResponse)
 
 // USER PRINCIPALS
-routes.get('/userprincipals', apiResponse)
-routes.get('/userprincipals/streamersubscriptionkeys', apiResponse)
+auth.get('/userprincipals', apiResponse)
+auth.get('/userprincipals/streamersubscriptionkeys', apiResponse)
 
 // WATCHLISTS
-routes.get('/accounts/watchlists', apiResponse)
-routes.post('/accounts/:accountId/watchlists', apiResponse)
-routes.get('/accounts/:accountId/watchlists', apiResponse)
-routes.get('/accounts/:accountId/watchlists/:watchlistId', apiResponse)
-routes.put('/accounts/:accountId/watchlists/:watchlistId', apiResponse)
-routes.patch('/accounts/:accountId/watchlists/:watchlistId', apiResponse)
-routes.delete('/accounts/:accountId/watchlists/:watchlistId', apiResponse)
+auth.get('/accounts/watchlists', apiResponse)
+auth.post('/accounts/:accountId/watchlists', apiResponse)
+auth.get('/accounts/:accountId/watchlists', apiResponse)
+auth.get('/accounts/:accountId/watchlists/:watchlistId', apiResponse)
+auth.put('/accounts/:accountId/watchlists/:watchlistId', apiResponse)
+auth.patch('/accounts/:accountId/watchlists/:watchlistId', apiResponse)
+auth.delete('/accounts/:accountId/watchlists/:watchlistId', apiResponse)
 
-module.exports = routes
+module.exports = {
+    pub,
+    unauth,
+    auth,
+}

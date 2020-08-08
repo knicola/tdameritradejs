@@ -12,19 +12,35 @@ const key = fs.readFileSync(path.join(__dirname, '../../selfsigned.key'))
 const cert = fs.readFileSync(path.join(__dirname, '../../selfsigned.crt'))
 const options = { key: key, cert: cert }
 
-function auth(req, res, next) {
+function requireAccessTokenOrClientId(req, res, next) {
     if (req.get('Authorization') === 'Bearer test_access_token') {
-        next()
+        return next()
     }
-    res.sendStatus(401)
-}
+
+    if (req.params('apikey') === 'testClientId@AMER.OAUTHAP') {
+        return next()
+    }
+
+    return res.sendStatus(401)
+} // requireAccessTokenOrClientId()
+
+function requireAccessToken(req, res, next) {
+    if (req.get('Authorization') === 'Bearer test_access_token') {
+        return next()
+    }
+
+    return res.sendStatus(401)
+} // requireAccessToken()
 
 class MockServer {
     constructor(config) {
         this.config = config
         this.app = express()
             .use(express.json())
-            .use('/api', auth, routes)
+            .use(express.urlencoded({ extended: true }))
+            .use('/api', routes.pub)
+            .use('/api', requireAccessTokenOrClientId, routes.unauth)
+            .use('/api', requireAccessToken, routes.auth)
     } // constructor()
 
     start() {
