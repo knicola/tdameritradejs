@@ -591,6 +591,7 @@ class TDStreamer {
      */
     getChartHistoryFutures(symbols, options) {
         return this.sendRequest({
+            requestid: Math.floor(Math.random() * Math.floor(2000000000)),
             service: SERVICES.CHART_HISTORY_FUTURES,
             command: COMMANDS.GET,
             parameters: Object.assign({}, options, {
