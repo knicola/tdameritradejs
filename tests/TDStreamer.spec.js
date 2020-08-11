@@ -976,10 +976,12 @@ describe('TDStreamer', () => {
 
     describe('.subsChartHistoryFutures()', () => {
         td('should get Chart History Futures data', (streamer, done) => {
+            const mathRandomSpy = jest.spyOn(Math, 'random')
+            mathRandomSpy.mockImplementation(() => 1)
             streamer.once('message', msg => {
                 expect(JSON.parse(msg)).toEqual({
                     requests: [{
-                        requestid: 'test_requestid',
+                        requestid: 2000000000,
                         source: 'test_appId',
                         account: '123456789',
                         service: 'CHART_HISTORY_FUTURES',
