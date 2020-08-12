@@ -17,9 +17,9 @@ There are 3 interfaces available:
 * `TDAccount` - a helper interface to ease the use of account specific functions.
 * `TDStreamer` - the data streaming interface.
 
-The API client is very close to being complete. All documented API methods have been implemented and I do not expect to introduce any breaking changes for the time being. I'd say feel free to give it a spin.
+The API client is very close to being complete. All documented API methods have been implemented.
 
-The data streaming interface implements most of what the documentation talks about. The only (documented) services that have not been implemented yet are the Actives, the Level 1 Options, Level 2 order book and the Chart Futures History. I do expect breaking changes to be introduced to this interface. Mainly to the user provided config and the events.
+The data streaming interface implements most of what the documentation talks about *except* Actives, Level 1 Options and Level 2 order book. Documentation also mentions services `NEWS_STORY` and `NEWS_HEADLINE_LIST` but does not provide any information.
 
 An attempt to provide typescript definitions is also in progress.
 
