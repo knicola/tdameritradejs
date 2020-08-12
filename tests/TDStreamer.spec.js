@@ -974,6 +974,34 @@ describe('TDStreamer', () => {
         }) // test
     }) // group
 
+    describe('.subsChartHistoryFutures()', () => {
+        td('should get Chart History Futures data', (streamer, done) => {
+            const mathRandomSpy = jest.spyOn(Math, 'random')
+            mathRandomSpy.mockImplementation(() => 1)
+            streamer.once('message', msg => {
+                expect(JSON.parse(msg)).toEqual({
+                    requests: [{
+                        requestid: 2000000000,
+                        source: 'test_appId',
+                        account: '123456789',
+                        service: 'CHART_HISTORY_FUTURES',
+                        command: 'GET',
+                        parameters: {
+                            symbol: '/ES',
+                            frequency: 'm1',
+                            period: 'd1'
+                        }
+                    }]
+                })
+                done()
+            })
+            streamer.getChartHistoryFutures('/ES', {
+                frequency: 'm1',
+                period: 'd1',
+            })
+        }) // test
+    }) // group
+
     describe('.subsLevelOneEquity()', () => {
         td('should subscribe for Level One Equity updates', (streamer, done) => {
             streamer.once('message', msg => {
@@ -1451,6 +1479,46 @@ describe('TDStreamer', () => {
                     }],
                     service: 'LEVELONE_FUTURES',
                     timestamp: 1596072756064
+                }]
+            })
+        }) // test
+        td('should receive CHART_HISTORY_FUTURES data and emit `chart_history_futures` event', (streamer, done) => {
+            streamer.once('chart_history_futures', data => {
+                expect(data).toEqual({
+                    command: 'GET',
+                    content: [{
+                        chartTime: 1597118400000,
+                        closePrice: 3335.75,
+                        highPrice: 3379,
+                        lowPrice: 3319.5,
+                        openPrice: 3350.25,
+                        volume: 1710857,
+                    }],
+                    key: '/ES',
+                    service: 'CHART_HISTORY_FUTURES',
+                    timestamp: 1597179376910,
+                })
+                done()
+            })
+            streamer.send({
+                snapshot: [{
+                    command: 'GET',
+                    content: [{
+                        '0': '39763282',
+                        '1': 0,
+                        '2': 1,
+                        '3': [{
+                            '0': 1597118400000,
+                            '1': 3350.25,
+                            '2': 3379,
+                            '3': 3319.5,
+                            '4': 3335.75,
+                            '5': 1710857
+                        }],
+                        'key': '/ES'
+                    }],
+                    service: 'CHART_HISTORY_FUTURES',
+                    timestamp: 1597179376910
                 }]
             })
         }) // test

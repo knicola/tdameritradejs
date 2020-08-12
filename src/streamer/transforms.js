@@ -207,6 +207,22 @@ function levelOneFutures(data) {
     })
 } // levelOneFutures()
 
+function chartHistoryFutures(data) {
+    return Object.assign({}, data, {
+        key: data.content[0].key,
+        content: data.content[0][3].map(entry => {
+            return {
+                chartTime: entry[0],
+                openPrice: entry[1],
+                highPrice: entry[2],
+                lowPrice: entry[3],
+                closePrice: entry[4],
+                volume: entry[5],
+            }
+        })
+    })
+} // chartHistoryFutures()
+
 module.exports = {
     accountActivity,
     // chartEquity,
@@ -216,4 +232,5 @@ module.exports = {
     timesale,
     levelOneEquity,
     levelOneFutures,
+    chartHistoryFutures,
 }

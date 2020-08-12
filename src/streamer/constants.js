@@ -24,6 +24,7 @@ const EVENT = Object.freeze({
     // TIMESALE_FOREX: 'timesale_forex',
     LEVEL_ONE_EQUITY: 'level_one_equity',
     LEVEL_ONE_FUTURES: 'level_one_futures',
+    CHART_HISTORY_FUTURES: 'chart_history_futures',
     ERROR: 'error',
 })
 
@@ -52,6 +53,7 @@ const COMMANDS = Object.freeze({
     VIEW: 'VIEW',
     /** Log out of Streamer Server to end streaming session. */
     LOGOUT: 'LOGOUT',
+    GET: 'GET',
 })
 
 const SERVICES = Object.freeze({
