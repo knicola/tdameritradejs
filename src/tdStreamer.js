@@ -713,6 +713,10 @@ function handleMessage(emitter, message) {
         return msg.data.forEach(data => handleData(emitter, data))
     }
 
+    if (Array.isArray(msg.snapshot)) {
+        return msg.snapshot.forEach(data => handleData(emitter, data))
+    }
+
     emitter.emit(ERROR.UNKNOWN_MESSAGE, msg)
 } // handleMessage()
 
@@ -798,6 +802,9 @@ function handleData(emitter, data) {
     case SERVICES.LEVELONE_FUTURES:
         emitter.emit(EVENT.LEVEL_ONE_FUTURES, transform.levelOneFutures(data))
         break
+    case SERVICES.CHART_HISTORY_FUTURES:
+        emitter.emit(EVENT.CHART_HISTORY_FUTURES, transform.chartHistoryFutures(data))
+        break
     default:
         emitter.emit(ERROR.UNKNOWN_DATA, data)
     }
@@ -854,7 +861,7 @@ function jsonToQueryString(json) {
 module.exports = TDStreamer
 
 /**
- * @typedef {'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'level_one_futures'|'error'} Event
+ * @typedef {'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'level_one_futures'|'chart_history_futures'|'error'} Event
  * @typedef {'connecting'|'connected'|'authenticated'|'disconnecting'|'disconnected'} State
  * @typedef {'unknown_error'|'unknown_message'|'unknown_response'|'unknown_notification'|'unknown_data'|'invalid_message'|'connection_refused'|'authentication_failed'} Error
  */

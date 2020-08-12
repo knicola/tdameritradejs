@@ -1482,6 +1482,46 @@ describe('TDStreamer', () => {
                 }]
             })
         }) // test
+        td('should receive CHART_HISTORY_FUTURES data and emit `chart_history_futures` event', (streamer, done) => {
+            streamer.once('chart_history_futures', data => {
+                expect(data).toEqual({
+                    command: 'GET',
+                    content: [{
+                        chartTime: 1597118400000,
+                        closePrice: 3335.75,
+                        highPrice: 3379,
+                        lowPrice: 3319.5,
+                        openPrice: 3350.25,
+                        volume: 1710857,
+                    }],
+                    key: '/ES',
+                    service: 'CHART_HISTORY_FUTURES',
+                    timestamp: 1597179376910,
+                })
+                done()
+            })
+            streamer.send({
+                snapshot: [{
+                    command: 'GET',
+                    content: [{
+                        '0': '39763282',
+                        '1': 0,
+                        '2': 1,
+                        '3': [{
+                            '0': 1597118400000,
+                            '1': 3350.25,
+                            '2': 3379,
+                            '3': 3319.5,
+                            '4': 3335.75,
+                            '5': 1710857
+                        }],
+                        'key': '/ES'
+                    }],
+                    service: 'CHART_HISTORY_FUTURES',
+                    timestamp: 1597179376910
+                }]
+            })
+        }) // test
         td('should receive heartbeat notification and emit `heartbeat` event', (streamer, done) => {
             streamer.once('heartbeat', data => {
                 expect(data).toEqual('1595384500929')

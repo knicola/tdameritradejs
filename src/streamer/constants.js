@@ -24,6 +24,7 @@ const EVENT = Object.freeze({
     // TIMESALE_FOREX: 'timesale_forex',
     LEVEL_ONE_EQUITY: 'level_one_equity',
     LEVEL_ONE_FUTURES: 'level_one_futures',
+    CHART_HISTORY_FUTURES: 'chart_history_futures',
     ERROR: 'error',
 })
 
