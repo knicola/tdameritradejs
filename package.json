@@ -30,20 +30,18 @@
     ],
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.js"
-    ],
-    "globalSetup": "./tests/setup/jest.setup.js",
-    "globalTeardown": "./tests/setup/jest.teardown.js",
-    "testEnvironment": "node"
+    ]
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
-    "@types/express": "^4.17.7",
     "@types/jest": "^25.2.3",
+    "axios-mock-adapter": "^1.18.2",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
-    "express": "^4.17.1",
     "jest": "^25.5.4",
+    "jest-websocket-mock": "^2.1.0",
+    "mock-socket": "^9.0.3",
     "opn": "^6.0.0",
     "parcel": "^1.12.4"
   },

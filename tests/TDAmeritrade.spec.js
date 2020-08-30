@@ -3,8 +3,12 @@
 const debug = require('debug')('ameritrade:tests') // eslint-disable-line no-unused-vars
 // require('debug').enable('ameritrade:tests')
 
+const axios = require('axios').default
+const MockAdapter = require('axios-mock-adapter').default
+const mockAxios = new MockAdapter(axios)
+
 const { TDAmeritrade } = require('../src/')
-const { assertApiCall } = require('./setup/common')
+const { assertApiCall, mockAxiosResponse } = require('./setup/common')
 
 const config = {
     baseURL: 'https://localhost:3331/api',
@@ -14,10 +18,16 @@ const config = {
 
 const api = new TDAmeritrade(config)
 
-const expectedAuthorization = { authorization: 'Bearer test_access_token' }
+const expectedAuthorization = { Authorization: 'Bearer test_access_token' }
 const expectedApiKey = { apikey: 'testClientId@AMER.OAUTHAP' }
 
 describe('TDAmeritrade', () => {
+    beforeEach(() => {
+        mockAxios.onAny().reply(mockAxiosResponse)
+    })
+    afterEach(() => {
+        mockAxios.reset()
+    })
     describe('.getAccounts()', () => {
         it('should get all Accounts', () => {
             return api
@@ -549,7 +559,7 @@ describe('TDAmeritrade', () => {
                 })
         }) // test
     }) // group
-    describe('.authenticate()', () => {
+    describe('.getAccessToken()', () => {
         it('should request an access token', () => {
             const api = new TDAmeritrade({
                 baseURL: 'https://localhost:3331/api',
@@ -559,10 +569,10 @@ describe('TDAmeritrade', () => {
             })
 
             return api
-                .authenticate()
+                .getAccessToken()
                 .then(res => {
                     expect(res.headers).not.toHaveProperty('authorization')
-                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.params).toBeUndefined()
                     expect(res.data).toEqual({
                         grant_type: 'authorization_code',
                         access_type: 'offline',
@@ -581,10 +591,10 @@ describe('TDAmeritrade', () => {
             })
 
             return api
-                .authenticate('some_auth_code')
+                .getAccessToken('some_auth_code')
                 .then(res => {
                     expect(res.headers).not.toHaveProperty('authorization')
-                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.params).toBeUndefined()
                     expect(res.data).toEqual({
                         grant_type: 'authorization_code',
                         access_type: 'offline',
@@ -610,24 +620,23 @@ describe('TDAmeritrade', () => {
                 refresh_token_expires_in: 7776000,
                 token_type: 'Bearer'
             }
-            const interceptor = () => mockResponse
-
-            // mock the response
-            api.axios.interceptors.response.use(interceptor)
+            mockAxios.reset()
+            mockAxios.onPost('/oauth2/token').reply(200, mockResponse)
+            const mockDate = jest.spyOn(Date, 'now')
+            mockDate.mockImplementation(() => new Date('2020-01-01T01:01:01.000Z').getTime())
 
             return api
-                .authenticate()
+                .getAccessToken()
                 .then(res => {
                     expect(api.config.accessToken).toEqual('new_test_access_token')
                     expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    expect(api.config.accessTokenExpiresAt).toEqual('2020-01-01T01:31:01.000Z')
+                    expect(api.config.refreshTokenExpiresAt).toEqual('2020-03-31T01:01:01.000Z')
                     // make sure we're only tapping into the
                     // response and not intercepting it.
                     expect(res).toEqual(mockResponse)
                 })
-                .finally(() => {
-                    // cleanup time
-                    api.axios.interceptors.response.eject(interceptor)
-                })
+                .finally(() => mockDate.mockRestore())
         }) // test
         it('should update config even when the full http response is returned', () => {
             const api = new TDAmeritrade({
@@ -646,28 +655,24 @@ describe('TDAmeritrade', () => {
                 refresh_token_expires_in: 7776000,
                 token_type: 'Bearer'
             }
-            const interceptor = response => {
-                response.data = mockResponse
-                return response
-            }
-
-            // mock the response
-            api.axios.interceptors.response.use(interceptor)
+            mockAxios.reset()
+            mockAxios.onPost('/oauth2/token').reply(200, mockResponse)
+            const mockDate = jest.spyOn(Date, 'now')
+            mockDate.mockImplementation(() => new Date('2020-01-01T01:01:01.000Z').getTime())
 
             return api
-                .authenticate()
+                .getAccessToken()
                 .then(res => {
                     expect(api.config.accessToken).toEqual('new_test_access_token')
                     expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    expect(api.config.accessTokenExpiresAt).toEqual('2020-01-01T01:31:01.000Z')
+                    expect(api.config.refreshTokenExpiresAt).toEqual('2020-03-31T01:01:01.000Z')
                     expect(res.data).toEqual(mockResponse)
                 })
-                .finally(() => {
-                    // cleanup time
-                    api.axios.interceptors.response.eject(interceptor)
-                })
+                .finally(() => mockDate.mockRestore())
         }) // test
     }) // group
-    describe('.refreshToken()', () => {
+    describe('.refreshAccessToken()', () => {
         it('should request for a "fresh" access token', () => {
             const api = new TDAmeritrade({
                 baseURL: 'https://localhost:3331/api',
@@ -675,12 +680,13 @@ describe('TDAmeritrade', () => {
                 accessToken: 'test_access_token',
                 refreshToken: 'test_refresh_token',
             })
+            mockAxios.onPost('/oauth2/token').reply(mockAxiosResponse)
 
             return api
-                .refreshToken()
+                .refreshAccessToken()
                 .then(res => {
                     expect(res.headers).not.toHaveProperty('authorization')
-                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.params).toBeUndefined()
                     expect(res.data).toEqual({
                         grant_type: 'refresh_token',
                         access_type: 'offline',
@@ -698,10 +704,10 @@ describe('TDAmeritrade', () => {
             })
 
             return api
-                .refreshToken('some_refresh_token')
+                .refreshAccessToken('some_refresh_token')
                 .then(res => {
                     expect(res.headers).not.toHaveProperty('authorization')
-                    expect(res.params).not.toHaveProperty('apikey')
+                    expect(res.params).toBeUndefined()
                     expect(res.data).toEqual({
                         grant_type: 'refresh_token',
                         access_type: 'offline',
@@ -726,24 +732,23 @@ describe('TDAmeritrade', () => {
                 refresh_token_expires_in: 7776000,
                 token_type: 'Bearer'
             }
-            const interceptor = () => mockResponse
-
-            // mock the response
-            api.axios.interceptors.response.use(interceptor)
+            mockAxios.reset()
+            mockAxios.onPost('/oauth2/token').reply(200, mockResponse)
+            const mockDate = jest.spyOn(Date, 'now')
+            mockDate.mockImplementation(() => new Date('2020-01-01T01:01:01.000Z').getTime())
 
             return api
-                .refreshToken()
+                .refreshAccessToken()
                 .then(res => {
                     expect(api.config.accessToken).toEqual('new_test_access_token')
                     expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    expect(api.config.accessTokenExpiresAt).toEqual('2020-01-01T01:31:01.000Z')
+                    expect(api.config.refreshTokenExpiresAt).toEqual('2020-03-31T01:01:01.000Z')
                     // make sure we're only tapping into the
                     // response and not intercepting it.
                     expect(res).toEqual(mockResponse)
                 })
-                .finally(() => {
-                    // cleanup time
-                    api.axios.interceptors.response.eject(interceptor)
-                })
+                .finally(() => mockDate.mockRestore())
         }) // test
         it('should update config even when the full http response is returned', () => {
             const api = new TDAmeritrade({
@@ -762,25 +767,21 @@ describe('TDAmeritrade', () => {
                 refresh_token_expires_in: 7776000,
                 token_type: 'Bearer'
             }
-            const interceptor = response => {
-                response.data = mockResponse
-                return response
-            }
-
-            // mock the response
-            api.axios.interceptors.response.use(interceptor)
+            mockAxios.reset()
+            mockAxios.onPost('/oauth2/token').reply(200, mockResponse)
+            const mockDate = jest.spyOn(Date, 'now')
+            mockDate.mockImplementation(() => new Date('2020-01-01T01:01:01.000Z').getTime())
 
             return api
-                .refreshToken()
+                .refreshAccessToken()
                 .then(res => {
                     expect(api.config.accessToken).toEqual('new_test_access_token')
                     expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                    expect(api.config.accessTokenExpiresAt).toEqual('2020-01-01T01:31:01.000Z')
+                    expect(api.config.refreshTokenExpiresAt).toEqual('2020-03-31T01:01:01.000Z')
                     expect(res.data).toEqual(mockResponse)
                 })
-                .finally(() => {
-                    // cleanup time
-                    api.axios.interceptors.response.eject(interceptor)
-                })
+                .finally(() => mockDate.mockRestore())
         }) // test
     }) // group
     describe('Other', () => {

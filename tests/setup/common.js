@@ -10,6 +10,22 @@ function apiResponse(req, res) {
     })
 } // apiResponse()
 
+function mockAxiosResponse(config) {
+    let data
+    try {
+        data = JSON.parse(config.data)
+    } catch (ignore) {
+        data = Object.fromEntries(new URLSearchParams(config.data))
+    }
+    return [200, {
+        url: config.url,
+        method: (config.method + '').toUpperCase(),
+        params: config.params,
+        data: data,
+        headers: config.headers,
+    }]
+} // mockAxiosResponse()
+
 function assertApiCall(actual, expected) {
     ! expected.method  || expect(actual.method).toEqual(expected.method)
     ! expected.url     || expect(actual.url).toEqual(expected.url)
@@ -21,5 +37,6 @@ function assertApiCall(actual, expected) {
 
 module.exports = {
     apiResponse,
+    mockAxiosResponse,
     assertApiCall,
 }
