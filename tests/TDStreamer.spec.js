@@ -5,7 +5,6 @@ const debug = require('debug')('ameritrade:tests') // eslint-disable-line no-unu
 
 const WS = require('jest-websocket-mock').default
 
-/** @class */
 const TDStreamer = require('../src/tdStreamer')
 const userPrincipals = require('./setup/userPrincipals.fixture')
 

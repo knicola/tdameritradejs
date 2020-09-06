@@ -7,13 +7,14 @@ const axios = require('axios').default
 const MockAdapter = require('axios-mock-adapter').default
 const mockAxios = new MockAdapter(axios)
 
-const { TDAmeritrade } = require('../src/')
+const TDAmeritrade = require('../src/tdAmeritrade')
 const { assertApiCall, mockAxiosResponse } = require('./setup/common')
+const { default: tdAmeritrade } = require('../src/tdAmeritrade')
+const userPrincipalFixture = require('../src/resources/userPrincipal')
 
 const config = {
-    baseURL: 'https://localhost:3331/api',
     accessToken: 'test_access_token',
-    apiKey: 'testClientId@AMER.OAUTHAP'
+    apiKey: 'testClientId@AMER.OAUTHAP',
 }
 
 const api = new TDAmeritrade(config)
@@ -562,7 +563,6 @@ describe('TDAmeritrade', () => {
     describe('.getAccessToken()', () => {
         it('should request an access token', () => {
             const api = new TDAmeritrade({
-                baseURL: 'https://localhost:3331/api',
                 apiKey: 'testClientId@AMER.OAUTHAP',
                 redirectUri: 'https://localhost:8080',
                 authCode: 'test_authorization_code',
@@ -584,7 +584,6 @@ describe('TDAmeritrade', () => {
         }) // test
         it('should use the given authCode when provided, instead of the one in the config', () => {
             const api = new TDAmeritrade({
-                baseURL: 'https://localhost:3331/api',
                 apiKey: 'testClientId@AMER.OAUTHAP',
                 redirectUri: 'https://localhost:8080',
                 authCode: 'not_this_auth_code',
@@ -606,7 +605,6 @@ describe('TDAmeritrade', () => {
         }) // test
         it('should update config with the access and refresh tokens', () => {
             const api = new TDAmeritrade({
-                baseURL: 'https://localhost:3331/api',
                 apiKey: 'testClientId@AMER.OAUTHAP',
                 redirectUri: 'https://localhost:8080',
                 authCode: 'test_authorization_code',
@@ -640,7 +638,6 @@ describe('TDAmeritrade', () => {
         }) // test
         it('should update config even when the full http response is returned', () => {
             const api = new TDAmeritrade({
-                baseURL: 'https://localhost:3331/api',
                 apiKey: 'testClientId@AMER.OAUTHAP',
                 accessToken: 'test_access_token',
                 refreshToken: 'test_refresh_token',
@@ -675,7 +672,6 @@ describe('TDAmeritrade', () => {
     describe('.refreshAccessToken()', () => {
         it('should request for a "fresh" access token', () => {
             const api = new TDAmeritrade({
-                baseURL: 'https://localhost:3331/api',
                 apiKey: 'testClientId@AMER.OAUTHAP',
                 accessToken: 'test_access_token',
                 refreshToken: 'test_refresh_token',
@@ -697,7 +693,6 @@ describe('TDAmeritrade', () => {
         }) // test
         it('should use the given refreshToken when provided, instead of the one in the config', () => {
             const api = new TDAmeritrade({
-                baseURL: 'https://localhost:3331/api',
                 apiKey: 'testClientId@AMER.OAUTHAP',
                 accessToken: 'test_access_token',
                 refreshToken: 'not_this_refresh_token',
@@ -718,7 +713,6 @@ describe('TDAmeritrade', () => {
         }) // test
         it('should update config with the new access and refresh tokens', () => {
             const api = new TDAmeritrade({
-                baseURL: 'https://localhost:3331/api',
                 apiKey: 'testClientId@AMER.OAUTHAP',
                 accessToken: 'test_access_token',
                 refreshToken: 'test_refresh_token',
@@ -752,7 +746,6 @@ describe('TDAmeritrade', () => {
         }) // test
         it('should update config even when the full http response is returned', () => {
             const api = new TDAmeritrade({
-                baseURL: 'https://localhost:3331/api',
                 apiKey: 'testClientId@AMER.OAUTHAP',
                 accessToken: 'test_access_token',
                 refreshToken: 'test_refresh_token',
@@ -782,6 +775,90 @@ describe('TDAmeritrade', () => {
                     expect(res.data).toEqual(mockResponse)
                 })
                 .finally(() => mockDate.mockRestore())
+        }) // test
+    }) // group
+    describe('.isAccessTokenExpired()', () => {
+        it('should return `false` if access token is still valid', () => {
+            const accessTokenDate = new Date()
+            accessTokenDate.setSeconds(1500)
+            const td = new TDAmeritrade({
+                accessToken: 'test_access_token',
+                accessTokenExpiresAt: accessTokenDate.toISOString(),
+            })
+            expect(td.isAccessTokenExpired()).toBeFalsy()
+        }) // test
+        it('should return `true` if access token is expired', () => {
+            const td = new tdAmeritrade({
+                accessToken: 'test_access_token',
+                accessTokenExpiresAt: '2020-01-01T01:31:01.000Z',
+            })
+            expect(td.isAccessTokenExpired()).toBeTruthy()
+        }) // test
+        it('should return `true` if there is no access token expiration date', () => {
+            const td = new tdAmeritrade({
+                accessToken: 'test_access_token',
+            })
+            expect(td.isAccessTokenExpired()).toBeTruthy()
+        }) // test
+    }) // group
+    describe('.isRefreshTokenExpired()', () => {
+        it('should return `false` if refresh token is still valid', () => {
+            const refreshTokenDate = new Date()
+            refreshTokenDate.setSeconds(1500)
+            const td = new TDAmeritrade({
+                refreshToken: 'test_refresh_token',
+                refreshTokenExpiresAt: refreshTokenDate.toISOString(),
+            })
+            expect(td.isRefreshTokenExpired()).toBeFalsy()
+        }) // test
+        it('should return `true` if refresh token is expired', () => {
+            const td = new tdAmeritrade({
+                refreshToken: 'test_refresh_token',
+                refreshTokenExpiresAt: '2020-01-01T01:31:01.000Z',
+            })
+            expect(td.isRefreshTokenExpired()).toBeTruthy()
+        }) // test
+        it('should return `true` if there is no refresh token expiration date', () => {
+            const td = new tdAmeritrade({
+                refreshToken: 'test_refresh_token',
+            })
+            expect(td.isRefreshTokenExpired()).toBeTruthy()
+        }) // test
+    }) // group
+    describe('.TDAccount', () => {
+        it('should be an instance of TDAccount', () => {
+            const td = new TDAmeritrade()
+            expect(new td.TDAccount()).toBeInstanceOf(require('../src/tdAccount'))
+        }) // test
+    }) // group
+    describe('.account()', () => {
+        it('should create a new instance of TDAccount', () => {
+            const td = new TDAmeritrade()
+            expect(td.account(12345)).toBeInstanceOf(require('../src/tdAccount'))
+        }) // test
+    }) // group
+    describe('.TDStreamer', () => {
+        it('should be an instance of TDStreamer', () => {
+            const td = new TDAmeritrade()
+            expect(new td.TDStreamer()).toBeInstanceOf(require('../src/tdStreamer'))
+        }) // test
+    }) // group
+    describe('.streamer()', () => {
+        it('shoud create a new instance of TDStreamer', async () => {
+            const td = new TDAmeritrade()
+            mockAxios.reset()
+            mockAxios.onGet('/userprincipals').reply(200, userPrincipalFixture)
+            const streamer = await td.streamer()
+            expect(streamer).toBeInstanceOf(require('../src/tdStreamer'))
+        }) // test
+        it('should be able to create a new instance of TDStreamer with fullResponse config enabled', async () => {
+            const td = new TDAmeritrade({
+                fullResponse: true
+            })
+            mockAxios.reset()
+            mockAxios.onGet('/userprincipals').reply(200, userPrincipalFixture)
+            const streamer = await td.streamer()
+            expect(streamer).toBeInstanceOf(require('../src/tdStreamer'))
         }) // test
     }) // group
     describe('Other', () => {
@@ -814,6 +891,61 @@ describe('TDAmeritrade', () => {
                         headers: expectedAuthorization,
                     })
                 })
+        }) // test
+        it('should refresh token on 401 response and retry request, if `refreshAndRetry` is set to TRUE', () => {
+            const api = new TDAmeritrade(Object.assign({}, config, {
+                refreshAndRetry: true,
+            }))
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            mockAxios.reset()
+            mockAxios
+                .onGet('/accounts').replyOnce(401)
+                .onPost('/oauth2/token').replyOnce(200, mockResponse)
+                .onGet('/accounts').replyOnce(200, { accounts: [] })
+
+            expect(api.config.accessToken).toEqual('test_access_token')
+            return api
+                .getAccounts()
+                .then(res => {
+                    expect(res).toEqual({ accounts: [] })
+                    expect(api.config.accessToken).toEqual('new_test_access_token')
+                    expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                })
+        }) // test
+        it('should NOT refresh token on 401 response nor retry request, if `refreshAndRetry` is set to FALSE', () => {
+            const api = new TDAmeritrade(Object.assign({}, config, {
+                refreshAndRetry: true,
+            }))
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            mockAxios.reset()
+            mockAxios
+                .onPost('/oauth2/token').replyOnce(401)
+                .onPost('/oauth2/token').replyOnce(200, mockResponse)
+                .onPost('/oauth2/token').replyOnce(200, mockResponse)
+
+            expect(api.config.accessToken).toEqual('test_access_token')
+            return api
+                .refreshAccessToken()
+                .then(res => {
+                    expect(res).toEqual({ accounts: [] })
+                    expect(api.config.accessToken).toEqual('new_test_access_token')
+                    expect(api.config.refreshToken).toEqual('new_test_refresh_token')
+                })
+                .catch(debug)
         }) // test
     }) // group
 }) // group

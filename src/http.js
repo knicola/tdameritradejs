@@ -1,13 +1,15 @@
 'use strict'
 
+const debug = require('debug')('ameritrade:client') // eslint-disable-line no-unused-vars
+
 const axios = require('axios').default
 const defaults = require('./config')
 const token = require('./resources/token')
 const EventEmitter = require('eventemitter3')
+const interceptors = require('./interceptors')
 const apiKeySuffix = '@AMER.OAUTHAP'
 
-function http(config) {
-    const self = this
+function http(config = {}) {
     this._emitter = new EventEmitter()
 
     this.on = (event, fn) => this._emitter.on(event, fn)
@@ -18,76 +20,24 @@ function http(config) {
             : config.apiKey + apiKeySuffix
     }) // config
 
+    this.isAccessTokenExpired = () => {
+        return this.config.accessTokenExpiresAt
+            ? new Date(this.config.accessTokenExpiresAt).getTime() <= Date.now()
+            : true
+    } // isAccessTokenExpired()
+
+    this.isRefreshTokenExpired = () => {
+        return this.config.refreshTokenExpiresAt
+            ? new Date(this.config.refreshTokenExpiresAt).getTime() <= Date.now()
+            : true
+    } // isRefreshTokenExpired()
+
     this.getAccessToken = token.getAccessToken
     this.refreshAccessToken = token.refreshAccessToken
 
     this.axios = axios.create({ baseURL: this.config.baseURL })
 
-    // add access token to request
-    this.axios.interceptors.request.use(request => {
-        if (this.config.accessToken) {
-            request.headers.Authorization = `Bearer ${this.config.accessToken}`
-        }
-
-        return request
-    })
-
-    // update config with new token info
-    this.axios.interceptors.response.use(response => {
-        if (response.config.url === '/oauth2/token') {
-            const token = parseToken(response.data)
-            Object.assign(self.config, token)
-            self._emitter.emit('token:received', token)
-        }
-
-        return response
-    })
-
-    // return just the data
-    if (! this.config.returnFullResponse) {
-        this.axios.interceptors.response.use(response => response.data)
-    }
+    interceptors.setup(this)
 } // http()
-
-/**
- * Transform the given token object
- *
- * @param {Object} data Token info return from oauth endpoint
- * @returns {Object} Transformed token object
- */
-function parseToken(data) {
-    const res = {
-        accessToken: data.access_token,
-        accessTokenExpiresAt: timeFromNow(data.expires_in),
-        refreshToken: data.refresh_token,
-        refreshTokenExpiresAt: timeFromNow(data.refresh_token_expires_in),
-        scope: data.scope,
-        tokenType: data.token_type,
-    }
-
-    // remove props with falsey values
-    return filterObj(res, value => value)
-} // parseToken()
-
-/**
- * Get the UTC time from now
- *
- * @param {Number} seconds Number of seconds
- * @returns {string|undefined} UTC time string or undefined
- */
-function timeFromNow(seconds) {
-    return seconds
-        ? new Date(Date.now() + 1000 * seconds).toISOString()
-        : undefined
-} // getTimeFromNow()
-
-function filterObj(obj, cb) {
-    return Object.keys(obj).reduce((acc, cur) => {
-        if (cb(obj[cur], cur)) {
-            acc[cur] = obj[cur]
-        }
-        return acc
-    }, {})
-} // filterObj()
 
 module.exports = http

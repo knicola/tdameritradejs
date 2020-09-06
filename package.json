@@ -8,7 +8,8 @@
   ],
   "license": "MIT",
   "author": "@knicola",
-  "main": "src/index.js",
+  "main": "src/node.js",
+  "browser": "src/browser.js",
   "repository": "knicola/tdameritradejs",
   "bugs": {
     "url": "https://github.com/knicola/tdameritradejs/issues"
@@ -19,7 +20,7 @@
     "lint": "eslint ./src",
     "test": "node_modules/jest/bin/jest.js --notify",
     "coverage": "node_modules/jest/bin/jest.js --coverage",
-    "build": "node_modules/parcel/bin/cli.js build src/index.js",
+    "build": "node_modules/parcel/bin/cli.js build src/browser.js",
     "authorize": "node scripts/authorize.js",
     "refresh_token": "node scripts/refreshToken.js",
     "user_principals": "node scripts/getUserPrincipals"
@@ -30,7 +31,8 @@
     ],
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.js"
-    ]
+    ],
+    "globalSetup": "<rootDir>/tests/setup/setup.js"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",

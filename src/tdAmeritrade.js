@@ -1,5 +1,7 @@
 'use strict'
 
+const debug = require('debug')('ameritrade:client') // eslint-disable-line no-unused-vars
+
 const http = require('./http')
 const market = require('./resources/market')
 const instrument = require('./resources/instrument')
@@ -9,10 +11,33 @@ const order = require('./resources/order')
 const savedOrder = require('./resources/savedOrder')
 const watchlist = require('./resources/watchlist')
 const transaction = require('./resources/transaction')
+const TDStreamer = require('./tdStreamer')
+const TDAccount = require('./tdAccount')
+const get = require('lodash/get')
 
 function TDAmeritrade(config) {
     http.call(this, config)
-}
+} // TDAmeritrade()
+
+TDAmeritrade.prototype.TDAccount = TDAccount
+TDAmeritrade.prototype.account = function account(accountId) {
+    const instance = new TDAccount(accountId)
+    instance.config = this.config
+    return instance
+} // account()
+
+TDAmeritrade.prototype.TDStreamer = TDStreamer
+TDAmeritrade.prototype.streamer = function streamer() {
+    return this.getUserPrincipals([
+        'streamerSubscriptionKeys',
+        'streamerConnectionInfo',
+    ]).then(res => {
+        const userPrincipals = this.config.fullResponse ? get(res, 'data') : res
+        const instance = new TDStreamer(userPrincipals)
+        instance.config = this.config
+        return instance
+    })
+} // streamer()
 
 // MARKET
 TDAmeritrade.prototype.getMarketHours = market.getMarketHours
