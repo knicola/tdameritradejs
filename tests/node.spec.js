@@ -34,7 +34,7 @@ describe('TDAmeritrade (Node.js)', () => {
         it('should setup https server, emit event when ready and request an access token', () => {
             const td = new TDAmeritrade(config)
             mockAxios.onPost('/oauth2/token').reply(mockAxiosResponse)
-            td.on('oauth:ready', url => {
+            td.on('login', url => {
                 expect(url).toEqual('https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=https://localhost:8443&client_id=test_client_id@AMER.OAUTHAP')
                 https.get('https://localhost:8443/?code=test_auth_code')
             })
@@ -62,7 +62,7 @@ describe('TDAmeritrade (Node.js)', () => {
             mockAxios.onPost('/oauth2/token').reply(200, mockResponse)
             const mockDate = jest.spyOn(Date, 'now')
             mockDate.mockImplementation(() => new Date('2020-01-01T01:01:01.000Z').getTime())
-            td.on('oauth:ready', url => {
+            td.on('login', url => {
                 expect(url).toEqual('https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=https://localhost:8443&client_id=test_client_id@AMER.OAUTHAP')
                 https.get('https://localhost:8443/?code=test_auth_code')
             })
@@ -76,7 +76,7 @@ describe('TDAmeritrade (Node.js)', () => {
         }) // test
         it('should return a 422 if no authorization code is provided by oauth redirection', () => {
             const td = new TDAmeritrade(config)
-            td.on('oauth:ready', () => {
+            td.on('login', () => {
                 https.get('https://localhost:8443/?nocode', res => {
                     expect(res.statusCode).toEqual(422)
                     // exit gracefully
@@ -89,7 +89,7 @@ describe('TDAmeritrade (Node.js)', () => {
             const td = new TDAmeritrade(config)
             mockAxios.reset()
             mockAxios.onPost('/oauth2/token').reply(500)
-            td.on('oauth:ready', () => {
+            td.on('login', () => {
                 https.get('https://localhost:8443/?code=test_auth_code')
             })
             return td.authorize().catch(err => {
@@ -103,7 +103,7 @@ describe('TDAmeritrade (Node.js)', () => {
             }))
             mockAxios.reset()
             mockAxios.onPost('/oauth2/token').reply(200, { success: true })
-            td.on('oauth:ready', () => {
+            td.on('login', () => {
                 https.get('https://localhost:8443/?code=test_auth_code')
             })
             return td.authorize().then(res => {

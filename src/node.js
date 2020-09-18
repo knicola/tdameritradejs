@@ -39,7 +39,7 @@ TDAmeritrade.prototype.authorize = function authorize() {
         })
         server.listen(urlObj.port || 8443, urlObj.hostname, () => {
             this._emitter.emit(
-                'oauth:ready',
+                'login',
                 `https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=${this.config.redirectUri}&client_id=${this.config.apiKey}`
             )
         })
