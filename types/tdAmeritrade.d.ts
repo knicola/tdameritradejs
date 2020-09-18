@@ -13,7 +13,7 @@ export class TDAmeritrade {
 
     axios: AxiosInstance
 
-    on(eventName, fn): void
+    on(eventName:'login'|'token', fn): void
     authorize(): Promise<any>
     login(): Promise<any>
 

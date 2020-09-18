@@ -1,4 +1,4 @@
-import { AxiosPromise } from "axios";
+import { AxiosInstance, AxiosPromise } from "axios";
 import { SecuritiesAccount, Preferences } from "./resources/account";
 import { Order, OrdersQuery } from "./resources/order";
 import { Watchlist, WatchlistResult } from "./resources/watchlist";

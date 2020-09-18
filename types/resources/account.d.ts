@@ -28,7 +28,7 @@ export interface Positions {
     agedQuantity: number,
     instrument: Equity | FixedIncome | MutualFund | CashEquivalent | Option,
     marketValue: number
-  }
+}
 
 export interface BalanceSheet {
     accruedInterest: number,
@@ -81,4 +81,4 @@ export interface Preferences {
     equityTaxLotMethod: 'FIFO' | 'LIFO' | 'HIGH_COST' | 'LOW_COST' | 'MINIMUM_TAX' | 'AVERAGE_COST' | 'NONE',
     defaultAdvancedToolLaunch: 'TA' | 'N' | 'Y' | 'TOS' | 'NONE' | 'CC2',
     authTokenTimeout: 'FIFTY_FIVE_MINUTES' | 'TWO_HOURS' | 'FOUR_HOURS' | 'EIGHT_HOURS'
-  }
+}
