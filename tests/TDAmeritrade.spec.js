@@ -668,6 +668,38 @@ describe('TDAmeritrade', () => {
                 })
                 .finally(() => mockDate.mockRestore())
         }) // test
+        it('should emit event `token` when a token is requested', async () => {
+            const td = new TDAmeritrade({
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'test_refresh_token',
+            })
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            mockAxios.reset()
+            mockAxios.onPost('/oauth2/token').reply(200, mockResponse)
+            const mockDate = jest.spyOn(Date, 'now')
+            mockDate.mockImplementation(() => new Date('2020-01-01T01:01:01.000Z').getTime())
+            const spy = jest.fn()
+            td.on('token', spy)
+            await td.getAccessToken()
+            expect(spy).toHaveBeenCalledTimes(1)
+            expect(spy).toHaveBeenCalledWith({
+                accessToken: 'new_test_access_token',
+                refreshToken: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                accessTokenExpiresAt: '2020-01-01T01:31:01.000Z',
+                refreshTokenExpiresAt: '2020-03-31T01:01:01.000Z',
+                tokenType: 'Bearer'
+            })
+            mockDate.mockRestore()
+        }) // test
     }) // group
     describe('.refreshAccessToken()', () => {
         it('should request for a "fresh" access token', () => {
@@ -775,6 +807,38 @@ describe('TDAmeritrade', () => {
                     expect(res.data).toEqual(mockResponse)
                 })
                 .finally(() => mockDate.mockRestore())
+        }) // test
+        it('should emit event `token` when a token is requested', async () => {
+            const td = new TDAmeritrade({
+                apiKey: 'testClientId@AMER.OAUTHAP',
+                accessToken: 'test_access_token',
+                refreshToken: 'test_refresh_token',
+            })
+            const mockResponse = {
+                access_token: 'new_test_access_token',
+                refresh_token: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                expires_in: 1800,
+                refresh_token_expires_in: 7776000,
+                token_type: 'Bearer'
+            }
+            mockAxios.reset()
+            mockAxios.onPost('/oauth2/token').reply(200, mockResponse)
+            const mockDate = jest.spyOn(Date, 'now')
+            mockDate.mockImplementation(() => new Date('2020-01-01T01:01:01.000Z').getTime())
+            const spy = jest.fn()
+            td.on('token', spy)
+            await td.refreshAccessToken()
+            expect(spy).toHaveBeenCalledTimes(1)
+            expect(spy).toHaveBeenCalledWith({
+                accessToken: 'new_test_access_token',
+                refreshToken: 'new_test_refresh_token',
+                scope: 'PlaceTrades AccountAccess MoveMoney',
+                accessTokenExpiresAt: '2020-01-01T01:31:01.000Z',
+                refreshTokenExpiresAt: '2020-03-31T01:01:01.000Z',
+                tokenType: 'Bearer'
+            })
+            mockDate.mockRestore()
         }) // test
     }) // group
     describe('.isAccessTokenExpired()', () => {
