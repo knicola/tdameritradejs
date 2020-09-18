@@ -20,10 +20,7 @@
     "lint": "eslint ./src",
     "test": "node_modules/jest/bin/jest.js --notify",
     "coverage": "node_modules/jest/bin/jest.js --coverage",
-    "build": "node_modules/parcel/bin/cli.js build src/browser.js",
-    "authorize": "node scripts/authorize.js",
-    "refresh_token": "node scripts/refreshToken.js",
-    "user_principals": "node scripts/getUserPrincipals"
+    "build": "node_modules/parcel/bin/cli.js build src/browser.js"
   },
   "jest": {
     "testMatch": [
@@ -35,16 +32,13 @@
     "globalSetup": "<rootDir>/tests/setup/setup.js"
   },
   "devDependencies": {
-    "@types/dotenv": "^8.2.0",
     "@types/jest": "^25.2.3",
     "axios-mock-adapter": "^1.18.2",
     "debug": "^4.1.1",
-    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "jest": "^25.5.4",
     "jest-websocket-mock": "^2.1.0",
     "mock-socket": "^9.0.3",
-    "opn": "^6.0.0",
     "parcel": "^1.12.4"
   },
   "dependencies": {
