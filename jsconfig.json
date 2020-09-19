@@ -6,9 +6,9 @@
   "typeAcquisition": {
     "include": [
       "jest",
-      "dotenv",
       "express",
-      "axios"
+      "axios",
+      "mock-axios-adapter"
     ]
   },
   "include": ["src/**/*"],

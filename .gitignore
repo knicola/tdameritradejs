@@ -4,6 +4,4 @@
 /.cache
 npm-debug.log
 .env
-**/*.crt
-**/*.key
 **/*.cache.json

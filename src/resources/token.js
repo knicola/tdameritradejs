@@ -1,6 +1,6 @@
 'use strict'
 
-function authenticate(authCode) {
+function getAccessToken(authCode) {
     const params = new URLSearchParams()
     params.append('grant_type', 'authorization_code')
     params.append('access_type', this.config.accessType || 'offline')
@@ -10,36 +10,22 @@ function authenticate(authCode) {
 
     delete this.config.accessToken
 
-    return this.axios
-        .post('/oauth2/token', params)
-        .then(res => {
-            const data = this.config.returnFullResponse ? res.data : res
-            this.config.accessToken = data.access_token
-            this.config.refreshToken = data.refresh_token
-            return res
-        })
-} // authenticate()
+    return this.axios.post('/oauth2/token', params)
+} // getAccessToken()
 
-function refreshToken(refreshToken) {
+function refreshAccessToken(refreshToken) {
     const params = new URLSearchParams()
     params.append('grant_type', 'refresh_token')
-    params.append('access_type', 'offline')
+    params.append('access_type', this.config.accessType || 'offline')
     params.append('client_id', this.config.apiKey)
     params.append('refresh_token', refreshToken || this.config.refreshToken)
 
     delete this.config.accessToken
 
-    return this.axios
-        .post('/oauth2/token', params)
-        .then(res => {
-            const data = this.config.returnFullResponse ? res.data : res
-            this.config.accessToken = data.access_token
-            this.config.refreshToken = data.refresh_token
-            return res
-        })
-} // refreshToken()
+    return this.axios.post('/oauth2/token', params)
+} // refreshAccessToken()
 
 module.exports = {
-    authenticate,
-    refreshToken,
+    getAccessToken,
+    refreshAccessToken,
 }

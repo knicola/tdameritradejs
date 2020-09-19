@@ -5,14 +5,29 @@ import { UserPrincipal, SubscriptionKeys } from "./resources/userPrincipals"
 import { Watchlist, WatchlistResult } from "./resources/watchlist"
 import { Transaction } from "./resources/transaction"
 import { MarketHours, Mover, CandleList, PriceHistoryQuery, OptionChainQuery } from "./resources/market"
+import TDAccount from "./tdAccount"
+import TDStreamer from "../src/tdStreamer"
 
 export class TDAmeritrade {
     constructor(config: object)
 
     axios: AxiosInstance
 
-    authenticate(authCode?): AxiosPromise
-    refreshToken(refreshToken?): AxiosPromise
+    on(eventName:'login'|'token', fn): void
+    authorize(): Promise<any>
+    login(): Promise<any>
+
+    isAccessTokenExpired(): boolean
+    isRefreshTokenExpired(): boolean
+
+    TDAccount: TDAccount
+    account(accountId: string): TDAccount
+
+    TDStreamer: TDStreamer
+    streamer(): Promise<TDStreamer>
+
+    getAccessToken(authCode?): AxiosPromise
+    refreshAccessToken(refreshToken?): AxiosPromise
 
     getMarketHours(markets: string|string[], date: string): AxiosPromise
     getMovers(index: string, direction?: 'up'|'down', change?: 'value'|'percent'): AxiosPromise<Mover[]>
