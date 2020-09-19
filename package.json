@@ -34,19 +34,19 @@
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "axios-mock-adapter": "^1.18.2",
-    "debug": "^4.1.1",
+    "debug": "^4.2.0",
     "eslint": "^6.8.0",
     "jest": "^25.5.4",
-    "jest-websocket-mock": "^2.1.0",
+    "jest-websocket-mock": "^2.2.0",
     "mock-socket": "^9.0.3",
     "parcel": "^1.12.4"
   },
   "dependencies": {
     "axios": "^0.19.2",
     "cuid": "^2.1.8",
-    "eventemitter3": "^4.0.4",
+    "eventemitter3": "^4.0.7",
     "isomorphic-ws": "^4.0.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.20",
     "ws": "^7.3.1"
   }
 }
