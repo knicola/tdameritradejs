@@ -12,14 +12,12 @@ This library is still in its early stages of development and thus far from ready
 
 
 ## Status
-There are 3 interfaces available:
-* `TDAmeritrade` - the main API interface.
-* `TDAccount` - a helper interface to ease the use of account specific functions.
-* `TDStreamer` - the data streaming interface.
+
+For details concerning the latest update please read the [CHANGELOG](./CHANGELOG.md).
 
 The API client is very close to being complete. All documented API methods have been implemented.
 
-The data streaming interface implements most of what the documentation talks about *except* Actives, Level 1 Options and Level 2 order book. Documentation also mentions services `NEWS_STORY` and `NEWS_HEADLINE_LIST` but does not provide any information.
+The data streamer implements most of what the documentation talks about *except* Actives, Level 1 Options and Level 2 order book. Documentation also mentions services `NEWS_STORY` and `NEWS_HEADLINE_LIST` but does not provide any information.
 
 An attempt to provide typescript definitions is also in progress.
 
@@ -37,67 +35,111 @@ $ yarn add @knicola/tdameritrade
 
 ## Usage
 
+In order to use TD Ameritrade's API services you will need a `Consumer Key` (also called `Client ID` and `API Key`). To get one first create a [developer account](https://developer.tdameritrade.com/user/register) and [add a new app](https://developer.tdameritrade.com/user/me/apps/add). The key will be listed under the newly created app.
+
+
+#### Node.js
+
+[SSL certificate](#Generate-SSL-Certificate) is required for oauth2 authorization.
+
 ```js
-const { TDAmeritrade, TDAccount, TDStreamer } = require('@knicola/tdameritrade')
-const config = {
-    accessToken: 'access_token',
-    apiKey: 'testClientId', // `@AMER.OAUTHAP` suffix is not required
-    returnFullResponse: false, // Set to true to return the full axios response (default: false)
-}
+const { TDAmeritrade } = require('@knicola/tdameritrade')
 
-// main api interface
-const api = new TDAmeritrade(config)
-const accounts = await api.getAccounts()
-const orders = api.getOrders(accounts[0].accountId).then(orders => {
-    // do something with orders ..
-    return orders
+const td = new TDAmeritrade({
+    apiKey: 'your-consumer-key',
+    redirectUri: 'https://localhost:8443',
+    sslKey: 'path/to/selfsigned.key',
+    sslCert: 'path/to/selfsigned.crt',
 })
 
-// account specific interface
-const account = new TDAccount(accounts[0].accountId, config)
-const orders = account.getOrders()
-
-// data streamer
-const userPrincipals = await api.getUserPrincipals([
-    'streamerSubscriptionKeys',
-    'streamerConnectionInfo',
-])
-const streamer = new TDStreamer(userPrincipals)
-streamer.on('authenticated', () => streamer.subsChartEquity('SPY'))
-streamer.on('chart', data => {
-    // do something with chart data ..
+// event will fire once the local web server
+// is ready for the oauth2 authorization.
+td.on('login', url => {
+    // use this to print the td oauth2 url to console
+    // or to open the url directly in the browser.
+    console.log(url)
 })
-streamer.connect()
+
+// event will fire every time the token is renewed.
+td.on('token', token => {
+    // use this to know when a new access token is
+    // issued or to save the token to a file.
+    console.log(token)
+})
+
+// an all-in-one entry point which will determine
+// whether authorization is required or, if the
+// access token expired, whether to renew it.
+td.login().then(async () => {
+    const { candles } = await td.getPriceHistory('SPY')
+    console.log(candles)
+
+    // the websocket interface will be instantiated automatically.
+    // for now, it will choose the first available account.
+    const streamer = await td.streamer()
+    // you could also choose to instantiate it
+    // manually with `new td.TDStreamer(...)`
+
+    // event will trigger once the streaming client is
+    // connected *and* authenticated to the server.
+    streamer.on('authenticated', () => {
+        // we can now interact with the server
+        streamer.subsChartEquity('SPY')
+    })
+
+    // event will trigger everytime the streaming server
+    // sends us a new candle (that is every minute).
+    streamer.on('chart', data => {
+        console.log(data)
+        // choose to save the data or determine
+        // whether to place a buy/sell order.
+        td.placeOrder({ ... }).then(res => {
+            // ...
+        })
+    })
+
+    // connect to the streaming server
+    streamer.connect()
+})
 ```
 
+#### Browser
 
-## Development
+The `.login()` and `.authorize()` methods are not available in the browser since they depend on Node.js specific modules. The token information will have to be provided by the server hosting the website.
 
-Official API documentation can be found here: https://developer.tdameritrade.com/apis
+```js
+void (async () => {
+    const { TDAmeritrade } = require('@knicola/tdameritrade')
+    const td = new TDAmeritrade({
+        apiKey: 'your-consumer-key',
+        accessToken: 'your-access-token',
+        refreshToken: 'your-refresh_token',
+        accessTokenExpiresAt: '2020-01-01T01:31:01.000Z',
+        refreshTokenExpiresAt: '2020-03-31T01:01:01.000Z',
+    })
 
-Generate an SSL certificate and place it in the root folder before running any tests:
+    const { candles } = await td.getPriceHistory('SPY')
+
+    const streamer = await td.streamer()
+
+    // ...
+
+})()
+```
+
+## Generate SSL Certificate
+
+In most cases, a self-signed certificate will be enough. You can generate one using `openssl`:
+
 ```sh
-$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout selfsigned.key -out selfsigned.crt -batch
+$ openssl req -x509 -nodes -newkey rsa:2048 -keyout selfsigned.key -out selfsigned.crt -batch
+
+# OR
+
+$ openssl req -x509 -newkey rsa:2048 -nodes -sha256 -out selfsigned.crt -keyout selfsigned.key \
+-subj '/CN=localhost' -extensions EXT -config <( \
+printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 ```
-
-For live tests create an access token:
-- [Register for a developer's account](https://developer.tdameritrade.com/user/register) and [add a new app](https://developer.tdameritrade.com/user/me/apps/add).
-- Copy `.env.example` to `.env` and fill in the `CLIENT_ID` var with the app's `Consumer Key`.
-- Run `npm run authorize` and login with your regular TD Ameritrade account.
-
-
-### NPM Scripts
-
-| Command                   | Description                                                                       |
-|---------------------------|-----------------------------------------------------------------------------------|
-| `npm test`                | Run test suites                                                                   |
-| `npm run lint`            | Run linting rules                                                                 |
-| `npm run coverage`        | Generate coverage report                                                          |
-| `npm run build`           | Bundle the project for browser use                                                |
-| `npm run authorize`       | Run oauth and get an access token for testing (saves the token for later use)     |
-| `npm run refresh_token`   | Refresh the oauth access token (also saves the new token)                         |
-| `npm run user_principals` | Get the user principals object used to authenticate to the json streaming service |
-
 
 ## License
 
