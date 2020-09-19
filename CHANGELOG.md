@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 * `TDAmeritrade.isAccessTokenExpired(): boolean` to determine whether the access token is expired or not. Will return true if no access token exists.
 * `TDAmeritrade.isRefreshTokenExpired(): boolean` to determine whether the refresh token is expired or not. Will return true if no refresh token exists.
-* `TDAmeritrade.authorize(authCode?:string): Promise` to bootstrap a local web server for oauth2 authorization. Will request access token and update config if authorization is successful.
+* `TDAmeritrade.authorize(): Promise` to bootstrap a local web server for oauth2 authorization. Will request access token and update config if authorization is successful.
 * `TDAmeritrade.login(): Promise` to automatically authorize or refresh the access token depending on whether the access and/or refresh token exist and are not expired. Depends on `.authorize()`, `.getAccessToken()`, `.refreshAccessToken()`, `.isAccessTokenExpired()` and `.isRefreshTokenExpired()`.
 * `TDAmeritrade.on(eventName:'login'|'token')` to subscribe to events. The `login` event fires once `.authorize()` is done bootstrapping the local web server and provides a `url` argument which can be used to authorize our td app. The `token` event fires everytime the access token is renewed, by either using `.getAccessToken()` or `.refreshAccessToken()`, and provides a `token` argument containing the newly received token info.
 * `TDAmeritrade.streamer(): Promise<TDStreamer>` to help instantiate a new `TDStreamer` instance. Depends on `.getUserPrincipals()`.
@@ -27,4 +27,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Test suites from using an http and websocket server to completely use mocks. Only `node.spec.js` test suite runs a live http server during testing on port `8443` and uses a pre-generated self-signed ssl certificate, found in `./tests/setup/`.
 
 ### Removed
-* The npm scripts used for oauth2 authorization and token retreival. Use the `TDAmeritrade.login()` method now instead.
+* The npm scripts used for oauth2 authorization and token retrieval. Use the `TDAmeritrade.login()` method now instead.
