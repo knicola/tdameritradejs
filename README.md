@@ -105,26 +105,36 @@ td.login().then(async () => {
 
 #### Browser
 
-The `.login()` and `.authorize()` methods are not available in the browser since they depend on Node.js specific modules. The token information will have to be provided by the server hosting the website.
+The `.login()` and `.authorize()` methods are not available in the browser since they depend on Node.js specific modules. Either the authorization code or the issued access and refresh token will have to be provided by the server hosting the website.
 
+Authorization code:
 ```js
-void (async () => {
-    const { TDAmeritrade } = require('@knicola/tdameritrade')
-    const td = new TDAmeritrade({
-        apiKey: 'your-consumer-key',
-        accessToken: 'your-access-token',
-        refreshToken: 'your-refresh_token',
-        accessTokenExpiresAt: '2020-01-01T01:31:01.000Z',
-        refreshTokenExpiresAt: '2020-03-31T01:01:01.000Z',
-    })
+const { TDAmeritrade } = require('@knicola/tdameritrade')
+const td = new TDAmeritrade()
+const authCode = 'provided by the server'
 
-    const { candles } = await td.getPriceHistory('SPY')
+// the config will update automatically
+// with the access and refresh token.
+await td.getAccessToken(authCode)
 
-    const streamer = await td.streamer()
+const { candles } = await td.getPriceHistory('SPY')
+```
+Access and Refresh token:
+```js
+const { TDAmeritrade } = require('@knicola/tdameritrade')
 
-    // ...
+// provided by the server
+const token = {
+    apiKey: 'your-consumer-key',
+    accessToken: 'your-access-token',
+    refreshToken: 'your-refresh_token',
+    accessTokenExpiresAt: '2020-01-01T01:31:01.000Z',
+    refreshTokenExpiresAt: '2020-03-31T01:01:01.000Z',
+}
 
-})()
+const td = new TDAmeritrade(token)
+
+const { candles } = await td.getPriceHistory('SPY')
 ```
 
 ## Generate SSL Certificate
