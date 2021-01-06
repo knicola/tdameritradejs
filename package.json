@@ -42,7 +42,7 @@
     "parcel": "^1.12.4"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cuid": "^2.1.8",
     "eventemitter3": "^4.0.7",
     "isomorphic-ws": "^4.0.1",
