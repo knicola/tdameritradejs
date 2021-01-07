@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.1] - 2021-01-07
+### Added
+* Rollup dev dependency to build a browser distribution. See `dist/index.min.js`.
+
+### Changed
+* Bump axios from 0.19.2 to 0.21.1
+* Bump axios-mock-adapter from 1.18.2 to 1.19.0
+* Bump debug from 4.2.0 to 4.3.1
+
 ## [0.4.0] - 2020-09-19
 ### Added
 * `TDAmeritrade.isAccessTokenExpired(): boolean` to determine whether the access token is expired or not. Will return true if no access token exists.
