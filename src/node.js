@@ -4,6 +4,9 @@ const url = require('url')
 const https = require('https')
 const fs = require('fs')
 const path = require('path')
+/**
+ * @class
+ */
 const TDAmeritrade = require('./tdAmeritrade')
 
 TDAmeritrade.prototype.authorize = function authorize() {

@@ -15,6 +15,10 @@ const TDStreamer = require('./tdStreamer')
 const TDAccount = require('./tdAccount')
 const get = require('lodash/get')
 
+/**
+ * @class
+ * @param {object} config The config
+ */
 function TDAmeritrade(config) {
     http.call(this, config)
 } // TDAmeritrade()

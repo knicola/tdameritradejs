@@ -58,6 +58,7 @@ function fullResponse(client) {
 /**
  * Transform the given token object
  *
+ * @private
  * @param {Object} data Token info return from oauth endpoint
  * @returns {Object} Transformed token object
  */
@@ -78,6 +79,7 @@ function parseToken(data) {
 /**
  * Get the UTC time from now
  *
+ * @private
  * @param {Number} seconds Number of seconds
  * @returns {string|undefined} UTC time string or undefined
  */
@@ -87,6 +89,14 @@ function timeFromNow(seconds) {
         : undefined
 } // getTimeFromNow()
 
+/**
+ * Filter object
+ *
+ * @private
+ * @param {object} obj Object to filter
+ * @param {function} cb Callback
+ * @returns {object} Filtered object
+ */
 function filterObj(obj, cb) {
     return Object.keys(obj).reduce((acc, cur) => {
         if (cb(obj[cur], cur)) {

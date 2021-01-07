@@ -68,8 +68,8 @@ export interface BalanceSheet {
 
 export interface Preferences {
     expressTrading: boolean,
-    directOptionsRouting: boolean,
-    directEquityRouting: boolean,
+    readonly directOptionsRouting: boolean,
+    readonly directEquityRouting: boolean,
     defaultEquityOrderLegInstruction: 'BUY' | 'SELL' | 'BUY_TO_COVER' | 'SELL_SHORT' | 'NONE',
     defaultEquityOrderType: 'MARKET' | 'LIMIT' | 'STOP' | 'STOP_LIMIT' | 'TRAILING_STOP' | 'MARKET_ON_CLOSE' | 'NONE',
     defaultEquityOrderPriceLinkType: 'VALUE' | 'PERCENT' | 'NONE',

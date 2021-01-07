@@ -1,43 +1,39 @@
-import { AxiosInstance, AxiosPromise } from "axios";
+import { AxiosInstance, Promise } from "axios";
 import { SecuritiesAccount, Preferences } from "./resources/account";
 import { Order, OrdersQuery } from "./resources/order";
 import { Watchlist, WatchlistResult } from "./resources/watchlist";
 import { Transaction } from "./resources/transaction";
 import { SubscriptionKeys, UserPrincipal } from "./resources/userPrincipals";
+import { Base } from "./base";
 
-export class TDAccount {
+export class TDAccount extends Base {
     constructor(accountId: string, config: object)
 
-    axios: AxiosInstance
+    getAccount(): Promise<SecuritiesAccount[]>
+    getPreferences(): Promise<Preferences>
+    updatePreferences(preferences: Preferences): Promise
+    getStreamerSubscriptionKeys(): Promise<SubscriptionKeys>
+    getUserPrincipals(fields: string|Array<'streamerSubscriptionKeys'|'streamerConnectionInfo'|'preferences'|'surrogateIds'>): Promise<UserPrincipal>
 
-    authenticate(authCode?:string): AxiosPromise
-    refreshToken(refreshToken?: string): AxiosPromise
+    getOrders(params?: OrdersQuery): Promise<Order[]>
+    getOrder(orderId: string): Promise<Order>
+    placeOrder(order: Order): Promise
+    replaceOrder(orderId: string, order: Order): Promise
+    cancelOrder(orderId: string): Promise
 
-    getAccount(): AxiosPromise<SecuritiesAccount[]>
-    getPreferences(): AxiosPromise<Preferences>
-    updatePreferences(preferences: Preferences): AxiosPromise
-    getStreamerSubscriptionKeys(): AxiosPromise<SubscriptionKeys>
-    getUserPrincipals(fields: string|Array<'streamerSubscriptionKeys'|'streamerConnectionInfo'|'preferences'|'surrogateIds'>): AxiosPromise<UserPrincipal>
+    createSavedOrder(savedOrder): Promise
+    deleteSavedOrder(savedOrderId: string): Promise
+    getSavedOrder(savedOrderId: string): Promise
+    getSavedOrders(accountId: string): Promise
+    replaceSavedOrder(savedOrderId: string, savedOrder): Promise
 
-    getOrders(params?: OrdersQuery): AxiosPromise<Order[]>
-    getOrder(orderId: string): AxiosPromise<Order>
-    placeOrder(order: Order): AxiosPromise
-    replaceOrder(orderId: string, order: Order): AxiosPromise
-    cancelOrder(orderId: string): AxiosPromise
+    createWatchlist(watchlist: Watchlist): Promise
+    deleteWatchlist(watchlistId: string): Promise
+    getWatchlist(watchlistId: string): Promise<WatchlistResult>
+    getWatchlists(accountId: string): Promise<WatchlistResult[]>
+    replaceWatchlist(watchlistId: string, watchlist: Watchlist): Promise
+    updateWatchlist(watchlistId: string, watchlist: Watchlist): Promise
 
-    createSavedOrder(savedOrder): AxiosPromise
-    deleteSavedOrder(savedOrderId: string): AxiosPromise
-    getSavedOrder(savedOrderId: string): AxiosPromise
-    getSavedOrders(accountId: string): AxiosPromise
-    replaceSavedOrder(savedOrderId: string, savedOrder): AxiosPromise
-
-    createWatchlist(watchlist: Watchlist): AxiosPromise
-    deleteWatchlist(watchlistId: string): AxiosPromise
-    getWatchlist(watchlistId: string): AxiosPromise<WatchlistResult>
-    getWatchlists(accountId: string): AxiosPromise<WatchlistResult[]>
-    replaceWatchlist(watchlistId: string, watchlist: Watchlist): AxiosPromise
-    updateWatchlist(watchlistId: string, watchlist: Watchlist): AxiosPromise
-
-    getTransaction(transactionId: string): AxiosPromise<Transaction>
-    getTransactions(params): AxiosPromise<Transaction[]>
+    getTransaction(transactionId: string): Promise<Transaction>
+    getTransactions(params): Promise<Transaction[]>
 } // TDAccount()

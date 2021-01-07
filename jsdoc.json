@@ -1,0 +1,14 @@
+{
+  "source": {
+    "include": "./src",
+    "includePattern": ".js$"
+  },
+  "opts": {
+    "template": "node_modules/better-docs",
+    "recurse": true,
+    "verbose": true
+  },
+  "plugins": [
+    "plugins/markdown"
+  ]
+}

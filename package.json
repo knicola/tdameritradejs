@@ -15,7 +15,6 @@
     "url": "https://github.com/knicola/tdameritradejs/issues"
   },
   "homepage": "https://github.com/knicola/tdameritradejs#readme",
-  "types": "types",
   "scripts": {
     "lint": "eslint ./src",
     "test": "node_modules/jest/bin/jest.js --notify",
@@ -34,10 +33,14 @@
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "axios-mock-adapter": "^1.18.2",
+    "better-docs": "^2.3.2",
     "debug": "^4.2.0",
+    "docdash": "^1.2.0",
     "eslint": "^6.8.0",
     "jest": "^25.5.4",
     "jest-websocket-mock": "^2.2.0",
+    "jsdoc": "^3.6.6",
+    "jsdoc-to-markdown": "^6.0.1",
     "mock-socket": "^9.0.3",
     "parcel": "^1.12.4"
   },

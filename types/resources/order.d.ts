@@ -19,39 +19,23 @@ export interface OrdersQuery {
     status?: 'AWAITING_PARENT_ORDER' | 'AWAITING_CONDITION' | 'AWAITING_MANUAL_REVIEW' | 'ACCEPTED' | 'AWAITING_UR_OUT' | 'PENDING_ACTIVATION' | 'QUEUED' | 'WORKING' | 'REJECTED' | 'PENDING_CANCEL' | 'CANCELED' | 'PENDING_REPLACE' | 'REPLACED' | 'FILLED' | 'EXPIRED',
 }
 export interface Equity {
-  assetType: 'EQUITY' | 'OPTION' | 'INDEX' | 'MUTUAL_FUND' | 'CASH_EQUIVALENT' | 'FIXED_INCOME' | 'CURRENCY',
-  cusip: string,
-  symbol: string,
-  description: string,
-}
-export interface FixedIncome {
-  assetType: 'EQUITY' | 'OPTION' | 'INDEX' | 'MUTUAL_FUND' | 'CASH_EQUIVALENT' | 'FIXED_INCOME' | 'CURRENCY',
-  cusip: string,
-  symbol: string,
-  description: string,
-  maturityDate: string,
-  variableRate: number,
-  factor: number,
-}
-export interface MutualFund {
-  assetType: 'EQUITY' | 'OPTION' | 'INDEX' | 'MUTUAL_FUND' | 'CASH_EQUIVALENT' | 'FIXED_INCOME' | 'CURRENCY',
-  cusip: string,
-  symbol: string,
-  description: string,
-  type: 'NOT_APPLICABLE' | 'OPEN_END_NON_TAXABLE' | 'OPEN_END_TAXABLE' | 'NO_LOAD_NON_TAXABLE' | 'NO_LOAD_TAXABLE',
-}
-export interface CashEquivalent {
     assetType: 'EQUITY' | 'OPTION' | 'INDEX' | 'MUTUAL_FUND' | 'CASH_EQUIVALENT' | 'FIXED_INCOME' | 'CURRENCY',
     cusip: string,
     symbol: string,
     description: string,
+}
+export interface FixedIncome extends Equity {
+    maturityDate: string,
+    variableRate: number,
+    factor: number,
+}
+export interface MutualFund extends Equity {
+    type: 'NOT_APPLICABLE' | 'OPEN_END_NON_TAXABLE' | 'OPEN_END_TAXABLE' | 'NO_LOAD_NON_TAXABLE' | 'NO_LOAD_TAXABLE',
+}
+export interface CashEquivalent extends Equity {
     type: 'SAVINGS' | 'MONEY_MARKET_FUND',
 }
-export interface Option {
-    assetType: 'EQUITY' | 'OPTION' | 'INDEX' | 'MUTUAL_FUND' | 'CASH_EQUIVALENT' | 'FIXED_INCOME' | 'CURRENCY',
-    cusip: string,
-    symbol: string,
-    description: string,
+export interface Option extends Equity {
     type: 'VANILLA' | 'BINARY' | 'BARRIER',
     putCall: 'PUT' | 'CALL',
     underlyingSymbol: string,
@@ -68,7 +52,7 @@ export interface OrderLeg {
     orderLegType: 'EQUITY' | 'OPTION' | 'INDEX' | 'MUTUAL_FUND' | 'CASH_EQUIVALENT' | 'FIXED_INCOME' | 'CURRENCY',
     legId: number,
     instrument: Equity | FixedIncome | MutualFund | CashEquivalent | Option,
-    instruction: 'BUY' | 'SELL' | 'BUY_TO_COVER' | 'SELL_SH|T' | 'BUY_TO_OPEN' | 'BUY_TO_CLOSE' | 'SELL_TO_OPEN' | 'SELL_TO_CLOSE' | 'EXCHANGE',
+    instruction: 'BUY' | 'SELL' | 'BUY_TO_COVER' | 'SELL_SHORT' | 'BUY_TO_OPEN' | 'BUY_TO_CLOSE' | 'SELL_TO_OPEN' | 'SELL_TO_CLOSE' | 'EXCHANGE',
     positionEffect: 'OPENING' | 'CLOSING' | 'AUTOMATIC',
     quantity: number,
     quantityType: 'ALL_SHARES' | 'DOLLARS' | 'SHARES',

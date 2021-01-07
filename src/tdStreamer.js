@@ -23,6 +23,9 @@ const state = Symbol()
 //     }
 // }
 
+/**
+ * @class
+ */
 class TDStreamer {
     constructor(userPrincipals) {
         this.userPrincipals = userPrincipals
@@ -99,7 +102,7 @@ class TDStreamer {
     /**
      * Remove all listeners, or those of the specified event.
      *
-     * @param {State|Event|Error=} event The event name
+     * @param {State|Event|Error} [event] The event name
      * @returns {void}
      */
     removeAllListeners(event) {
@@ -110,7 +113,7 @@ class TDStreamer {
      * Return an array listing the events for which
      * the streamer has registered listeners.
      *
-     * @returns {(string|symbol)[]} event names
+     * @returns {Array<string|symbol>} event names
      */
     eventNames() {
         return this[emitter].eventNames()
@@ -167,7 +170,7 @@ class TDStreamer {
      * The request object
      *
      * @typedef {Object} Request
-     * @property {string=} requestid A unique request identifier
+     * @property {string} [requestid] A unique request identifier
      * @property {string} service The service name
      * @property {object} parameters The service parameters
      * @property {string} command The command
@@ -224,7 +227,7 @@ class TDStreamer {
      * The service object
      *
      * @typedef {Object} Service
-     * @property {string=} requestid A unique request identifier
+     * @property {string} [requestid] A unique request identifier
      * @property {string} service The service name
      * @property {object} parameters The service parameters
      */
@@ -275,7 +278,7 @@ class TDStreamer {
     /**
      * Subscribe to Account Activity updates
      *
-     * @param {Array<'subscriptionKey'|'accountNumber'|'messageType'|'messageData'> =} fields Fields to include (default all)
+     * @param {Array<'subscriptionKey'|'accountNumber'|'messageType'|'messageData'>} [fields] Fields to include (default all)
      * @returns {object[]} The request objects sent to the server
      */
     subsAccountActivity(fields) {
@@ -305,7 +308,7 @@ class TDStreamer {
      * Susbscribe to Chart Equity updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'key'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'|'sequence'|'chartTime'|'chartDay'> =} fields fields
+     * @param {Array<'key'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'|'sequence'|'chartTime'|'chartDay'>} [fields] fields
      * @returns {object[]} The request objects sent to the server
      */
     subsChartEquity(symbols, fields) {
@@ -339,7 +342,7 @@ class TDStreamer {
      * Susbscribe to Chart Futures updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'> =} fields fields
+     * @param {Array<'key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'>} [fields] fields
      * @returns {object[]} The request objects sent to the server
      */
     subsChartFutures(symbols, fields) {
@@ -373,7 +376,7 @@ class TDStreamer {
      * Subscribe to Chart Options updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'> =} fields fields
+     * @param {Array<'key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'>} [fields] fields
      * @returns {object[]} The request objects sent to the server
      */
     subsChartOptions(symbols, fields) {
@@ -407,7 +410,7 @@ class TDStreamer {
      * Subscribe to News Headline updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'symbol'|'errorCode'|'storyDatetime'|'headlineId'|'status'|'headline'|'storyId'|'countForKeyword'|'keywordArray'|'isHot'|'storySource'> =} fields fields
+     * @param {Array<'symbol'|'errorCode'|'storyDatetime'|'headlineId'|'status'|'headline'|'storyId'|'countForKeyword'|'keywordArray'|'isHot'|'storySource'>} [fields] fields
      * @returns {object[]} The request objects sent to the server
      */
     subsNewsHeadline(symbols, fields) {
@@ -441,7 +444,7 @@ class TDStreamer {
      * Subscribe to Timesale Equity updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'> =} fields fields
+     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] fields
      * @returns {object[]} The request objects sent to the server
      */
     subsTimesaleEquity(symbols, fields) {
@@ -475,7 +478,7 @@ class TDStreamer {
      * Subscribe to Timesale Futures updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'> =} fields fields
+     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] fields
      * @returns {object[]} The request objects sent to the server
      */
     subsTimesaleFutures(symbols, fields) {
@@ -509,7 +512,7 @@ class TDStreamer {
      * Subscribe to Timesale Options updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'> =} fields fields
+     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] fields
      * @returns {object[]} The request objects sent to the server
      */
     subsTimesaleOptions(symbols, fields) {
@@ -543,7 +546,7 @@ class TDStreamer {
      * Subscribe to Timesale Forex updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'> =} fields fields
+     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] fields
      * @returns {object[]} The request objects sent to the server
      */
     subsTimesaleForex(symbols, fields) {
@@ -578,9 +581,9 @@ class TDStreamer {
      *
      * @typedef {Object} ChartHistoryFuturesOptions
      * @property {'m1'|'m5'|'m10'|'m30'|'h1'|'d1'|'w1'|'n1'} frequency Frequency
-     * @property {string=} period Time period. eg. d5, w4, n10, y1, y10 (d=day, w=week, n=month, y=year)
-     * @property {string=} START_TIME Start time of chart in milliseconds since Epoch
-     * @property {string=} END_TIME End time of chart in milliseconds since Epoch
+     * @property {string} period Time period. eg. d5, w4, n10, y1, y10 (d=day, w=week, n=month, y=year)
+     * @property {string} START_TIME Start time of chart in milliseconds since Epoch
+     * @property {string} END_TIME End time of chart in milliseconds since Epoch
      */
     /**
      * Get historical data for Futures
@@ -610,7 +613,7 @@ class TDStreamer {
         'openPrice'|'netChange'|'52WeekHigh'|'52WeekLow'|'peRatio'|'dividendAmount'|'dividendYield'|'nav'|
         'fundPrice'|'exchangeName'|'dividendDate'|'regularMarketQuote'|'regularMarketTrade'|'regularMarketLastPrice'|
         'regularMarketLastSize'|'regularMarketTradeTime'|'regularMarketTradeDay'|'regularMarketNetChange'|
-        'securityStatus'|'mark'|'quoteTimeInLong'|'tradeTimeInLong'|'regularMarketTradeTimeInLong'> =} fields fields
+        'securityStatus'|'mark'|'quoteTimeInLong'|'tradeTimeInLong'|'regularMarketTradeTimeInLong'>} [fields] fields
      * @returns {object[]} object
      */
     subsLevelOneEquity(symbols, fields) {
@@ -649,7 +652,7 @@ class TDStreamer {
         'lastSize'|'quoteTime'|'tradeTime'|'highPrice'|'lowPrice'|'closePrice'|'exchangeID'|'description'|'lastID'|
         'openPrice'|'netChange'|'futurePercentChange'|'exhangeName'|'securityStatus'|'openInterest'|'mark'|'tick'|
         'tickAmount'|'product'|'futurePriceFormat'|'futureTradingHours'|'futureIsTradable'|'futureMultiplier'|
-        'futureIsActive'|'futureSettlementPrice'|'futureActiveSymbol'|'futureExpirationDate'> =} fields fields
+        'futureIsActive'|'futureSettlementPrice'|'futureActiveSymbol'|'futureExpirationDate'>} [fields] fields
      * @returns {object[]} object
      */
     subsLevelOneFutures(symbols, fields) {
@@ -683,6 +686,7 @@ class TDStreamer {
 /**
  * Handle messages sent by the server
  *
+ * @private
  * @param {EventEmitter} emitter Event emitter
  * @param {object} message Response sent by the server
  * @returns {void}
@@ -723,6 +727,7 @@ function handleMessage(emitter, message) {
 /**
  * Handle response messages sent by the server
  *
+ * @private
  * @param {EventEmitter} emitter Event emitter
  * @param {object} response Response sent by the server
  * @returns {void}
@@ -757,6 +762,7 @@ function handleResponse(emitter, response) {
 /**
  * Handle notification messages sent by the server
  *
+ * @private
  * @param {EventEmitter} emitter Event Emitter
  * @param {object} notification Notification object sent by the server
  * @returns {void}
@@ -772,6 +778,7 @@ function handleNotification(emitter, notification) {
 /**
  * Handle data messages sent by the server
  *
+ * @private
  * @param {EventEmitter} emitter Event Emitter
  * @param {object} data Data object sent by the server
  * @returns {void}

@@ -1,5 +1,10 @@
 'use strict'
 
+/**
+ * Get the SubscriptionKey for provided accounts or default accounts.
+ * @param {string|string[]} [accountIds] The account id(s)
+* @returns {Promise} The susbscription keys
+ */
 function getStreamerSubscriptionKeys(accountIds) {
     return this.axios.get('/userprincipals/streamersubscriptionkeys', {
         params: {
@@ -8,6 +13,14 @@ function getStreamerSubscriptionKeys(accountIds) {
     })
 } // getStreamerSubscriptionKeys()
 
+/**
+ * @typedef {'streamerSubscriptionKeys'|'streamerConnectionInfo'|'preferences'|'surrogateIds'} UserPrincipalFields
+ */
+/**
+ * Get user principal details.
+ * @param {UserPrincipalFields|UserPrincipalFields[]} [fields] Fields to include
+ * @returns {Promise} User principal details
+ */
 function getUserPrincipals(fields) {
     return this.axios.get('/userprincipals', {
         params: {
