@@ -10,17 +10,20 @@
   "author": "@knicola",
   "main": "src/node.js",
   "browser": "src/browser.js",
-  "repository": "knicola/tdameritradejs",
-  "bugs": {
-    "url": "https://github.com/knicola/tdameritradejs/issues"
-  },
-  "homepage": "https://github.com/knicola/tdameritradejs#readme",
   "types": "types",
+  "files": [
+    "src/",
+    "types/",
+    "dist/"
+  ],
+  "repository": "github:knicola/tdameritradejs",
+  "bugs": "https://github.com/knicola/tdameritradejs/issues",
+  "homepage": "https://github.com/knicola/tdameritradejs#readme",
   "scripts": {
     "lint": "eslint ./src",
-    "test": "node_modules/jest/bin/jest.js --notify",
-    "coverage": "node_modules/jest/bin/jest.js --coverage",
-    "build": "node_modules/parcel/bin/cli.js build src/browser.js"
+    "test": "jest --notify",
+    "coverage": "jest --coverage",
+    "build": "rollup -c"
   },
   "jest": {
     "testMatch": [
@@ -39,7 +42,8 @@
     "jest": "^25.5.4",
     "jest-websocket-mock": "^2.2.0",
     "mock-socket": "^9.0.3",
-    "parcel": "^1.12.4"
+    "rollup": "^2.36.1",
+    "rollup-plugin-terser": "^7.0.2"
   },
   "dependencies": {
     "axios": "^0.21.1",
