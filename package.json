@@ -1,6 +1,6 @@
 {
   "name": "@knicola/tdameritrade",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "TD Ameritrade Library for Node.js",
   "keywords": [
     "TDAmeritrade",
@@ -10,16 +10,20 @@
   "author": "@knicola",
   "main": "src/node.js",
   "browser": "src/browser.js",
-  "repository": "knicola/tdameritradejs",
-  "bugs": {
-    "url": "https://github.com/knicola/tdameritradejs/issues"
-  },
+  "types": "types",
+  "files": [
+    "src/",
+    "types/",
+    "dist/"
+  ],
+  "repository": "github:knicola/tdameritradejs",
+  "bugs": "https://github.com/knicola/tdameritradejs/issues",
   "homepage": "https://github.com/knicola/tdameritradejs#readme",
   "scripts": {
     "lint": "eslint ./src",
-    "test": "node_modules/jest/bin/jest.js --notify",
-    "coverage": "node_modules/jest/bin/jest.js --coverage",
-    "build": "node_modules/parcel/bin/cli.js build src/browser.js"
+    "test": "jest --notify",
+    "coverage": "jest --coverage",
+    "build": "rollup -c"
   },
   "jest": {
     "testMatch": [
@@ -32,24 +36,23 @@
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",
-    "axios-mock-adapter": "^1.18.2",
-    "better-docs": "^2.3.2",
-    "debug": "^4.2.0",
-    "docdash": "^1.2.0",
+    "axios-mock-adapter": "^1.19.0",
+    "debug": "^4.3.1",
     "eslint": "^6.8.0",
     "jest": "^25.5.4",
     "jest-websocket-mock": "^2.2.0",
     "jsdoc": "^3.6.6",
     "jsdoc-to-markdown": "^6.0.1",
     "mock-socket": "^9.0.3",
-    "parcel": "^1.12.4"
+    "rollup": "^2.36.1",
+    "rollup-plugin-terser": "^7.0.2"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cuid": "^2.1.8",
     "eventemitter3": "^4.0.7",
     "isomorphic-ws": "^4.0.1",
     "lodash": "^4.17.20",
-    "ws": "^7.3.1"
+    "ws": "^7.4.2"
   }
 }
