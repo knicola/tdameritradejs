@@ -3,10 +3,11 @@ import { OrdersQuery, Order } from "./resources/order"
 import { SecuritiesAccount, Preferences } from "./resources/account"
 import { UserPrincipal, SubscriptionKeys } from "./resources/userPrincipals"
 import { Watchlist, WatchlistResult } from "./resources/watchlist"
-import { Transaction } from "./resources/transaction"
+import { Transaction, TransactionQuery } from "./resources/transaction"
 import { MarketHours, Mover, CandleList, PriceHistoryQuery, OptionChainQuery } from "./resources/market"
 import { TDAccount } from "./tdAccount"
 import TDStreamer from "../src/tdStreamer"
+import { SavedOrder } from "./resources/savedOrder"
 
 export interface Config extends Auth {
     baseUrl?: string,
@@ -38,6 +39,19 @@ export type Market =
     |'BOND'
     |'FOREX'
 
+export type UserPrincipalFields =
+    |'streamerSubscriptionKeys'
+    |'streamerConnectionInfo'
+    |'preferences'
+    |'surrogateIds'
+
+export type Projection =
+    |'symbol-search'
+    |'symbol-regex'
+    |'desc-search'
+    |'desc-regex'
+    |'fundamental'
+
 export class TDAmeritrade {
     constructor(config: Config)
 
@@ -55,10 +69,18 @@ export class TDAmeritrade {
 
     TDStreamer: TDStreamer
     streamer(): Promise<TDStreamer>
-
-    getAccessToken(authCode?): Promise
-    refreshAccessToken(refreshToken?): Promise
-
+    /**
+     * Get the access token along with an optional refresh token.
+     * @param authCode The authorization code
+     * @returns The token details
+     */
+    getAccessToken(authCode?: string): Promise
+    /**
+     * Refresh the access token.
+     * @param refreshToken The refresh token
+     * @returns The token details
+     */
+    refreshAccessToken(refreshToken?: string): Promise
     /**
      * Search or retrieve instrument data, including fundamental data.
      * @param symbol The ticker symbol
@@ -70,14 +92,13 @@ export class TDAmeritrade {
      * - `fundamental`: Returns fundamental data for a single instrument specified by exact symbol.
      * @returns The instrument data
      */
-    searchInstruments(symbol: string, projection: 'symbol-search'|'symbol-regex'|'desc-search'|'desc-regex'|'fundamental'): Promise
+    searchInstruments(symbol: string, projection: Projection): Promise
     /**
      * Get an instrument by its CUSIP.
      * @param cusip The CUSIP identifier
      * @returns The instrument details
      */
     getInstrument(cusip: string): Promise
-
     /**
      * Get the market hours for the specified market(s).
      * @param markets The market(s) for which you're requesting market hours
@@ -119,7 +140,6 @@ export class TDAmeritrade {
      * @returns The option chain
      */
     getOptionChain(symbol: string, params?: OptionChainQuery): Promise
-
     /**
      * Get account balances, positions, and orders for all linked accounts.
      * @returns List of all accounts
@@ -145,31 +165,146 @@ export class TDAmeritrade {
      * @returns Success
      */
     updatePreferences(accountId: string, preferences: Preferences): Promise
-
+    /**
+     * Get the SubscriptionKey for provided accounts or default accounts.
+     * @param accountIds The account id(s)
+     * @returns The susbscription keys
+    */
     getStreamerSubscriptionKeys(accountIds: string|string[]): Promise<SubscriptionKeys>
-    getUserPrincipals(fields: UserPrincipalFields|Array<UserPrincipalFields>): Promise<UserPrincipal>
-
+    /**
+     * Get user principal details.
+     * @param fields Fields to include
+     * @returns User principal details
+     */
+    getUserPrincipals(fields?: UserPrincipalFields|UserPrincipalFields[]): Promise<UserPrincipal>
+    /**
+     * Get a specific order for a specific account.
+     * @param accountId The account id
+     * @param orderId The order id
+     * @returns The order details
+     */
     getOrder(accountId: string, orderId: string): Promise<Order>
+    /**
+     * Get a list of orders for a specific account.
+     * @param accountId The account id
+     * @param params The query parameters
+     * @returns List of orders
+     */
     getOrders(accountId: string, params?: OrdersQuery): Promise<Order[]>
+    /**
+     * Get a list of orders from all accounts.
+     * @param params The query parameters
+     * @returns List of orders
+     */
     getAllOrders(params: OrdersQuery): Promise<Order[]>
+    /**
+     * Place an order for a specific account.
+     * @param accountId The account id
+     * @param order The order
+     */
     placeOrder(accountId: string, order: Order): Promise
+    /**
+     * Replace an existing order for an account. The existing order will be replaced by the new order.
+     * Once replaced, the old order will be canceled and a new order will be created.
+     * @param accountId The account id
+     * @param orderId The order id
+     * @param order The new order
+     */
     replaceOrder(accountId: string, orderId: string, order: Order): Promise
+    /**
+     * Cancel a specific order for a specific account.
+     * @param accountId The account id
+     * @param orderId The order id
+     */
     cancelOrder(accountId: string, orderId: string): Promise
-
-    createSavedOrder(accountId: string, savedOrder): Promise
+    /**
+     * Save an order for a specific account.
+     * @param accountId The account id
+     * @param savedOrder The saved order
+     */
+    createSavedOrder(accountId: string, savedOrder: SavedOrder): Promise
+    /**
+     * Delete a specific saved order for a specific account.
+     * @param accountId The account id
+     * @param savedOrderId The saved order id
+     */
     deleteSavedOrder(accountId: string, savedOrderId: string): Promise
-    getSavedOrder(accountId: string, savedOrderId: string): Promise
-    getSavedOrders(accountId: string): Promise
-    replaceSavedOrder(accountId: string, savedOrderId: string, savedOrder): Promise
-
+    /**
+     * Get saved order by its ID, for a specific account.
+     * @param accountId The account id
+     * @param savedOrderId The saved order id
+     */
+    getSavedOrder(accountId: string, savedOrderId: string): Promise<SavedOrder>
+    /**
+     * Get saved orders for a specific account.
+     * @param accountId The account id
+     * @returns List of saved orders
+     */
+    getSavedOrders(accountId: string): Promise<SavedOrder[]>
+    /**
+     * Replace an existing saved order for an account. The existing saved order will be replaced by the new order.
+     * @param accountId The account id
+     * @param savedOrderId The saved order id
+     * @param savedOrder The new saved order
+     */
+    replaceSavedOrder(accountId: string, savedOrderId: string, savedOrder: SavedOrder): Promise
+    /**
+     * Create watchlist for specific account.
+     * @param accountId The account id
+     * @param watchlist The watchlist
+     */
     createWatchlist(accountId: string, watchlist: Watchlist): Promise
+    /**
+     * Delete watchlist for a specific account.
+     * @param accountId The account id
+     * @param watchlistId The watchlist id
+     */
     deleteWatchlist(accountId: string, watchlistId: string): Promise
+    /**
+     * Get watchlist for a specific account.
+     * @param accountId The account id
+     * @param watchlistId The watchlist id
+     */
     getWatchlist(accountId: string, watchlistId: string): Promise<WatchlistResult>
+    /**
+     * Get all watchlists of an account.
+     * @param accountId The account id
+     * @returns List of watchlists
+     */
     getWatchlists(accountId: string): Promise<WatchlistResult[]>
+    /**
+     * All watchlists for all of the user's linked accounts.
+     * @returns List of watchlists
+     */
     getAllWatchlists(): Promise<WatchlistResult[]>
+    /**
+     * Replace watchlist for a specific account. This method does not verify that the symbol or asset type are valid.
+     * @param accountId The account id
+     * @param watchlistId The watchlist id
+     * @param watchlist The watchlist
+     */
     replaceWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise
+    /**
+     * Partially update watchlist for a specific account: change watchlist name, add
+     * to the beginning/end of a watchlist, update or delete items in a watchlist.
+     * This method does not verify that the symbol or asset type are valid.
+     * @param accountId The account id
+     * @param watchlistId The watchlist id
+     * @param watchlist The new watchlist
+     */
     updateWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise
-
+    /**
+     * Get a transaction for a specific account.
+     * @param accountId The account id
+     * @param transactionId The transaction id
+     * @returns The transaction details
+     */
     getTransaction(accountId: string, transactionId: string): Promise<Transaction>
-    getTransactions(accountId: string, params): Promise<Transaction[]>
+    /**
+     * Get all transactions for a specific account.
+     * @param accountId The account id
+     * @param params The query parameters
+     * @returns The transaction history
+     */
+    getTransactions(accountId: string, params: TransactionQuery): Promise<Transaction[]>
 } // TDAmeritrade()

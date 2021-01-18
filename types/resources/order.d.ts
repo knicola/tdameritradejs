@@ -106,7 +106,6 @@ export interface Order {
     enteredTime: string,
     closeTime: string,
     tag: string,
-    accountId: number,
     orderActivityCollection: Array<OrderActivity>,
     replacingOrderCollection: Array<Order>,
     childOrderStrategies: Array<Order>,

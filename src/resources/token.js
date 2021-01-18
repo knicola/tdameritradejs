@@ -1,10 +1,5 @@
 'use strict'
 
-/**
- * Get the access token along with an optional refresh token.
- * @param {string} authCode The authorization code
- * @returns {Promise} The token details
- */
 function getAccessToken(authCode) {
     const params = new URLSearchParams()
     params.append('grant_type', 'authorization_code')
@@ -18,11 +13,6 @@ function getAccessToken(authCode) {
     return this.axios.post('/oauth2/token', params)
 } // getAccessToken()
 
-/**
- * Refresh the access token.
- * @param {string} refreshToken The refresh token
- * @returns {Promise} The token details
- */
 function refreshAccessToken(refreshToken) {
     const params = new URLSearchParams()
     params.append('grant_type', 'refresh_token')

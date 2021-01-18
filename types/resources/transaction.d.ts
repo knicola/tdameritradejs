@@ -39,4 +39,37 @@ export interface Transaction {
             bondInterestRate: number
         }
     }
-  }
+}
+
+export type TransactionType =
+    |'ALL'
+    |'TRADE'
+    |'BUY_ONLY'
+    |'SELL_ONLY'
+    |'CASH_IN_OR_CASH_OUT'
+    |'CHECKING'
+    |'DIVIDEND'
+    |'INTEREST'
+    |'OTHER'
+    |'ADVISOR_FEES'
+
+export interface TransactionQuery {
+    /**
+     * Only transactions with the specified type will be returned.
+     */
+    type: TransactionType,
+    /**
+     * Only transactions with the specified symbol will be returned.
+     */
+    symbol: string,
+    /**
+     * Only transactions after the Start Date will be returned.
+     * Note: The maximum date range is one year. Valid ISO-8601 formats are: `yyyy-MM-dd`.
+     */
+    startDate: string,
+    /**
+     * Only transactions before the End Date will be returned.
+     * Note: The maximum date range is one year. Valid ISO-8601 formats are: `yyyy-MM-dd`.
+     */
+    endDate: string,
+}
