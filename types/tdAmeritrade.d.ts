@@ -57,17 +57,45 @@ export class TDAmeritrade {
 
     axios: AxiosInstance
 
-    on(eventName:'login'|'token', fn): void
-    authorize(): Promise<any>
-    login(): Promise<any>
-
+    on(eventName: 'login'|'token', fn): void
+    /**
+     * Bootstrap a local web server for oauth2 authorization. Will request
+     * access token and update config if authorization is successful.
+     * @note Nodejs only.
+     */
+    authorize(): Promise
+    /**
+     * Authorize or refresh the access token depending on whether
+     * the access and/or refresh token exist and are not expired.
+     * @note Nodejs only.
+     */
+    login(): Promise
+    /**
+     * Determine if access token is expired.
+     * @returns True if expired, otherwise false
+     */
     isAccessTokenExpired(): boolean
+    /**
+     * Determine if refresh token is expired.
+     * @returns True if expired, otherwise false
+     */
     isRefreshTokenExpired(): boolean
-
+    /**
+     * TDAccount interface
+     */
     TDAccount: TDAccount
+    /**
+     * Create a new instance of TDAccount.
+     * @param accountId The account id
+     */
     account(accountId: string): TDAccount
-
+    /**
+     * TDStreamer interface
+     */
     TDStreamer: TDStreamer
+    /**
+     * Create a new instance of TDStreamer.
+     */
     streamer(): Promise<TDStreamer>
     /**
      * Get the access token along with an optional refresh token.
