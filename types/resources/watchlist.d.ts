@@ -29,5 +29,5 @@ export interface WatchlistResult {
             assetType: 'EQUITY' | 'OPTION' | 'MUTUAL_FUND' | 'FIXED_INCOME' | 'INDEX'
         },
         status: 'UNCHANGED' | 'CREATED' | 'UPDATED' | 'DELETED'
-      }[]
-  }
+    }[]
+}

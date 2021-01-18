@@ -24,13 +24,13 @@ export class TDAccount extends Base {
     createSavedOrder(savedOrder): Promise
     deleteSavedOrder(savedOrderId: string): Promise
     getSavedOrder(savedOrderId: string): Promise
-    getSavedOrders(accountId: string): Promise
+    getSavedOrders(): Promise
     replaceSavedOrder(savedOrderId: string, savedOrder): Promise
 
     createWatchlist(watchlist: Watchlist): Promise
     deleteWatchlist(watchlistId: string): Promise
     getWatchlist(watchlistId: string): Promise<WatchlistResult>
-    getWatchlists(accountId: string): Promise<WatchlistResult[]>
+    getWatchlists(): Promise<WatchlistResult[]>
     replaceWatchlist(watchlistId: string, watchlist: Watchlist): Promise
     updateWatchlist(watchlistId: string, watchlist: Watchlist): Promise
 

@@ -9,24 +9,24 @@ export interface UserPrincipal {
     accessLevel: string,
     stalePassword: boolean,
     streamerInfo: {
-      streamerBinaryUrl: string,
-      streamerSocketUrl: string,
-      token: string,
-      tokenTimestamp: string,
-      userGroup: string,
-      accessLevel: string,
-      acl: string,
-      appId: string
+        streamerBinaryUrl: string,
+        streamerSocketUrl: string,
+        token: string,
+        tokenTimestamp: string,
+        userGroup: string,
+        accessLevel: string,
+        acl: string,
+        appId: string
     },
     professionalStatus: 'PROFESSIONAL' | 'NON_PROFESSIONAL' | 'UNKNOWN_STATUS',
     quotes: {
-      isNyseDelayed: boolean,
-      isNasdaqDelayed: boolean,
-      isOpraDelayed: boolean,
-      isAmexDelayed: boolean,
-      isCmeDelayed: boolean,
-      isIceDelayed: boolean,
-      isForexDelayed: boolean
+        isNyseDelayed: boolean,
+        isNasdaqDelayed: boolean,
+        isOpraDelayed: boolean,
+        isAmexDelayed: boolean,
+        isCmeDelayed: boolean,
+        isIceDelayed: boolean,
+        isForexDelayed: boolean
     },
     streamerSubscriptionKeys: {
         keys: {
@@ -73,7 +73,5 @@ export interface UserPrincipal {
 }
 
 export interface SubscriptionKeys {
-    keys: {
-        key: string
-    }[]
-  }
+    keys: { key: string }[]
+}
