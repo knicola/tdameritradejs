@@ -1,3 +1,9 @@
+export type UserPrincipalFields =
+    | 'streamerSubscriptionKeys'
+    | 'streamerConnectionInfo'
+    | 'preferences'
+    | 'surrogateIds'
+
 export interface UserPrincipal {
     authToken: string,
     userId: string,

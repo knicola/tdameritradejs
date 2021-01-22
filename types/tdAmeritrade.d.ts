@@ -1,10 +1,10 @@
-import { Promise, AxiosInstance } from "axios"
+import { AxiosInstance } from "axios"
 import { OrdersQuery, Order } from "./resources/order"
 import { SecuritiesAccount, Preferences } from "./resources/account"
-import { UserPrincipal, SubscriptionKeys } from "./resources/userPrincipals"
+import { UserPrincipal, SubscriptionKeys, UserPrincipalFields } from "./resources/userPrincipals"
 import { Watchlist, WatchlistResult } from "./resources/watchlist"
 import { Transaction, TransactionQuery } from "./resources/transaction"
-import { MarketHours, Mover, CandleList, PriceHistoryQuery, OptionChainQuery } from "./resources/market"
+import { MarketHours, Market, Mover, CandleList, PriceHistoryQuery, OptionChainQuery } from "./resources/market"
 import { TDAccount } from "./tdAccount"
 import TDStreamer from "../src/tdStreamer"
 import { SavedOrder } from "./resources/savedOrder"
@@ -15,8 +15,8 @@ export interface Config extends Auth {
     redirectUri?: string,
     sslKey?: string,
     sslCert?: string,
-    refreshAndRetry?: boolean = true,
-    returnFullResponse?: boolean = false,
+    refreshAndRetry?: boolean,
+    returnFullResponse?: boolean,
 }
 
 export interface Auth {
@@ -25,25 +25,6 @@ export interface Auth {
     accessTokenExpiresAt?: string,
     refreshTokenExpiresAt?: string,
 }
-
-export type UserPrincipalFields =
-    | 'streamerSubscriptionKeys'
-    | 'streamerConnectionInfo'
-    | 'preferences'
-    | 'surrogateIds'
-
-export type Market =
-    |'EQUITY'
-    |'OPTION'
-    |'FUTURE'
-    |'BOND'
-    |'FOREX'
-
-export type UserPrincipalFields =
-    |'streamerSubscriptionKeys'
-    |'streamerConnectionInfo'
-    |'preferences'
-    |'surrogateIds'
 
 export type Projection =
     |'symbol-search'
@@ -57,29 +38,6 @@ export class TDAmeritrade {
 
     axios: AxiosInstance
 
-    on(eventName: 'login'|'token', fn): void
-    /**
-     * Bootstrap a local web server for oauth2 authorization. Will request
-     * access token and update config if authorization is successful.
-     * @note Nodejs only.
-     */
-    authorize(): Promise
-    /**
-     * Authorize or refresh the access token depending on whether
-     * the access and/or refresh token exist and are not expired.
-     * @note Nodejs only.
-     */
-    login(): Promise
-    /**
-     * Determine if access token is expired.
-     * @returns True if expired, otherwise false
-     */
-    isAccessTokenExpired(): boolean
-    /**
-     * Determine if refresh token is expired.
-     * @returns True if expired, otherwise false
-     */
-    isRefreshTokenExpired(): boolean
     /**
      * TDAccount interface
      */
@@ -102,13 +60,13 @@ export class TDAmeritrade {
      * @param authCode The authorization code
      * @returns The token details
      */
-    getAccessToken(authCode?: string): Promise
+    getAccessToken(authCode?: string): Promise<any>
     /**
      * Refresh the access token.
      * @param refreshToken The refresh token
      * @returns The token details
      */
-    refreshAccessToken(refreshToken?: string): Promise
+    refreshAccessToken(refreshToken?: string): Promise<any>
     /**
      * Search or retrieve instrument data, including fundamental data.
      * @param symbol The ticker symbol
@@ -120,20 +78,20 @@ export class TDAmeritrade {
      * - `fundamental`: Returns fundamental data for a single instrument specified by exact symbol.
      * @returns The instrument data
      */
-    searchInstruments(symbol: string, projection: Projection): Promise
+    searchInstruments(symbol: string, projection: Projection): Promise<any>
     /**
      * Get an instrument by its CUSIP.
      * @param cusip The CUSIP identifier
      * @returns The instrument details
      */
-    getInstrument(cusip: string): Promise
+    getInstrument(cusip: string): Promise<any>
     /**
      * Get the market hours for the specified market(s).
      * @param markets The market(s) for which you're requesting market hours
      * @param date The date for which market hours information is requested. Valid ISO-8601 formats are `yyyy-MM-dd` and `yyyy-MM-dd'T'HH:mm:ssz`
      * @returns The market hours
      */
-    getMarketHours(markets: Market|Market[], date: string): Promise
+    getMarketHours(markets: Market|Market[], date: string): Promise<any>
     /**
      * Get mover information by index symbol, direction type and change.
      * @param index The index symbol
@@ -147,13 +105,13 @@ export class TDAmeritrade {
      * @param symbols The ticker symbol(s)
      * @returns The quote data
      */
-    getQuotes(symbols: string|string[]): Promise
+    getQuotes(symbols: string|string[]): Promise<any>
     /**
      * Get quote data for a specified symbol.
      * @param symbol The ticker symbol
      * @returns The quote data
      */
-    getQuote(symbol: string): Promise
+    getQuote(symbol: string): Promise<any>
     /**
      * Get price history for a specified symbol.
      * @param symbol The ticker symbol
@@ -167,7 +125,7 @@ export class TDAmeritrade {
      * @param params The query parameters
      * @returns The option chain
      */
-    getOptionChain(symbol: string, params?: OptionChainQuery): Promise
+    getOptionChain(symbol: string, params?: OptionChainQuery): Promise<any>
     /**
      * Get account balances, positions, and orders for all linked accounts.
      * @returns List of all accounts
@@ -192,7 +150,7 @@ export class TDAmeritrade {
      * @param preferences The updated preferences
      * @returns Success
      */
-    updatePreferences(accountId: string, preferences: Preferences): Promise
+    updatePreferences(accountId: string, preferences: Preferences): Promise<any>
     /**
      * Get the SubscriptionKey for provided accounts or default accounts.
      * @param accountIds The account id(s)
@@ -230,7 +188,7 @@ export class TDAmeritrade {
      * @param accountId The account id
      * @param order The order
      */
-    placeOrder(accountId: string, order: Order): Promise
+    placeOrder(accountId: string, order: Order): Promise<any>
     /**
      * Replace an existing order for an account. The existing order will be replaced by the new order.
      * Once replaced, the old order will be canceled and a new order will be created.
@@ -238,25 +196,25 @@ export class TDAmeritrade {
      * @param orderId The order id
      * @param order The new order
      */
-    replaceOrder(accountId: string, orderId: string, order: Order): Promise
+    replaceOrder(accountId: string, orderId: string, order: Order): Promise<any>
     /**
      * Cancel a specific order for a specific account.
      * @param accountId The account id
      * @param orderId The order id
      */
-    cancelOrder(accountId: string, orderId: string): Promise
+    cancelOrder(accountId: string, orderId: string): Promise<any>
     /**
      * Save an order for a specific account.
      * @param accountId The account id
      * @param savedOrder The saved order
      */
-    createSavedOrder(accountId: string, savedOrder: SavedOrder): Promise
+    createSavedOrder(accountId: string, savedOrder: SavedOrder): Promise<any>
     /**
      * Delete a specific saved order for a specific account.
      * @param accountId The account id
      * @param savedOrderId The saved order id
      */
-    deleteSavedOrder(accountId: string, savedOrderId: string): Promise
+    deleteSavedOrder(accountId: string, savedOrderId: string): Promise<any>
     /**
      * Get saved order by its ID, for a specific account.
      * @param accountId The account id
@@ -275,19 +233,19 @@ export class TDAmeritrade {
      * @param savedOrderId The saved order id
      * @param savedOrder The new saved order
      */
-    replaceSavedOrder(accountId: string, savedOrderId: string, savedOrder: SavedOrder): Promise
+    replaceSavedOrder(accountId: string, savedOrderId: string, savedOrder: SavedOrder): Promise<any>
     /**
      * Create watchlist for specific account.
      * @param accountId The account id
      * @param watchlist The watchlist
      */
-    createWatchlist(accountId: string, watchlist: Watchlist): Promise
+    createWatchlist(accountId: string, watchlist: Watchlist): Promise<any>
     /**
      * Delete watchlist for a specific account.
      * @param accountId The account id
      * @param watchlistId The watchlist id
      */
-    deleteWatchlist(accountId: string, watchlistId: string): Promise
+    deleteWatchlist(accountId: string, watchlistId: string): Promise<any>
     /**
      * Get watchlist for a specific account.
      * @param accountId The account id
@@ -311,7 +269,7 @@ export class TDAmeritrade {
      * @param watchlistId The watchlist id
      * @param watchlist The watchlist
      */
-    replaceWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise
+    replaceWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise<any>
     /**
      * Partially update watchlist for a specific account: change watchlist name, add
      * to the beginning/end of a watchlist, update or delete items in a watchlist.
@@ -320,7 +278,7 @@ export class TDAmeritrade {
      * @param watchlistId The watchlist id
      * @param watchlist The new watchlist
      */
-    updateWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise
+    updateWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise<any>
     /**
      * Get a transaction for a specific account.
      * @param accountId The account id

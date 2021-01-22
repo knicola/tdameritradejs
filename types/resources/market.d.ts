@@ -1,54 +1,9 @@
-/*
-    {
-        "forex": {
-            "forex": {
-                "date": "2020-06-08",
-                "marketType": "FOREX",
-                "exchange": null,
-                "category": null,
-                "product": "forex",
-                "productName": null,
-                "isOpen": false,
-                "sessionHours": null
-            }
-        },
-        "option": {
-        "EQO": {
-            "date": "2020-06-08",
-            "marketType": "OPTION",
-            "exchange": "NULL",
-            "category": "NULL",
-            "product": "EQO",
-            "productName": "equity option",
-            "isOpen": true,
-            "sessionHours": {
-            "regularMarket": [
-                {
-                "start": "2020-06-08T09:30:00-04:00",
-                "end": "2020-06-08T16:00:00-04:00"
-                }
-            ]
-            }
-        },
-        "IND": {
-            "date": "2020-06-08",
-            "marketType": "OPTION",
-            "exchange": "NULL",
-            "category": "NULL",
-            "product": "IND",
-            "productName": "index option",
-            "isOpen": true,
-            "sessionHours": {
-            "regularMarket": [
-                {
-                "start": "2020-06-08T09:30:00-04:00",
-                "end": "2020-06-08T16:15:00-04:00"
-                }
-            ]
-            }
-        }
-    }
-*/
+export type Market =
+    |'EQUITY'
+    |'OPTION'
+    |'FUTURE'
+    |'BOND'
+    |'FOREX'
 
 //Hours:
 export type MarketHours = {

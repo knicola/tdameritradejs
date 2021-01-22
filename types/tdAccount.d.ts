@@ -1,9 +1,9 @@
-import { AxiosInstance, Promise } from "axios";
 import { SecuritiesAccount, Preferences } from "./resources/account";
 import { Order, OrdersQuery } from "./resources/order";
 import { Watchlist, WatchlistResult } from "./resources/watchlist";
 import { Transaction } from "./resources/transaction";
-import { SubscriptionKeys, UserPrincipal } from "./resources/userPrincipals";
+import { SubscriptionKeys, UserPrincipal, UserPrincipalFields } from "./resources/userPrincipals";
+import { SavedOrder } from "./resources/savedOrder"
 import { Base } from "./base";
 
 export class TDAccount extends Base {
@@ -11,28 +11,28 @@ export class TDAccount extends Base {
 
     getAccount(): Promise<SecuritiesAccount[]>
     getPreferences(): Promise<Preferences>
-    updatePreferences(preferences: Preferences): Promise
+    updatePreferences(preferences: Preferences): Promise<any>
     getStreamerSubscriptionKeys(): Promise<SubscriptionKeys>
-    getUserPrincipals(fields: string|Array<'streamerSubscriptionKeys'|'streamerConnectionInfo'|'preferences'|'surrogateIds'>): Promise<UserPrincipal>
+    getUserPrincipals(fields?: UserPrincipalFields|UserPrincipalFields[]): Promise<UserPrincipal>
 
     getOrders(params?: OrdersQuery): Promise<Order[]>
     getOrder(orderId: string): Promise<Order>
-    placeOrder(order: Order): Promise
-    replaceOrder(orderId: string, order: Order): Promise
-    cancelOrder(orderId: string): Promise
+    placeOrder(order: Order): Promise<any>
+    replaceOrder(orderId: string, order: Order): Promise<any>
+    cancelOrder(orderId: string): Promise<any>
 
-    createSavedOrder(savedOrder): Promise
-    deleteSavedOrder(savedOrderId: string): Promise
-    getSavedOrder(savedOrderId: string): Promise
-    getSavedOrders(): Promise
-    replaceSavedOrder(savedOrderId: string, savedOrder): Promise
+    createSavedOrder(savedOrder): Promise<any>
+    deleteSavedOrder(savedOrderId: string): Promise<any>
+    getSavedOrder(savedOrderId: string): Promise<SavedOrder>
+    getSavedOrders(): Promise<SavedOrder[]>
+    replaceSavedOrder(savedOrderId: string, savedOrder): Promise<any>
 
-    createWatchlist(watchlist: Watchlist): Promise
-    deleteWatchlist(watchlistId: string): Promise
+    createWatchlist(watchlist: Watchlist): Promise<any>
+    deleteWatchlist(watchlistId: string): Promise<any>
     getWatchlist(watchlistId: string): Promise<WatchlistResult>
     getWatchlists(): Promise<WatchlistResult[]>
-    replaceWatchlist(watchlistId: string, watchlist: Watchlist): Promise
-    updateWatchlist(watchlistId: string, watchlist: Watchlist): Promise
+    replaceWatchlist(watchlistId: string, watchlist: Watchlist): Promise<any>
+    updateWatchlist(watchlistId: string, watchlist: Watchlist): Promise<any>
 
     getTransaction(transactionId: string): Promise<Transaction>
     getTransactions(params): Promise<Transaction[]>
