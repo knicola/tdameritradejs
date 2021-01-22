@@ -6,7 +6,7 @@ import { Watchlist, WatchlistResult } from "./resources/watchlist"
 import { Transaction, TransactionQuery } from "./resources/transaction"
 import { MarketHours, Market, Mover, CandleList, PriceHistoryQuery, OptionChainQuery } from "./resources/market"
 import { TDAccount } from "./tdAccount"
-import TDStreamer from "../src/tdStreamer"
+import { TDStreamer } from "./tdStreamer"
 import { SavedOrder } from "./resources/savedOrder"
 
 export interface Config extends Auth {
