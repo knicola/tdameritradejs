@@ -20,12 +20,20 @@ function http(config = {}) {
             : config.apiKey + apiKeySuffix
     }) // config
 
+    /**
+     * Determine if access token is expired.
+     * @returns {boolean} True if expired, otherwise false
+     */
     this.isAccessTokenExpired = () => {
         return this.config.accessTokenExpiresAt
             ? new Date(this.config.accessTokenExpiresAt).getTime() <= Date.now()
             : true
     } // isAccessTokenExpired()
 
+    /**
+     * Determine if refresh token is expired.
+     * @returns {boolean} True if expired, otherwise false
+     */
     this.isRefreshTokenExpired = () => {
         return this.config.refreshTokenExpiresAt
             ? new Date(this.config.refreshTokenExpiresAt).getTime() <= Date.now()

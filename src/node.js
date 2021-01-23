@@ -9,6 +9,13 @@ const path = require('path')
  */
 const TDAmeritrade = require('./tdAmeritrade')
 
+/**
+ * Bootstrap a local web server for oauth2 authorization. Will request
+ * access token and update config if authorization is successful.
+ * @note Nodejs only.
+ * @memberof TDAmeritrade
+ * @returns {Promise<any>} Success
+ */
 TDAmeritrade.prototype.authorize = function authorize() {
     return new Promise((resolve, reject) => {
         const serverOptions = {
@@ -49,6 +56,13 @@ TDAmeritrade.prototype.authorize = function authorize() {
     }) // Promise()
 } // authorize()
 
+/**
+ * Authorize or refresh the access token depending on whether
+ * the access and/or refresh token exist and are not expired.
+ * @note Nodejs only.
+ * @memberof TDAmeritrade
+ * @returns {Promise<any>} Success
+ */
 TDAmeritrade.prototype.login = function () {
     if (! this.isAccessTokenExpired()) {
         return Promise.resolve()
