@@ -5,6 +5,7 @@
  */
 /**
  * Get the market hours for the specified market(s).
+ *
  * @param {Market|Market[]} markets The market(s) for which you're requesting market hours
  * @param {string} date The date for which market hours information is requested. Valid ISO-8601 formats are `yyyy-MM-dd` and `yyyy-MM-dd'T'HH:mm:ssz`
  * @returns {Promise<any>} The market hours
@@ -21,6 +22,7 @@ function getMarketHours(markets, date) {
 
 /**
  * Get mover information by index symbol, direction type and change.
+ *
  * @param {'$COMPX'|'$DJI'|'$SPX.X'} index The index symbol
  * @param {'up'|'down'} direction The direction
  * @param {'value'|'percent'} change The change type
@@ -38,6 +40,7 @@ function getMovers(index, direction, change) {
 
 /**
  * Get quote data for one or more symbols.
+ *
  * @param {string|string[]} symbols The ticker symbol(s)
  * @returns {Promise<any>} The quote data
  */
@@ -52,6 +55,7 @@ function getQuotes(symbols) {
 
 /**
  * Get quote data for a specified symbol.
+ *
  * @param {string} symbol The ticker symbol
  * @returns {Promise<any>} The quote data
  */
@@ -82,6 +86,7 @@ function getQuote(symbol) {
  */
 /**
  * Get price history for a specified symbol.
+ *
  * @param {string} symbol The ticker symbol
  * @param {PriceHistoryParams} params The query parameters
  * @returns {Promise<any>} The price history
@@ -93,11 +98,10 @@ function getPriceHistory(symbol, params) {
 } // getPriceHistory()
 
 /**
- * @typedef {
-        |'SINGLE'|'ANALYTICAL'|'COVERED'|'VERTICAL'
-        |'CALENDAR'|'STRANGLE'|'STRADDLE'|'BUTTERFLY'
-        |'CONDOR'|'DIAGONAL'|'COLLAR'|'ROLL'
-  } OptionStrategy
+ * @typedef {'SINGLE'|'ANALYTICAL'|'COVERED'|'VERTICAL'
+ *  |'CALENDAR'|'STRANGLE'|'STRADDLE'|'BUTTERFLY'
+ *  |'CONDOR'|'DIAGONAL'|'COLLAR'|'ROLL'
+ * } OptionStrategy
  */
 /**
  * @typedef OptionChainParams
@@ -129,6 +133,7 @@ function getPriceHistory(symbol, params) {
  */
 /**
  * Get Option Chains for optionable symbols.
+ *
  * @param {string} symbol The ticker symbol
  * @param {OptionChainParams} params The query parameters
  * @returns {Promise<any>} The option chain

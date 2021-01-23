@@ -4,16 +4,18 @@ const url = require('url')
 const https = require('https')
 const fs = require('fs')
 const path = require('path')
+
 /**
  * @class
  */
-const TDAmeritrade = require('./tdAmeritrade')
+class TDAmeritrade extends require('./tdAmeritrade') {}
 
 /**
  * Bootstrap a local web server for oauth2 authorization. Will request
  * access token and update config if authorization is successful.
- * @note Nodejs only.
- * @memberof TDAmeritrade
+ *
+ * ** Nodejs only **
+ *
  * @returns {Promise<any>} Success
  */
 TDAmeritrade.prototype.authorize = function authorize() {
@@ -59,11 +61,12 @@ TDAmeritrade.prototype.authorize = function authorize() {
 /**
  * Authorize or refresh the access token depending on whether
  * the access and/or refresh token exist and are not expired.
- * @note Nodejs only.
- * @memberof TDAmeritrade
+ *
+ * ** Nodejs only **
+ *
  * @returns {Promise<any>} Success
  */
-TDAmeritrade.prototype.login = function () {
+TDAmeritrade.prototype.login = function login() {
     if (! this.isAccessTokenExpired()) {
         return Promise.resolve()
     }

@@ -8,6 +8,7 @@ import { MarketHours, Market, Mover, CandleList, PriceHistoryQuery, OptionChainQ
 import { TDAccount } from "./tdAccount"
 import { TDStreamer } from "./tdStreamer"
 import { SavedOrder } from "./resources/savedOrder"
+import { Base } from "./base"
 
 export interface Config extends Auth {
     baseUrl?: string,
@@ -33,7 +34,7 @@ export type Projection =
     |'desc-regex'
     |'fundamental'
 
-export class TDAmeritrade {
+export class TDAmeritrade extends Base {
     constructor(config: Config)
 
     axios: AxiosInstance

@@ -2,6 +2,7 @@
 
 /**
  * Get a specific order for a specific account.
+ *
  * @param {string} accountId The account id
  * @param {string} orderId The order id
  * @returns {Promise<any>} The order details
@@ -28,6 +29,7 @@ function getOrder(accountId, orderId) {
  */
 /**
  * Get a list of orders for a specific account.
+ *
  * @param {string} accountId The account id
  * @param {OrderQuery} params The query parameters
  * @returns {Promise<any>} List of orders
@@ -38,6 +40,7 @@ function getOrders(accountId, params) {
 
 /**
  * Get a list of orders from all accounts.
+ *
  * @param {OrderQuery} params The query parameters
  * @returns {Promise<any>} List of orders
  */
@@ -47,6 +50,7 @@ function getAllOrders(params) {
 
 /**
  * Place an order for a specific account.
+ *
  * @param {string} accountId The account id
  * @param {object} order The order
  * @returns {Promise<any>} Success
@@ -58,6 +62,7 @@ function placeOrder(accountId, order) {
 /**
  * Replace an existing order for an account. The existing order will be replaced by the new order.
  * Once replaced, the old order will be canceled and a new order will be created.
+ *
  * @param {string} accountId The account id
  * @param {string} orderId The order id
  * @param {object} order The new order
@@ -69,6 +74,7 @@ function replaceOrder(accountId, orderId, order) {
 
 /**
  * Cancel a specific order for a specific account.
+ *
  * @param {string} accountId The account id
  * @param {string} orderId The order id
  * @returns {Promise<any>} Success

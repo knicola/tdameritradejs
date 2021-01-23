@@ -2,22 +2,19 @@
 
 /**
  * @typedef {object} Watchlist
- * @property {string} name
- * @property {WatchlistItem[]} watchlistItems
+ * @property {string} name Name
+ * @property {WatchlistItem[]} watchlistItems Items
  *
  * @typedef {object} WatchlistItem
- * @property {number} quantity
- * @property {number} averagePrice
- * @property {number} commission
- * @property {string} purchasedDate
- * @property {WatchlistInstrument} instrument
+ * @property {WatchlistInstrument} instrument Instrument
  *
  * @typedef {object} WatchlistInstrument
- * @property {string} symbol
- * @property {'EQUITY'|'OPTION'|'MUTUAL_FUND'|'FIXED_INCOME'|'INDEX'} assetType
+ * @property {string} symbol Symbol
+ * @property {'EQUITY'|'OPTION'|'MUTUAL_FUND'|'FIXED_INCOME'|'INDEX'} assetType Asset type
  */
 /**
  * Create watchlist for specific account.
+ *
  * @param {string} accountId The account id
  * @param {Watchlist} watchlist The watchlist
  * @returns {Promise<any>} Success
@@ -28,6 +25,7 @@ function createWatchlist(accountId, watchlist) {
 
 /**
  * Delete watchlist for a specific account.
+ *
  * @param {string} accountId The account id
  * @param {string} watchlistId The watchlist id
  * @returns {Promise<any>} Success
@@ -38,6 +36,7 @@ function deleteWatchlist(accountId, watchlistId) {
 
 /**
  * Get watchlist for a specific account.
+ *
  * @param {string} accountId The account id
  * @param {string} watchlistId The watchlist id
  * @returns {Promise<any>} Success
@@ -48,6 +47,7 @@ function getWatchlist(accountId, watchlistId) {
 
 /**
  * Get all watchlists of an account.
+ *
  * @param {string} accountId The account id
  * @returns {Promise<any>} List of watchlists
  */
@@ -57,6 +57,7 @@ function getWatchlists(accountId) {
 
 /**
  * All watchlists for all of the user's linked accounts.
+ *
  * @returns {Promise<any>} List of watchlists
  */
 function getAllWatchlists() {
@@ -65,6 +66,7 @@ function getAllWatchlists() {
 
 /**
  * Replace watchlist for a specific account. This method does not verify that the symbol or asset type are valid.
+ *
  * @param {string} accountId The account id
  * @param {string} watchlistId The watchlist id
  * @param {Watchlist} watchlist The watchlist
@@ -78,6 +80,7 @@ function replaceWatchlist(accountId, watchlistId, watchlist) {
  * Partially update watchlist for a specific account: change watchlist name, add
  * to the beginning/end of a watchlist, update or delete items in a watchlist.
  * This method does not verify that the symbol or asset type are valid.
+ *
  * @param {string} accountId The account id
  * @param {string} watchlistId The watchlist id
  * @param {Watchlist} watchlist The new watchlist

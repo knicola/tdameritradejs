@@ -2,6 +2,7 @@
 
 /**
  * Get the access token along with an optional refresh token.
+ *
  * @param {string} authCode The authorization code
  * @returns {Promise<any>} The token details
  */
@@ -20,6 +21,7 @@ function getAccessToken(authCode) {
 
 /**
  * Refresh the access token.
+ *
  * @param {string} refreshToken The refresh token
  * @returns {Promise<any>} The token details
  */
@@ -35,7 +37,31 @@ function refreshAccessToken(refreshToken) {
     return this.axios.post('/oauth2/token', params)
 } // refreshAccessToken()
 
+/**
+ * Determine if access token is expired.
+ *
+ * @returns {boolean} True if expired, otherwise false
+ */
+function isAccessTokenExpired() {
+    return this.config.accessTokenExpiresAt
+        ? new Date(this.config.accessTokenExpiresAt).getTime() <= Date.now()
+        : true
+} // isAccessTokenExpired()
+
+/**
+ * Determine if refresh token is expired.
+ *
+ * @returns {boolean} True if expired, otherwise false
+ */
+function isRefreshTokenExpired() {
+    return this.config.refreshTokenExpiresAt
+        ? new Date(this.config.refreshTokenExpiresAt).getTime() <= Date.now()
+        : true
+} // isRefreshTokenExpired()
+
 module.exports = {
     getAccessToken,
     refreshAccessToken,
+    isAccessTokenExpired,
+    isRefreshTokenExpired,
 }

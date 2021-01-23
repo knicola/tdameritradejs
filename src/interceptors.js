@@ -2,7 +2,15 @@
 
 const axios = require('axios').default
 const get = require('lodash/get')
+const TDAmeritrade = require('./tdAmeritrade')
 
+/**
+ * Append access token to the request.
+ *
+ * @private
+ * @param {TDAmeritrade} client Client
+ * @returns {void}
+ */
 function appendAccessToken(client) {
     client.axios.interceptors.request.use(request => {
         if (client.config.accessToken) {
@@ -13,6 +21,13 @@ function appendAccessToken(client) {
     })
 } // appendAccessToken()
 
+/**
+ * Update config when a new token is received.
+ *
+ * @private
+ * @param {TDAmeritrade} client Client
+ * @returns {void}
+ */
 function updateConfigOnNewToken(client) {
     client.axios.interceptors.response.use(response => {
         if (response.config.url === '/oauth2/token') {
@@ -25,6 +40,13 @@ function updateConfigOnNewToken(client) {
     })
 } // updateConfigOnNewToken()
 
+/**
+ * Refresh token and retry request on status code 401.
+ *
+ * @private
+ * @param {TDAmeritrade} client Client
+ * @returns {void}
+ */
 function refreshAndRetry(client) {
     client.axios.interceptors.response.use(undefined, error => {
         const originalRequest = error.config
@@ -45,6 +67,13 @@ function refreshAndRetry(client) {
     })
 } // refreshAndRetry()
 
+/**
+ * Return the full Axios response.
+ *
+ * @private
+ * @param {TDAmeritrade} client Client
+ * @returns {void}
+ */
 function fullResponse(client) {
     client.axios.interceptors.response.use(response => {
         return client.config.returnFullResponse
@@ -59,8 +88,8 @@ function fullResponse(client) {
  * Transform the given token object
  *
  * @private
- * @param {Object} data Token info return from oauth endpoint
- * @returns {Object} Transformed token object
+ * @param {object} data Token info return from oauth endpoint
+ * @returns {object} Transformed token object
  */
 function parseToken(data) {
     const res = {
@@ -80,7 +109,7 @@ function parseToken(data) {
  * Get the UTC time from now
  *
  * @private
- * @param {Number} seconds Number of seconds
+ * @param {number} seconds Number of seconds
  * @returns {string|undefined} UTC time string or undefined
  */
 function timeFromNow(seconds) {
@@ -94,7 +123,7 @@ function timeFromNow(seconds) {
  *
  * @private
  * @param {object} obj Object to filter
- * @param {function} cb Callback
+ * @param {Function} cb Callback
  * @returns {object} Filtered object
  */
 function filterObj(obj, cb) {
@@ -115,6 +144,13 @@ const interceptors = {
     fullResponse,
 }
 
+/**
+ * Add all interceptors to the client's axios instance.
+ *
+ * @private
+ * @param {TDAmeritrade} client Client
+ * @returns {void}
+ */
 function setup(client) {
     Object.keys(interceptors).forEach(key => interceptors[key](client))
 }

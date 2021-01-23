@@ -15,69 +15,60 @@ const TDStreamer = require('./tdStreamer')
 const TDAccount = require('./tdAccount')
 const get = require('lodash/get')
 
-/**
- * @typedef {Settings & Tokens} Config
- *
- * @typedef {object} Settings
- * @property {string} baseUrl
- * @property {string} apiKey
- * @property {string} redirectUri
- * @property {string} sslKey
- * @property {string} sslCert
- * @property {boolean} refreshAndRetry
- * @property {boolean} returnFullResponse
- *
- * @typedef {object} Tokens
- * @property {string} accessToken
- * @property {string} refreshToken
- * @property {string} accessTokenExpiresAt
- * @property {string} refreshTokenExpiresAt
-*/
-/**
- * @class
- * @param {Config} config The config
- */
-function TDAmeritrade(config) {
-    http.call(this, config)
-} // TDAmeritrade()
+class TDAmeritrade extends http {
+    /**
+     * @returns {TDAccount} TDAccount interface
+     */
+    get TDAccount() {
+        return TDAccount
+    }
 
-/**
- * TDAccount interface
- */
-TDAmeritrade.prototype.TDAccount = TDAccount
-/**
- * Create a new instance of TDAccount.
- * @param {string} accountId The account id
- * @returns {TDAccount} A new TDAccount instance
- */
-TDAmeritrade.prototype.account = function account(accountId) {
-    const instance = new TDAccount(accountId)
-    instance.config = this.config
-    return instance
-} // account()
+    /**
+     * @returns {TDStreamer} TDStreamer interface
+     */
+    get TDStreamer() {
+        return TDStreamer
+    }
 
-/**
- * TDStreamer interface
- */
-TDAmeritrade.prototype.TDStreamer = TDStreamer
-/**
- * Create a new instance of TDStreamer.
- * @note This will select the first available account for the time being.
- * @returns {Promise<TDStreamer>} A new TDStreamer instance
- */
-TDAmeritrade.prototype.streamer = function streamer() {
-    return this.getUserPrincipals([
-        'streamerSubscriptionKeys',
-        'streamerConnectionInfo',
-    ]).then(res => {
-        const userPrincipals = this.config.fullResponse ? get(res, 'data') : res
-        const instance = new TDStreamer(userPrincipals)
+    /**
+     * Create a new instance of TDAccount.
+     *
+     * @param {string} accountId The account id
+     * @returns {TDAccount} A new TDAccount instance
+     */
+    account(accountId) {
+        const instance = new TDAccount(accountId)
         instance.config = this.config
         return instance
-    })
-} // streamer()
+    } // account()
+
+    /**
+     * Create a new instance of TDStreamer.
+     * For the time being, this will select the first available account.
+     *
+     * @member
+     * @inheritdoc
+     * @returns {Promise<TDStreamer>} A new TDStreamer instance
+     */
+    streamer() {
+        return this.getUserPrincipals([
+            'streamerSubscriptionKeys',
+            'streamerConnectionInfo',
+        ]).then(res => {
+            const userPrincipals = this.config.fullResponse ? get(res, 'data') : res
+            const instance = new TDStreamer(userPrincipals)
+            instance.config = this.config
+            return instance
+        })
+    } // streamer()
+}
 
 // MARKET
+/**
+ * @inheritdoc
+ * @name TDAmeritrade#getMarketHours
+ * @function
+ */
 TDAmeritrade.prototype.getMarketHours = market.getMarketHours
 TDAmeritrade.prototype.getMovers = market.getMovers
 TDAmeritrade.prototype.getQuotes = market.getQuotes

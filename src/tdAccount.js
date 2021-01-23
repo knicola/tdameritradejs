@@ -9,6 +9,11 @@ const watchlist = require('./resources/watchlist')
 const transaction = require('./resources/transaction')
 const userPrincipal = require('./resources/userPrincipal')
 
+/**
+ * @class
+ * @param {string} accountId The account id
+ * @param {object} config The config
+ */
 function TDAccount(accountId, config) {
     http.call(this, config)
 

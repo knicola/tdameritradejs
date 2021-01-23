@@ -1,5 +1,11 @@
 'use strict'
 
+/**
+ * Transform account activity data.
+ *
+ * @param {object} data Data
+ * @returns {object} Data
+ */
 function accountActivity(data) {
     return Object.assign({}, data, {
         content: data.content.map(entry => {
@@ -31,6 +37,12 @@ function accountActivity(data) {
 //     })
 // } // chartEquity()
 
+/**
+ * Transform chart equity data.
+ *
+ * @param {object} data Data
+ * @returns {object} Data
+ */
 function chartEquityNormalized(data) {
     return Object.assign({}, data, {
         content: data.content.map(entry => {
@@ -48,6 +60,12 @@ function chartEquityNormalized(data) {
     })
 } // chartEquityNormalized()
 
+/**
+ * Transform chart futures/options data.
+ *
+ * @param {object} data Data
+ * @returns {object} Data
+ */
 function chartFuturesOptions(data) {
     return Object.assign({}, data, {
         content: data.content.map(entry => {
@@ -65,6 +83,12 @@ function chartFuturesOptions(data) {
     })
 } // chartFutures()
 
+/**
+ * Transform news headline data.
+ *
+ * @param {object} data Data
+ * @returns {object} Data
+ */
 function newsHeadline(data) {
     return Object.assign({}, data, {
         content: data.content.map(entry => {
@@ -86,6 +110,12 @@ function newsHeadline(data) {
     })
 } // newsHeadline()
 
+/**
+ * Transform timesale data.
+ *
+ * @param {object} data Data
+ * @returns {object} Data
+ */
 function timesale(data) {
     return Object.assign({}, data, {
         content: data.content.map(entry => {
@@ -101,6 +131,12 @@ function timesale(data) {
     })
 } // timesale()
 
+/**
+ * Transform level one equity data.
+ *
+ * @param {object} data Data
+ * @returns {object} Data
+ */
 function levelOneEquity(data) {
     return Object.assign({}, data, {
         content: data.content.map(entry => {
@@ -162,6 +198,12 @@ function levelOneEquity(data) {
     })
 } // levelOneEquity()
 
+/**
+ * Transform leven one futures data.
+ *
+ * @param {object} data Data
+ * @returns {object} Data
+ */
 function levelOneFutures(data) {
     return Object.assign({}, data, {
         content: data.content.map(entry => {
@@ -207,6 +249,12 @@ function levelOneFutures(data) {
     })
 } // levelOneFutures()
 
+/**
+ * Transform chart history futures data.
+ *
+ * @param {object} data Data
+ * @returns {object} Data
+ */
 function chartHistoryFutures(data) {
     return Object.assign({}, data, {
         key: data.content[0].key,

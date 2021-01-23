@@ -60,7 +60,7 @@ class TDStreamer {
     } // constructor()
 
     /**
-     * @property {TDState} state
+     * @returns {State} state
      */
     get state() {
         return this[state]
@@ -91,7 +91,7 @@ class TDStreamer {
     /**
      * Remove the listeners of a given event.
      *
-     * @param {Sate|Event} event The event name
+     * @param {State|Event} event The event name
      * @param {Function} fn Callback function
      * @returns {void}
      */
@@ -121,8 +121,9 @@ class TDStreamer {
 
     /**
      * Return the listeners registered for a given event.
+     *
      * @param {State|Event|Error} event The event name
-     * @returns {Array<EventEmitter.EventListener<EventTypes, T>>} List of listeners
+     * @returns {Array<EventEmitter.EventListener>} List of listeners
      */
     listeners(event) {
         return this[emitter].listeners(event)
@@ -132,7 +133,7 @@ class TDStreamer {
      * Return the number of listeners listening to a given event.
      *
      * @param {State|Event|Error} event The event name
-     * @returns {Number} Number of listeners
+     * @returns {number} Number of listeners
      */
     listenerCount(event) {
         return this[emitter].listenerCount(event)
@@ -169,7 +170,7 @@ class TDStreamer {
     /**
      * The request object
      *
-     * @typedef {Object} Request
+     * @typedef {object} Request
      * @property {string} [requestid] A unique request identifier
      * @property {string} service The service name
      * @property {object} parameters The service parameters
@@ -226,7 +227,7 @@ class TDStreamer {
     /**
      * The service object
      *
-     * @typedef {Object} Service
+     * @typedef {object} Service
      * @property {string} [requestid] A unique request identifier
      * @property {string} service The service name
      * @property {object} parameters The service parameters
@@ -308,7 +309,7 @@ class TDStreamer {
      * Susbscribe to Chart Equity updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'key'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'|'sequence'|'chartTime'|'chartDay'>} [fields] fields
+     * @param {Array<'key'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'|'sequence'|'chartTime'|'chartDay'>} [fields] Fields to include (default all)
      * @returns {object[]} The request objects sent to the server
      */
     subsChartEquity(symbols, fields) {
@@ -342,7 +343,7 @@ class TDStreamer {
      * Susbscribe to Chart Futures updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'>} [fields] fields
+     * @param {Array<'key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'>} [fields] Fields to include (default all)
      * @returns {object[]} The request objects sent to the server
      */
     subsChartFutures(symbols, fields) {
@@ -376,7 +377,7 @@ class TDStreamer {
      * Subscribe to Chart Options updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'>} [fields] fields
+     * @param {Array<'key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'>} [fields] Fields to include (default all)
      * @returns {object[]} The request objects sent to the server
      */
     subsChartOptions(symbols, fields) {
@@ -410,7 +411,9 @@ class TDStreamer {
      * Subscribe to News Headline updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'symbol'|'errorCode'|'storyDatetime'|'headlineId'|'status'|'headline'|'storyId'|'countForKeyword'|'keywordArray'|'isHot'|'storySource'>} [fields] fields
+     * @param {Array<'symbol'|'errorCode'|'storyDatetime'|'headlineId'|'status'
+     * |'headline'|'storyId'|'countForKeyword'|'keywordArray'|'isHot'|'storySource'>
+     * } [fields] Fields to include (default all)
      * @returns {object[]} The request objects sent to the server
      */
     subsNewsHeadline(symbols, fields) {
@@ -444,7 +447,7 @@ class TDStreamer {
      * Subscribe to Timesale Equity updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] fields
+     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] Fields to include (default all)
      * @returns {object[]} The request objects sent to the server
      */
     subsTimesaleEquity(symbols, fields) {
@@ -478,7 +481,7 @@ class TDStreamer {
      * Subscribe to Timesale Futures updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] fields
+     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] Fields to include (default all)
      * @returns {object[]} The request objects sent to the server
      */
     subsTimesaleFutures(symbols, fields) {
@@ -512,7 +515,7 @@ class TDStreamer {
      * Subscribe to Timesale Options updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] fields
+     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] Fields to include (default all)
      * @returns {object[]} The request objects sent to the server
      */
     subsTimesaleOptions(symbols, fields) {
@@ -546,7 +549,7 @@ class TDStreamer {
      * Subscribe to Timesale Forex updates
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
-     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] fields
+     * @param {Array<'symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence'>} [fields] Fields to include (default all)
      * @returns {object[]} The request objects sent to the server
      */
     subsTimesaleForex(symbols, fields) {
@@ -579,7 +582,7 @@ class TDStreamer {
     /**
      * The Chart history futures options object
      *
-     * @typedef {Object} ChartHistoryFuturesOptions
+     * @typedef {object} ChartHistoryFuturesOptions
      * @property {'m1'|'m5'|'m10'|'m30'|'h1'|'d1'|'w1'|'n1'} frequency Frequency
      * @property {string} period Time period. eg. d5, w4, n10, y1, y10 (d=day, w=week, n=month, y=year)
      * @property {string} START_TIME Start time of chart in milliseconds since Epoch
@@ -608,12 +611,13 @@ class TDStreamer {
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
      * @param {Array<'symbol'|'bidPrice'|'askPrice'|'lastPrice'|'bidSize'|'askSize'|'askID'|'bidID'|'totalVolume'|
-        'lastSize'|'tradeTime'|'quoteTime'|'highPrice'|'lowPrice'|'bidTick'|'closePrice'|'exchangeID'|
-        'marginable'|'shortable'|'quoteDay'|'tradeDay'|'volatility'|'description'|'lastID'|'digits'|
-        'openPrice'|'netChange'|'52WeekHigh'|'52WeekLow'|'peRatio'|'dividendAmount'|'dividendYield'|'nav'|
-        'fundPrice'|'exchangeName'|'dividendDate'|'regularMarketQuote'|'regularMarketTrade'|'regularMarketLastPrice'|
-        'regularMarketLastSize'|'regularMarketTradeTime'|'regularMarketTradeDay'|'regularMarketNetChange'|
-        'securityStatus'|'mark'|'quoteTimeInLong'|'tradeTimeInLong'|'regularMarketTradeTimeInLong'>} [fields] fields
+     * 'lastSize'|'tradeTime'|'quoteTime'|'highPrice'|'lowPrice'|'bidTick'|'closePrice'|'exchangeID'|
+     * 'marginable'|'shortable'|'quoteDay'|'tradeDay'|'volatility'|'description'|'lastID'|'digits'|
+     * 'openPrice'|'netChange'|'52WeekHigh'|'52WeekLow'|'peRatio'|'dividendAmount'|'dividendYield'|'nav'|
+     * 'fundPrice'|'exchangeName'|'dividendDate'|'regularMarketQuote'|'regularMarketTrade'|'regularMarketLastPrice'|
+     * 'regularMarketLastSize'|'regularMarketTradeTime'|'regularMarketTradeDay'|'regularMarketNetChange'|
+     * 'securityStatus'|'mark'|'quoteTimeInLong'|'tradeTimeInLong'|'regularMarketTradeTimeInLong'>
+     * } [fields] Fields to include (default all)
      * @returns {object[]} object
      */
     subsLevelOneEquity(symbols, fields) {
@@ -649,10 +653,11 @@ class TDStreamer {
      *
      * @param {string|string[]} symbols Ticker symbols to subscribe to
      * @param {Array<'symbol'|'bidPrice'|'askPrice'|'lastPrice'|'bidSize'|'askSize'|'askID'|'bidID'|'totalVolume'|
-        'lastSize'|'quoteTime'|'tradeTime'|'highPrice'|'lowPrice'|'closePrice'|'exchangeID'|'description'|'lastID'|
-        'openPrice'|'netChange'|'futurePercentChange'|'exhangeName'|'securityStatus'|'openInterest'|'mark'|'tick'|
-        'tickAmount'|'product'|'futurePriceFormat'|'futureTradingHours'|'futureIsTradable'|'futureMultiplier'|
-        'futureIsActive'|'futureSettlementPrice'|'futureActiveSymbol'|'futureExpirationDate'>} [fields] fields
+     * 'lastSize'|'quoteTime'|'tradeTime'|'highPrice'|'lowPrice'|'closePrice'|'exchangeID'|'description'|'lastID'|
+     * 'openPrice'|'netChange'|'futurePercentChange'|'exhangeName'|'securityStatus'|'openInterest'|'mark'|'tick'|
+     * 'tickAmount'|'product'|'futurePriceFormat'|'futureTradingHours'|'futureIsTradable'|'futureMultiplier'|
+     * 'futureIsActive'|'futureSettlementPrice'|'futureActiveSymbol'|'futureExpirationDate'>
+     * } [fields] Fields to include (default all)
      * @returns {object[]} object
      */
     subsLevelOneFutures(symbols, fields) {
@@ -817,6 +822,13 @@ function handleData(emitter, data) {
     }
 } // handleData()
 
+/**
+ * Compose a login request.
+ *
+ * @private
+ * @param {object} userPrincipals User principals object
+ * @returns {object} Login request
+ */
 function login(userPrincipals) {
     return {
         service: SERVICES.ADMIN,
@@ -829,6 +841,12 @@ function login(userPrincipals) {
     }
 } // login()
 
+/**
+ * Compose a logout request.
+ *
+ * @private
+ * @returns {object} Logout request
+ */
 function logout() {
     return {
         service: SERVICES.ADMIN,
@@ -836,6 +854,13 @@ function logout() {
     }
 } // logout()
 
+/**
+ * Compose the credential object.
+ *
+ * @private
+ * @param {object} userPrincipals User principals object
+ * @returns {object} Credential object
+ */
 function credential(userPrincipals) {
     //Converts ISO-8601 response in snapshot to ms since epoch accepted by Streamer
     const tokenTimeStampAsDateObj = new Date(userPrincipals.streamerInfo.tokenTimestamp)
@@ -858,6 +883,13 @@ function credential(userPrincipals) {
     return jsonToQueryString(credentials)
 } // credential()
 
+/**
+ * Compose a query string using the given json object.
+ *
+ * @private
+ * @param {object} json Json object
+ * @returns {string} Query string
+ */
 function jsonToQueryString(json) {
     return Object
         .keys(json)

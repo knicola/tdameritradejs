@@ -9,9 +9,40 @@ const EventEmitter = require('eventemitter3')
 const interceptors = require('./interceptors')
 const apiKeySuffix = '@AMER.OAUTHAP'
 
+/**
+ * @typedef {Settings|Tokens} Config
+ *
+ * @typedef {object} Settings
+ * @property {string} apiKey Api key / Client id
+ * @property {string} redirectUri OAuth2 redirect uri
+ * @property {string} sslKey Path to SSL key
+ * @property {string} sslCert Path to SSL cert
+ * @property {boolean} refreshAndRetry Refresh and retry on a 401 response
+ * @property {boolean} returnFullResponse Return the axios response instead of just the data
+ *
+ * @typedef {object} Tokens
+ * @property {string} accessToken Access token
+ * @property {string} refreshToken Refresh token
+ * @property {string} accessTokenExpiresAt Access token date and time of expiration
+ * @property {string} refreshTokenExpiresAt Refresh token date and time of expiration
+ */
+/**
+ * @private
+ * @param {Config} config The config
+ */
 function http(config = {}) {
+    /**
+     * @private
+     */
     this._emitter = new EventEmitter()
 
+    /**
+     * Add a listener for a given event.
+     *
+     * @param {'login'|'token'} event Event
+     * @param {Function} fn Callback
+     * @returns {void}
+     */
     this.on = (event, fn) => this._emitter.on(event, fn)
 
     this.config = Object.assign({}, defaults, config, {
@@ -20,25 +51,8 @@ function http(config = {}) {
             : config.apiKey + apiKeySuffix
     }) // config
 
-    /**
-     * Determine if access token is expired.
-     * @returns {boolean} True if expired, otherwise false
-     */
-    this.isAccessTokenExpired = () => {
-        return this.config.accessTokenExpiresAt
-            ? new Date(this.config.accessTokenExpiresAt).getTime() <= Date.now()
-            : true
-    } // isAccessTokenExpired()
-
-    /**
-     * Determine if refresh token is expired.
-     * @returns {boolean} True if expired, otherwise false
-     */
-    this.isRefreshTokenExpired = () => {
-        return this.config.refreshTokenExpiresAt
-            ? new Date(this.config.refreshTokenExpiresAt).getTime() <= Date.now()
-            : true
-    } // isRefreshTokenExpired()
+    this.isAccessTokenExpired = token.isAccessTokenExpired
+    this.isRefreshTokenExpired = token.isRefreshTokenExpired
 
     this.getAccessToken = token.getAccessToken
     this.refreshAccessToken = token.refreshAccessToken

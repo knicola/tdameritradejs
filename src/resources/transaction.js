@@ -2,6 +2,7 @@
 
 /**
  * Get a transaction for a specific account.
+ *
  * @param {string} accountId The account id
  * @param {string} transactionId The transaction id
  * @returns {Promise} The transaction details
@@ -26,6 +27,7 @@ function getTransaction(accountId, transactionId) {
  */
 /**
  * Get all transactions for a specific account.
+ *
  * @param {string} accountId The account id
  * @param {TransactionQuery} params The query parameters
  * @returns {Promise} The transaction history

@@ -2,6 +2,7 @@
 
 /**
  * Get saved order by its ID, for a specific account.
+ *
  * @param {string} accountId The account id
  * @param {string} savedOrderId The saved order id
  * @returns {Promise<any>} The saved order details
@@ -12,6 +13,7 @@ function getSavedOrder(accountId, savedOrderId) {
 
 /**
  * Get saved orders for a specific account.
+ *
  * @param {string} accountId The account id
  * @returns {Promise<any>} List of saved orders
  */
@@ -21,6 +23,7 @@ function getSavedOrders(accountId) {
 
 /**
  * Save an order for a specific account.
+ *
  * @param {string} accountId The account id
  * @param {object} savedOrder The saved order
  * @returns {Promise<any>} Success
@@ -31,6 +34,7 @@ function createSavedOrder(accountId, savedOrder) {
 
 /**
  * Replace an existing saved order for an account. The existing saved order will be replaced by the new order.
+ *
  * @param {string} accountId The account id
  * @param {string} savedOrderId The saved order id
  * @param {object} savedOrder The new saved order
@@ -42,6 +46,7 @@ function replaceSavedOrder(accountId, savedOrderId, savedOrder) {
 
 /**
  * Delete a specific saved order for a specific account.
+ *
  * @param {string} accountId The account id
  * @param {string} savedOrderId The saved order id
  * @returns {Promise<any>} Success

@@ -5,6 +5,7 @@
  */
 /**
  * Search or retrieve instrument data, including fundamental data.
+ *
  * @param {string} symbol The ticker symbol
  * @param {Projection} projection The type of request
  * - `symbol-search`: Retrieve instrument data of a specific symbol or cusip
@@ -26,6 +27,7 @@ function searchInstruments(symbol, projection) {
 
 /**
  * Get an instrument by its CUSIP.
+ *
  * @param {string} cusip The CUSIP identifier
  * @returns {Promise<any>} The instrument details
  */

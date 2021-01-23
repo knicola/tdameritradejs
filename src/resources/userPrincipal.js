@@ -2,8 +2,9 @@
 
 /**
  * Get the SubscriptionKey for provided accounts or default accounts.
+ *
  * @param {string|string[]} [accountIds] The account id(s)
-* @returns {Promise<any>} The susbscription keys
+ * @returns {Promise<any>} The susbscription keys
  */
 function getStreamerSubscriptionKeys(accountIds) {
     return this.axios.get('/userprincipals/streamersubscriptionkeys', {
@@ -18,6 +19,7 @@ function getStreamerSubscriptionKeys(accountIds) {
  */
 /**
  * Get user principal details.
+ *
  * @param {UserPrincipalFields|UserPrincipalFields[]} [fields] Fields to include
  * @returns {Promise<any>} User principal details
  */
