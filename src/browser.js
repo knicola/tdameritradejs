@@ -1,6 +1,8 @@
 'use strict'
 
-class TDAmeritrade extends require('./tdAmeritrade') {}
+const tda = require('./tdAmeritrade')
+
+class TDAmeritrade extends tda {}
 
 TDAmeritrade.prototype.authorize = function () {
     // noop

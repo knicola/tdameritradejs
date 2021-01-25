@@ -40,178 +40,106 @@ const ERROR = Object.freeze({
 })
 
 const COMMANDS = Object.freeze({
-    /** Log in to Streamer Server to begin subscribing for data */
-    LOGIN: 'LOGIN',
+    LOGIN: 'LOGIN', // Log in to Streamer Server to begin subscribing for data
     STREAM: 'STREAM',
-    /** Change quality of service of data update rate. */
-    QOS: 'QOS',
-    /** Subscribe to data */
-    SUBS: 'SUBS',
+    QOS: 'QOS', // Change quality of service of data update rate.
+    SUBS: 'SUBS', // Subscribe to data
     ADD: 'ADD',
-    /** Unsubscribe from data */
-    UNSUBS: 'UNSUBS',
+    UNSUBS: 'UNSUBS', // Unsubscribe from data
     VIEW: 'VIEW',
-    /** Log out of Streamer Server to end streaming session. */
-    LOGOUT: 'LOGOUT',
+    LOGOUT: 'LOGOUT', // Log out of Streamer Server to end streaming session.
     GET: 'GET',
 })
 
 const SERVICES = Object.freeze({
-    /** Account Activity Notifications */
-    ACCT_ACTIVITY: 'ACCT_ACTIVITY',
-    /** Admin requests: LOGIN, LOGOUT */
-    ADMIN: 'ADMIN',
-    /** Actives for NASDAQ */
-    ACTIVES_NASDAQ: 'ACTIVES_NASDAQ',
-    /** Actives for NYSE */
-    ACTIVES_NYSE: 'ACTIVES_NYSE',
-    /** Actives for OTCBB */
-    ACTIVES_OTCBB: 'ACTIVES_OTCBB',
-    /** Actives for Options */
-    ACTIVES_OPTIONS: 'ACTIVES_OPTIONS',
-    /** Level Two book */
-    FOREX_BOOK: 'FOREX_BOOK',
-    /** Level Two book */
-    FUTURES_BOOK: 'FUTURES_BOOK',
-    /** Level Two book */
-    LISTED_BOOK: 'LISTED_BOOK',
-    /** Level Two book */
-    NASDAQ_BOOK: 'NASDAQ_BOOK',
-    /** Level Two book */
-    OPTIONS_BOOK: 'OPTIONS_BOOK',
-    /** Level Two book */
-    FUTURES_OPTIONS_BOOK: 'FUTURES_OPTIONS_BOOK',
-    /** Chart candle for Equity and Index. */
-    CHART_EQUITY: 'CHART_EQUITY',
-    /** Chart candle for Futures and Futures OPtions */
-    CHART_FUTURES: 'CHART_FUTURES',
-    /** Chart history for Futures */
-    CHART_HISTORY_FUTURES: 'CHART_HISTORY_FUTURES',
-    /** Level 1 Equity */
-    QUOTE: 'QUOTE',
-    /** Level 1 Equity Futures */
-    LEVELONE_FUTURES: 'LEVELONE_FUTURES',
-    /** Level 1 Forex */
-    LEVELONE_FOREX: 'LEVELONE_FOREX',
-    /** Level 1 Futures Options */
-    LEVELONE_FUTURES_OPTIONS: 'LEVELONE_FUTURES_OPTIONS',
-    /** Level 1 Options */
-    OPTION: 'OPTION',
-    /** Level 2 Futures */
-    LEVELTWO_FUTURES: 'LEVELTWO_FUTURES',
-    /** News headline */
-    NEWS_HEADLINE: 'NEWS_HEADLINE',
-    /** News Content */
-    NEWS_STORY: 'NEWS_STORY',
-    /** Historical News */
-    NEWS_HEADLINE_LIST: 'NEWS_HEADLINE_LIST',
-    /** Streamer response */
-    STREAMER_SERVER: 'STREAMER_SERVER',
-    /** Time & sale for Equity */
-    TIMESALE_EQUITY: 'TIMESALE_EQUITY',
-    /** Time & sale for Futures and Futures Options */
-    TIMESALE_FUTURES: 'TIMESALE_FUTURES',
-    /** Time & sale for Forex */
-    TIMESALE_FOREX: 'TIMESALE_FOREX',
-    /** Time & sale for Options */
-    TIMESALE_OPTIONS: 'TIMESALE_OPTIONS',
+    ACCT_ACTIVITY: 'ACCT_ACTIVITY', // Account Activity Notifications
+    ADMIN: 'ADMIN', // Admin requests: LOGIN, LOGOUT
+    ACTIVES_NASDAQ: 'ACTIVES_NASDAQ', // Actives for NASDAQ
+    ACTIVES_NYSE: 'ACTIVES_NYSE', // Actives for NYSE
+    ACTIVES_OTCBB: 'ACTIVES_OTCBB', // Actives for OTCBB
+    ACTIVES_OPTIONS: 'ACTIVES_OPTIONS', // Actives for Options
+    FOREX_BOOK: 'FOREX_BOOK', // Level Two book
+    FUTURES_BOOK: 'FUTURES_BOOK', // Level Two book
+    LISTED_BOOK: 'LISTED_BOOK', // Level Two book
+    NASDAQ_BOOK: 'NASDAQ_BOOK', // Level Two book
+    OPTIONS_BOOK: 'OPTIONS_BOOK', // Level Two book
+    FUTURES_OPTIONS_BOOK: 'FUTURES_OPTIONS_BOOK', // Level Two book
+    CHART_EQUITY: 'CHART_EQUITY', // Chart candle for Equity and Index.
+    CHART_FUTURES: 'CHART_FUTURES', // Chart candle for Futures and Futures OPtions
+    CHART_HISTORY_FUTURES: 'CHART_HISTORY_FUTURES', // Chart history for Futures
+    QUOTE: 'QUOTE', // Level 1 Equity
+    LEVELONE_FUTURES: 'LEVELONE_FUTURES', // Level 1 Equity Futures
+    LEVELONE_FOREX: 'LEVELONE_FOREX', // Level 1 Forex
+    LEVELONE_FUTURES_OPTIONS: 'LEVELONE_FUTURES_OPTIONS', // Level 1 Futures Options
+    OPTION: 'OPTION', // Level 1 Options
+    LEVELTWO_FUTURES: 'LEVELTWO_FUTURES', // Level 2 Futures
+    NEWS_HEADLINE: 'NEWS_HEADLINE', // News headline
+    NEWS_STORY: 'NEWS_STORY', // News Content
+    NEWS_HEADLINE_LIST: 'NEWS_HEADLINE_LIST', // Historical News
+    STREAMER_SERVER: 'STREAMER_SERVER', // Streamer response
+    TIMESALE_EQUITY: 'TIMESALE_EQUITY', // Time & sale for Equity
+    TIMESALE_FUTURES: 'TIMESALE_FUTURES', // Time & sale for Futures and Futures Options
+    TIMESALE_FOREX: 'TIMESALE_FOREX', // Time & sale for Forex
+    TIMESALE_OPTIONS: 'TIMESALE_OPTIONS', // Time & sale for Options
 })
 
 const FIELDS = Object.freeze({
     // Quality of Service, or the rate the data will be sent to the client.
     QOS: Object.freeze({
-        /** (500 ms) */
-        express: 0,
-        /** (750 ms) default value for http binary protocol */
-        realtime: 1,
-        /** (1,000 ms) default value for websocket and http asynchronous protocol */
-        fast: 2,
-        /** (1,500 ms) */
-        moderate: 3,
-        /** (3,000 ms) */
-        slow: 4,
-        /** (5,000 ms) */
-        delayed: 5,
+        express: 0, // (500 ms)
+        realtime: 1, // (750 ms) default value for http binary protocol
+        fast: 2, // (1,000 ms) default value for websocket and http asynchronous protocol
+        moderate: 3, // (1,500 ms)
+        slow: 4, // (3,000 ms)
+        delayed: 5, // (5,000 ms)
     }),
 
     ACCT_ACTIVITY: Object.freeze({
-        /** Subscription Key */
-        subscriptionKey: 0,
-        /** Account # */
-        accountNumber: 1,
-        /** message Type */
-        messageType: 2,
-        /** Message Data */
-        messageData: 3,
+        subscriptionKey: 0, // Subscription Key
+        accountNumber: 1, // Account #
+        messageType: 2, // message Type
+        messageData: 3, // Message Data
     }),
 
     CHART_EQUITY: Object.freeze({
-        /** Ticker symbol in upper case. */
-        key: 0,
-        /** Opening price for the minute */
-        openPrice: 1,
-        /** Highest price for the minute */
-        highPrice: 2,
-        /** Chart’s lowest price for the minute */
-        lowPrice: 3,
-        /** Closing price for the minute */
-        closePrice: 4,
-        /** Total volume for the minute */
-        volume: 5,
-        /** Identifies the candle minute */
-        sequence: 6,
-        /** Milliseconds since Epoch */
-        chartTime: 7,
-        /** Not useful */
-        chartDay: 8,
+        key: 0, // Ticker symbol in upper case.
+        openPrice: 1, // Opening price for the minute
+        highPrice: 2, // Highest price for the minute
+        lowPrice: 3, // Chart’s lowest price for the minute
+        closePrice: 4, // Closing price for the minute
+        volume: 5, // Total volume for the minute
+        sequence: 6, // Identifies the candle minute
+        chartTime: 7, // Milliseconds since Epoch
+        chartDay: 8, // Not useful
     }),
 
     CHART_FUTURES: Object.freeze({
-        /** Ticker symbol in upper case */
-        key: 0,
-        /** Milliseconds since Epoch */
-        chartTime: 1,
-        /** Opening price for the minute */
-        openPrice: 2,
-        /** Highest price for the minute */
-        highPrice: 3,
-        /** Chart’s lowest price for the minute */
-        lowPrice: 4,
-        /** Closing price for the minute */
-        closePrice: 5,
-        /** Total volume for the minute */
-        volume: 6,
+        key: 0, // Ticker symbol in upper case
+        chartTime: 1, // Milliseconds since Epoch
+        openPrice: 2, // Opening price for the minute
+        highPrice: 3, // Highest price for the minute
+        lowPrice: 4, // Chart’s lowest price for the minute
+        closePrice: 5, // Closing price for the minute
+        volume: 6, // Total volume for the minute
     }),
 
     CHART_OPTIONS: Object.freeze({
-        /** Ticker symbol in upper case */
-        key: 0,
-        /** Milliseconds since Epoch */
-        chartTime: 1,
-        /** Opening price for the minute */
-        openPrice: 2,
-        /** Highest price for the minute */
-        highPrice: 3,
-        /** Chart’s lowest price for the minute */
-        lowPrice: 4,
-        /** Closing price for the minute */
-        closePrice: 5,
-        /** Total volume for the minute */
-        volume: 6,
+        key: 0, // Ticker symbol in upper case
+        chartTime: 1, // Milliseconds since Epoch
+        openPrice: 2, // Opening price for the minute
+        highPrice: 3, // Highest price for the minute
+        lowPrice: 4, // Chart’s lowest price for the minute
+        closePrice: 5, // Closing price for the minute
+        volume: 6, // Total volume for the minute
     }),
 
     NEWS_HEADLINE: Object.freeze({
-        /** Ticker symbol in upper case. */
-        symbol: 0,
-        /** Specifies if there is any error. */
-        errorCode: 1,
-        /** Headline’s datetime in milliseconds since epoch */
-        storyDatetime: 2,
-        /** Unique ID for the headline */
-        headlineId: 3,
+        symbol: 0, // Ticker symbol in upper case.
+        errorCode: 1, // Specifies if there is any error.
+        storyDatetime: 2, // Headline’s datetime in milliseconds since epoch
+        headlineId: 3, // Unique ID for the headline
         status: 4,
-        /** News headline */
-        headline: 5,
+        headline: 5, // News headline
         storyId: 6,
         countForKeyword: 7,
         keywordArray: 8,
@@ -220,16 +148,11 @@ const FIELDS = Object.freeze({
     }),
 
     TIMESALE: Object.freeze({
-        /** Ticker symbol in upper case. */
-        symbol: 0,
-        /** Trade time of the last trade in milliseconds since epoch */
-        tradeTime: 1,
-        /** Price at which the last trade was matched */
-        lastPrice: 2,
-        /** Number of shares traded with last trade */
-        lastSize: 3,
-        /** Number of shares for bid */
-        lastSequence: 4,
+        symbol: 0, // Ticker symbol in upper case.
+        tradeTime: 1, // Trade time of the last trade in milliseconds since epoch
+        lastPrice: 2, // Price at which the last trade was matched
+        lastSize: 3, // Number of shares traded with last trade
+        lastSequence: 4, // Number of shares for bid
     }),
 
     LEVEL_ONE_EQUITY: Object.freeze({

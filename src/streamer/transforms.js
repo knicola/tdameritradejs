@@ -3,6 +3,7 @@
 /**
  * Transform account activity data.
  *
+ * @private
  * @param {object} data Data
  * @returns {object} Data
  */
@@ -40,6 +41,7 @@ function accountActivity(data) {
 /**
  * Transform chart equity data.
  *
+ * @private
  * @param {object} data Data
  * @returns {object} Data
  */
@@ -63,6 +65,7 @@ function chartEquityNormalized(data) {
 /**
  * Transform chart futures/options data.
  *
+ * @private
  * @param {object} data Data
  * @returns {object} Data
  */
@@ -86,6 +89,7 @@ function chartFuturesOptions(data) {
 /**
  * Transform news headline data.
  *
+ * @private
  * @param {object} data Data
  * @returns {object} Data
  */
@@ -113,6 +117,7 @@ function newsHeadline(data) {
 /**
  * Transform timesale data.
  *
+ * @private
  * @param {object} data Data
  * @returns {object} Data
  */
@@ -134,6 +139,7 @@ function timesale(data) {
 /**
  * Transform level one equity data.
  *
+ * @private
  * @param {object} data Data
  * @returns {object} Data
  */
@@ -201,6 +207,7 @@ function levelOneEquity(data) {
 /**
  * Transform leven one futures data.
  *
+ * @private
  * @param {object} data Data
  * @returns {object} Data
  */
@@ -252,6 +259,7 @@ function levelOneFutures(data) {
 /**
  * Transform chart history futures data.
  *
+ * @private
  * @param {object} data Data
  * @returns {object} Data
  */

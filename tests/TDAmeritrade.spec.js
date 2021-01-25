@@ -10,7 +10,7 @@ const mockAxios = new MockAdapter(axios)
 const TDAmeritrade = require('../src/tdAmeritrade')
 const { assertApiCall, mockAxiosResponse } = require('./setup/common')
 const { default: tdAmeritrade } = require('../src/tdAmeritrade')
-const userPrincipalFixture = require('../src/resources/userPrincipal')
+const userPrincipalFixture = require('./setup/userPrincipals.fixture')
 
 const config = {
     accessToken: 'test_access_token',
@@ -889,18 +889,18 @@ describe('TDAmeritrade', () => {
             expect(td.isRefreshTokenExpired()).toBeTruthy()
         }) // test
     }) // group
-    describe('.TDAccount', () => {
-        it('should be an instance of TDAccount', () => {
-            const td = new TDAmeritrade()
-            expect(new td.TDAccount()).toBeInstanceOf(require('../src/tdAccount'))
-        }) // test
-    }) // group
-    describe('.account()', () => {
-        it('should create a new instance of TDAccount', () => {
-            const td = new TDAmeritrade()
-            expect(td.account(12345)).toBeInstanceOf(require('../src/tdAccount'))
-        }) // test
-    }) // group
+    // describe('.TDAccount', () => {
+    //     it('should be an instance of TDAccount', () => {
+    //         const td = new TDAmeritrade()
+    //         expect(new td.TDAccount()).toBeInstanceOf(require('../src/tdAccount'))
+    //     }) // test
+    // }) // group
+    // describe('.account()', () => {
+    //     it('should create a new instance of TDAccount', () => {
+    //         const td = new TDAmeritrade()
+    //         expect(td.account(12345)).toBeInstanceOf(require('../src/tdAccount'))
+    //     }) // test
+    // }) // group
     describe('.TDStreamer', () => {
         it('should be an instance of TDStreamer', () => {
             const td = new TDAmeritrade()

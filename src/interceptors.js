@@ -2,8 +2,8 @@
 
 const axios = require('axios').default
 const get = require('lodash/get')
-const TDAmeritrade = require('./tdAmeritrade')
 
+/** @typedef {import('./tdAmeritrade')} TDAmeritrade */
 /**
  * Append access token to the request.
  *
@@ -33,7 +33,7 @@ function updateConfigOnNewToken(client) {
         if (response.config.url === '/oauth2/token') {
             const token = parseToken(response.data)
             Object.assign(client.config, token)
-            client._emitter.emit('token', token)
+            client.emit('token', token)
         }
 
         return response

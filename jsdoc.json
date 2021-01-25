@@ -1,14 +1,30 @@
 {
   "source": {
-    "include": "./src",
-    "includePattern": ".js$"
+      "include": ["src/", "package.json", "README.md"],
+      "includePattern": ".js$",
+      "excludePattern": "(node_modules/|docs)"
   },
+
+  "plugins": [ "plugins/markdown", "typedef-import" ],
+
+  "markdown": {
+    "idInHeadings": true
+  },
+  "templates": {
+      "cleverLinks": false,
+      "monospaceLinks": true,
+      "useLongnameInNav": false,
+      "showInheritedInNav": true
+  },
+
   "opts": {
-    "template": "node_modules/better-docs",
-    "recurse": true,
-    "verbose": true
-  },
-  "plugins": [
-    "plugins/markdown"
-  ]
+      "encoding": "utf8",
+      "readme": "./README.md",
+      "destination": "docs/",
+      "recurse": true,
+      "verbose": true,
+      "template": "node_modules/docdash",
+      "theme_opts": {
+      }
+  }
 }
