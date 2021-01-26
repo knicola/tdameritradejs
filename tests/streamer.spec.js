@@ -5,18 +5,18 @@ const debug = require('debug')('ameritrade:tests') // eslint-disable-line no-unu
 
 const WS = require('jest-websocket-mock').default
 
-const TDStreamer = require('../src/tdStreamer')
+const Streamer = require('../src/streamer')
 const userPrincipals = require('./setup/userPrincipals.fixture')
 
 const cuid = require('cuid')
 jest.mock('cuid')
 cuid.mockImplementation(() => 'test_requestid')
 
-describe('TDStreamer', () => {
+describe('Streamer', () => {
     let server, streamer
     beforeEach(async () => {
         server = new WS('wss://localhost:3331/ws', { jsonProtocol: true })
-        streamer = new TDStreamer(userPrincipals)
+        streamer = new Streamer(userPrincipals)
         streamer.connect()
         await server.connected
         await server.nextMessage
@@ -27,7 +27,7 @@ describe('TDStreamer', () => {
     })
     describe('.connect()', () => {
         it('should connect and authenticate to the server', async () => {
-            const streamer = new TDStreamer(userPrincipals)
+            const streamer = new Streamer(userPrincipals)
             streamer.connect()
             await server.connected
             await expect(server).toReceiveMessage({

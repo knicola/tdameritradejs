@@ -5,7 +5,10 @@
       "excludePattern": "(node_modules/|docs)"
   },
 
-  "plugins": [ "plugins/markdown", "typedef-import" ],
+  "plugins": [
+    "plugins/markdown",
+    "typedef-import"
+  ],
 
   "markdown": {
     "idInHeadings": true

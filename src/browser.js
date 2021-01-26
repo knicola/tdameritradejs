@@ -1,17 +1,13 @@
 'use strict'
 
-const tda = require('./tdAmeritrade')
+const Client = require('./client')
+const { account, streamer } = require('./common')
 
-class TDAmeritrade extends tda {}
+class TDAmeritrade extends Client {}
 
-TDAmeritrade.prototype.authorize = function () {
-    // noop
-    return Promise.resolve()
-}
-
-TDAmeritrade.prototype.login = function () {
-    // noop
-    return Promise.resolve()
-}
+TDAmeritrade.prototype.account = account
+TDAmeritrade.prototype.streamer = streamer
+TDAmeritrade.prototype.authorize = () => Promise.resolve() // noop
+TDAmeritrade.prototype.login = () => Promise.resolve() // noop
 
 module.exports = { TDAmeritrade }

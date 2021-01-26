@@ -8,26 +8,15 @@ const EventEmitter = require('eventemitter3')
 const interceptors = require('./interceptors')
 const apiKeySuffix = '@AMER.OAUTHAP'
 
-const TDStreamer = require('./tdStreamer')
-const get = require('lodash/get')
-const partial = require('lodash/partial')
-
-/**
- * @private
- */
-class TDAmeritrade extends EventEmitter {
+class Client extends EventEmitter {
     /**
-     * @typedef {Settings|Tokens} Config
-     *
-     * @typedef {object} Settings
+     * @typedef {object} Config
      * @property {string} apiKey Api key / Client id
      * @property {string} redirectUri OAuth2 redirect uri
      * @property {string} sslKey Path to SSL key
      * @property {string} sslCert Path to SSL cert
      * @property {boolean} refreshAndRetry Refresh and retry on a 401 response
      * @property {boolean} returnFullResponse Return the axios response instead of just the data
-     *
-     * @typedef {object} Tokens
      * @property {string} accessToken Access token
      * @property {string} refreshToken Refresh token
      * @property {string} accessTokenExpiresAt Access token date and time of expiration
@@ -47,43 +36,6 @@ class TDAmeritrade extends EventEmitter {
         this.axios = axios.create({ baseURL: this.config.baseURL })
         interceptors.setup(this)
     }
-
-    /**
-     * Create a new instance of TDAccount.
-     *
-     * @param {string} accountId The account id
-     * @returns {TDAccount} A new TDAccount instance
-     */
-    account(accountId) {
-        const instance = new TDAccount(accountId)
-        instance.config = this.config
-        return instance
-    } // account()
-
-    /**
-     * @returns {TDStreamer} TDStreamer interface
-     */
-    get TDStreamer() {
-        return TDStreamer
-    }
-
-    /**
-     * Create a new instance of TDStreamer.
-     * For the time being, this will select the first available account.
-     *
-     * @returns {Promise<TDStreamer>} A new TDStreamer instance
-     */
-    streamer() {
-        return this.getUserPrincipals([
-            'streamerSubscriptionKeys',
-            'streamerConnectionInfo',
-        ]).then(res => {
-            const userPrincipals = this.config.fullResponse ? get(res, 'data') : res
-            const instance = new TDStreamer(userPrincipals)
-            instance.config = this.config
-            return instance
-        })
-    } // streamer()
 
     /**
      * Get the access token along with an optional refresh token.
@@ -212,7 +164,7 @@ class TDAmeritrade extends EventEmitter {
     } // getQuote()
 
     /**
-     * @typedef PriceHistoryParams
+     * @typedef PriceHistoryQuery
      * @property {'day'|'month'|'year'|'ytd'} periodType The type of period to show
      * @property {1|2|3|4|5|6|10|15|20} period The number of periods to show
      * - `day` : 1, 2, 3, 4, 5, 10*
@@ -232,7 +184,7 @@ class TDAmeritrade extends EventEmitter {
      * Get price history for a specified symbol.
      *
      * @param {string} symbol The ticker symbol
-     * @param {PriceHistoryParams} params The query parameters
+     * @param {PriceHistoryQuery} params The query parameters
      * @returns {Promise<any>} The price history
      */
     getPriceHistory(symbol, params) {
@@ -248,7 +200,7 @@ class TDAmeritrade extends EventEmitter {
      * } OptionStrategy
      */
     /**
-     * @typedef OptionChainParams
+     * @typedef OptionChainQuery
      * @property {'CALL'|'PUT'|'ALL'} [contractType='ALL'] Type of contracts to return in the chain. Default is `ALL`
      * @property {number} strikeCount The number of strikes to return above and below the at-the-money price
      * @property {boolean} [includeQuotes=false] Include quotes for options in the option chain. Default is `false`
@@ -279,7 +231,7 @@ class TDAmeritrade extends EventEmitter {
      * Get Option Chains for optionable symbols.
      *
      * @param {string} symbol The ticker symbol
-     * @param {OptionChainParams} params The query parameters
+     * @param {OptionChainQuery} params The query parameters
      * @returns {Promise<any>} The option chain
      */
     getOptionChain(symbol, params) {
@@ -371,8 +323,8 @@ class TDAmeritrade extends EventEmitter {
      * @property {'FIFTY_FIVE_MINUTES'|'TWO_HOURS'|'FOUR_HOURS'|'EIGHT_HOURS'} authTokenTimeout Auth token timeout
      */
     /**
-     * Update preferences for a specific account. The directOptionsRouting and
-     * directEquityRouting values cannot be modified via this operation.
+     * Update preferences for a specific account. The `directOptionsRouting` and
+     * `directEquityRouting` values cannot be modified via this operation.
      *
      * @param {string} accountId The account id
      * @param {Preferences} preferences The updated preferences
@@ -676,60 +628,6 @@ class TDAmeritrade extends EventEmitter {
     getTransactions(accountId, params) {
         return this.axios.get(`/accounts/${accountId}/transactions`, { params })
     } // getTransactions()
-} // TDAmeritrade
+} // Client
 
-/**
- * @class
- * @augments TDAmeritrade
- */
-class TDAccount extends TDAmeritrade {
-    constructor(accountId) {
-        super()
-
-        /** @ignore */ this.authorize = undefined
-        /** @ignore */ this.login = undefined
-        /** @ignore */ this.account = undefined
-        /** @ignore */ this.streamer = undefined
-
-        // ACCOUNT INFO
-        this.getAccount = partial(super.getAccount, accountId)
-
-        // PREFERENCES
-        this.getPreferences = partial(super.getPreferences, accountId)
-        this.updatePreferences = partial(super.updatePreferences, accountId)
-
-        // USER PRINCIPAL
-        this.getStreamerSubscriptionKeys = partial(super.getStreamerSubscriptionKeys, accountId)
-        this.getUserPrincipals = super.getUserPrincipals
-
-        // ORDERS
-        this.getOrders = partial(super.getOrders, accountId)
-        this.getOrder = partial(super.getOrder, accountId)
-        this.placeOrder = partial(super.placeOrder, accountId)
-        this.replaceOrder = partial(super.replaceOrder, accountId)
-        this.cancelOrder = partial(super.cancelOrder, accountId)
-
-        // SAVED ORDERS
-        this.createSavedOrder = partial(super.createSavedOrder, accountId)
-        this.deleteSavedOrder = partial(super.deleteSavedOrder, accountId)
-        this.getSavedOrder = partial(super.getSavedOrder, accountId)
-        this.getSavedOrders = partial(super.getSavedOrders, accountId)
-        this.replaceSavedOrder = partial(super.replaceSavedOrder, accountId)
-
-        // WATCHLISTS
-        this.createWatchlist = partial(super.createWatchlist, accountId)
-        this.deleteWatchlist = partial(super.deleteWatchlist, accountId)
-        this.getWatchlist = partial(super.getWatchlist, accountId)
-        this.getWatchlists = partial(super.getWatchlists, accountId)
-        this.replaceWatchlist = partial(super.replaceWatchlist, accountId)
-        this.updateWatchlist = partial(super.updateWatchlist, accountId)
-
-        // TRANSACTIONS
-        this.getTransaction = partial(super.getTransaction, accountId)
-        this.getTransactions = partial(super.getTransactions, accountId)
-    }
-}
-
-module.exports = TDAmeritrade
-
-module.exports.default = TDAmeritrade
+module.exports = Client

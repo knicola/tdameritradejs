@@ -1,14 +1,17 @@
 'use strict'
 
-const STATE = Object.freeze({
+/** @enum */
+const STATE = {
     CONNECTING: 'connecting',
     CONNECTED: 'connected',
     AUTHENTICATED: 'authenticated',
     DISCONNECTING: 'disconnecting',
     DISCONNECTED: 'disconnected',
-})
+}
+Object.freeze(STATE)
 
-const EVENT = Object.freeze({
+/** @enum */
+const EVENT = {
     STATE_CHANGE: 'state_change',
     MESSAGE: 'message',
     ACCOUNT_ACTIVITY: 'account_activity',
@@ -26,9 +29,11 @@ const EVENT = Object.freeze({
     LEVEL_ONE_FUTURES: 'level_one_futures',
     CHART_HISTORY_FUTURES: 'chart_history_futures',
     ERROR: 'error',
-})
+}
+Object.freeze(EVENT)
 
-const ERROR = Object.freeze({
+/** @enum */
+const ERROR = {
     UNKNOWN: 'unknown_error',
     UNKNOWN_MESSAGE: 'unknown_message',
     UNKNOWN_RESPONSE: 'unknown_response',
@@ -37,9 +42,14 @@ const ERROR = Object.freeze({
     INVALID_MESSAGE: 'invalid_message',
     CONNECTION_REFUSED: 'connection_refused',
     AUTHENTICATION_FAILED: 'authentication_failed',
-})
+}
+Object.freeze(ERROR)
 
-const COMMANDS = Object.freeze({
+/**
+ * @private
+ * @enum
+ */
+const COMMANDS = {
     LOGIN: 'LOGIN', // Log in to Streamer Server to begin subscribing for data
     STREAM: 'STREAM',
     QOS: 'QOS', // Change quality of service of data update rate.
@@ -49,9 +59,11 @@ const COMMANDS = Object.freeze({
     VIEW: 'VIEW',
     LOGOUT: 'LOGOUT', // Log out of Streamer Server to end streaming session.
     GET: 'GET',
-})
+}
+Object.freeze(COMMANDS)
 
-const SERVICES = Object.freeze({
+/** @enum */
+const SERVICES = {
     ACCT_ACTIVITY: 'ACCT_ACTIVITY', // Account Activity Notifications
     ADMIN: 'ADMIN', // Admin requests: LOGIN, LOGOUT
     ACTIVES_NASDAQ: 'ACTIVES_NASDAQ', // Actives for NASDAQ
@@ -81,27 +93,29 @@ const SERVICES = Object.freeze({
     TIMESALE_FUTURES: 'TIMESALE_FUTURES', // Time & sale for Futures and Futures Options
     TIMESALE_FOREX: 'TIMESALE_FOREX', // Time & sale for Forex
     TIMESALE_OPTIONS: 'TIMESALE_OPTIONS', // Time & sale for Options
-})
+}
+Object.freeze(SERVICES)
 
-const FIELDS = Object.freeze({
+/** @enum */
+const FIELDS = {
     // Quality of Service, or the rate the data will be sent to the client.
-    QOS: Object.freeze({
+    QOS: {
         express: 0, // (500 ms)
         realtime: 1, // (750 ms) default value for http binary protocol
         fast: 2, // (1,000 ms) default value for websocket and http asynchronous protocol
         moderate: 3, // (1,500 ms)
         slow: 4, // (3,000 ms)
         delayed: 5, // (5,000 ms)
-    }),
+    },
 
-    ACCT_ACTIVITY: Object.freeze({
+    ACCT_ACTIVITY: {
         subscriptionKey: 0, // Subscription Key
         accountNumber: 1, // Account #
         messageType: 2, // message Type
         messageData: 3, // Message Data
-    }),
+    },
 
-    CHART_EQUITY: Object.freeze({
+    CHART_EQUITY: {
         key: 0, // Ticker symbol in upper case.
         openPrice: 1, // Opening price for the minute
         highPrice: 2, // Highest price for the minute
@@ -111,9 +125,9 @@ const FIELDS = Object.freeze({
         sequence: 6, // Identifies the candle minute
         chartTime: 7, // Milliseconds since Epoch
         chartDay: 8, // Not useful
-    }),
+    },
 
-    CHART_FUTURES: Object.freeze({
+    CHART_FUTURES: {
         key: 0, // Ticker symbol in upper case
         chartTime: 1, // Milliseconds since Epoch
         openPrice: 2, // Opening price for the minute
@@ -121,9 +135,9 @@ const FIELDS = Object.freeze({
         lowPrice: 4, // Chart’s lowest price for the minute
         closePrice: 5, // Closing price for the minute
         volume: 6, // Total volume for the minute
-    }),
+    },
 
-    CHART_OPTIONS: Object.freeze({
+    CHART_OPTIONS: {
         key: 0, // Ticker symbol in upper case
         chartTime: 1, // Milliseconds since Epoch
         openPrice: 2, // Opening price for the minute
@@ -131,9 +145,9 @@ const FIELDS = Object.freeze({
         lowPrice: 4, // Chart’s lowest price for the minute
         closePrice: 5, // Closing price for the minute
         volume: 6, // Total volume for the minute
-    }),
+    },
 
-    NEWS_HEADLINE: Object.freeze({
+    NEWS_HEADLINE: {
         symbol: 0, // Ticker symbol in upper case.
         errorCode: 1, // Specifies if there is any error.
         storyDatetime: 2, // Headline’s datetime in milliseconds since epoch
@@ -145,17 +159,17 @@ const FIELDS = Object.freeze({
         keywordArray: 8,
         isHot: 9,
         storySource: 10,
-    }),
+    },
 
-    TIMESALE: Object.freeze({
+    TIMESALE: {
         symbol: 0, // Ticker symbol in upper case.
         tradeTime: 1, // Trade time of the last trade in milliseconds since epoch
         lastPrice: 2, // Price at which the last trade was matched
         lastSize: 3, // Number of shares traded with last trade
         lastSequence: 4, // Number of shares for bid
-    }),
+    },
 
-    LEVEL_ONE_EQUITY: Object.freeze({
+    LEVEL_ONE_EQUITY: {
         symbol: 0, // Ticker symbol in upper case.
         bidPrice: 1, // Current Best Bid Price
         askPrice: 2, // Current Best Ask Price
@@ -209,9 +223,9 @@ const FIELDS = Object.freeze({
         quoteTimeInLong: 50, // Last quote time in milliseconds since Epoch
         tradeTimeInLong: 51, // Last trade time in milliseconds since Epoch
         regularMarketTradeTimeInLong: 52, // Regular market trade time in milliseconds since Epoch
-    }),
+    },
 
-    LEVEL_ONE_FUTURES: Object.freeze({
+    LEVEL_ONE_FUTURES: {
         symbol: 0, // Ticker symbol in upper case.
         bidPrice: 1, // Current Best Bid Price
         askPrice: 2, // Current Best Ask Price
@@ -248,8 +262,28 @@ const FIELDS = Object.freeze({
         futureSettlementPrice: 33, // Closing price
         futureActiveSymbol: 34, // Symbol of the active contract
         futureExpirationDate: 35, // Expiration date of this contract
-    }),
-}) // FIELDS
+    },
+} // FIELDS
+deepFreeze(FIELDS)
+
+/**
+ * Deep freeze.
+ *
+ * @private
+ * @param {object} obj Object
+ * @returns {object} Frozen object
+ */
+function deepFreeze(obj) {
+    Object.freeze(obj)
+
+    Object.getOwnPropertyNames(obj).forEach(function (prop) {
+        if (typeof obj[prop] === 'object') {
+            deepFreeze(obj[prop])
+        }
+    })
+
+    return obj
+}
 
 module.exports = {
     STATE,

@@ -1,16 +1,18 @@
 'use strict'
 
-const TDA = require('./tdAmeritrade')
+const Client = require('./client')
 
 const url = require('url')
 const https = require('https')
 const fs = require('fs')
 const path = require('path')
 
+const { account, streamer } = require('./common')
+
 /**
- * @class
+ * @augments Client
  */
-class TDAmeritrade extends TDA {
+class TDAmeritrade extends Client {
     /**
      * Bootstrap a local web server for oauth2 authorization. Will request
      * access token and update config if authorization is successful.
@@ -79,5 +81,8 @@ class TDAmeritrade extends TDA {
         return this.authorize()
     } // login()
 } // class
+
+TDAmeritrade.prototype.account = account
+TDAmeritrade.prototype.streamer = streamer
 
 module.exports = { TDAmeritrade }

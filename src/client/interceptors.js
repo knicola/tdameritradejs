@@ -1,9 +1,11 @@
 'use strict'
 
+/* eslint jsdoc/valid-types: 0 */
+
 const axios = require('axios').default
 const get = require('lodash/get')
 
-/** @typedef {import('./tdAmeritrade')} TDAmeritrade */
+/** @typedef {import('.')} TDAmeritrade */
 /**
  * Append access token to the request.
  *

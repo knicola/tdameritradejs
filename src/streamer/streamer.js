@@ -6,8 +6,8 @@ const EventEmitter = require('eventemitter3')
 const WebSocket = require('isomorphic-ws')
 const cuid = require('cuid')
 
-const { STATE, EVENT, ERROR, COMMANDS, SERVICES, FIELDS } = require('./streamer/constants')
-const transform = require('./streamer/transforms')
+const { STATE, EVENT, ERROR, COMMANDS, SERVICES, FIELDS } = require('./constants')
+const transform = require('./transforms')
 
 const emitter = Symbol()
 const socket = Symbol()
@@ -26,7 +26,7 @@ const state = Symbol()
 /**
  * @class
  */
-class TDStreamer {
+class Streamer {
     constructor(userPrincipals) {
         this.userPrincipals = userPrincipals
         this[emitter] = new EventEmitter()
@@ -60,12 +60,15 @@ class TDStreamer {
     } // constructor()
 
     /**
-     * @returns {State} state
+     * @returns {STATE} state
      */
     get state() {
         return this[state]
     } // state
 
+    /** @typedef {'connecting'|'connected'|'authenticated'|'disconnecting'|'disconnected'} State */
+    /** @typedef {'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'level_one_futures'|'chart_history_futures'|'error'} Event */
+    /** @typedef {'unknown_error'|'unknown_message'|'unknown_response'|'unknown_notification'|'unknown_data'|'invalid_message'|'connection_refused'|'authentication_failed'} Error */
     /**
      * Add a listener for a given event.
      *
@@ -686,7 +689,7 @@ class TDStreamer {
             }
         })
     } // unsubsLevelOneFutures()
-} // TDStreamer()
+} // Streamer()
 
 /**
  * Handle messages sent by the server
@@ -897,10 +900,4 @@ function jsonToQueryString(json) {
         .join('&')
 } // jsonToQueryString()
 
-module.exports = TDStreamer
-
-/**
- * @typedef {'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'level_one_futures'|'chart_history_futures'|'error'} Event
- * @typedef {'connecting'|'connected'|'authenticated'|'disconnecting'|'disconnected'} State
- * @typedef {'unknown_error'|'unknown_message'|'unknown_response'|'unknown_notification'|'unknown_data'|'invalid_message'|'connection_refused'|'authentication_failed'} Error
- */
+module.exports = Streamer
