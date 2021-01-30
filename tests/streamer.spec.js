@@ -5,18 +5,18 @@ const debug = require('debug')('ameritrade:tests') // eslint-disable-line no-unu
 
 const WS = require('jest-websocket-mock').default
 
-const Streamer = require('../src/streamer')
+const TDStreamer = require('../src/streamer')
 const userPrincipals = require('./setup/userPrincipals.fixture')
 
 const cuid = require('cuid')
 jest.mock('cuid')
 cuid.mockImplementation(() => 'test_requestid')
 
-describe('Streamer', () => {
+describe('TDStreamer', () => {
     let server, streamer
     beforeEach(async () => {
         server = new WS('wss://localhost:3331/ws', { jsonProtocol: true })
-        streamer = new Streamer(userPrincipals)
+        streamer = new TDStreamer(userPrincipals)
         streamer.connect()
         await server.connected
         await server.nextMessage
@@ -27,7 +27,7 @@ describe('Streamer', () => {
     })
     describe('.connect()', () => {
         it('should connect and authenticate to the server', async () => {
-            const streamer = new Streamer(userPrincipals)
+            const streamer = new TDStreamer(userPrincipals)
             streamer.connect()
             await server.connected
             await expect(server).toReceiveMessage({
@@ -845,7 +845,7 @@ describe('Streamer', () => {
             })
             await expect(server).toReceiveMessage({
                 requests: [{
-                    requestid: 2000000000,
+                    requestid: '2000000000',
                     source: 'test_appId',
                     account: '123456789',
                     service: 'CHART_HISTORY_FUTURES',

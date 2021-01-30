@@ -12,21 +12,16 @@ const transform = require('./transforms')
 const emitter = Symbol()
 const socket = Symbol()
 const state = Symbol()
+const listeners = Symbol()
 
-// maybe ?
-// if (! WebSocket.prototype.once) {
-//     WebSocket.prototype.once = function (method, fn) {
-//         this.addEventListener(method, function func() {
-//             this.removeEventListener(func)
-//             fn.apply(this, arguments)
-//         })
-//     }
-// }
+/** @typedef {'connecting'|'connected'|'authenticated'|'disconnecting'|'disconnected'} State */
+/** @typedef {'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'level_one_futures'|'chart_history_futures'|'error'} Event */
+/** @typedef {'unknown_error'|'unknown_message'|'unknown_response'|'unknown_notification'|'unknown_data'|'invalid_message'|'connection_refused'|'authentication_failed'} Error */
 
 /**
  * @class
  */
-class Streamer {
+class TDStreamer {
     constructor(userPrincipals) {
         this.userPrincipals = userPrincipals
         this[emitter] = new EventEmitter()
@@ -57,24 +52,26 @@ class Streamer {
 
         // logout
         this[emitter].on(STATE.DISCONNECTING, () => this.sendRequest(logout()))
+
+        // make a list of built-in listeners
+        this[listeners] = this[emitter].eventNames().reduce((result, name) => {
+            return result.concat(this[emitter].listeners(name))
+        }, [])
     } // constructor()
 
     /**
-     * @returns {STATE} state
+     * @returns {State} state
      */
     get state() {
         return this[state]
     } // state
 
-    /** @typedef {'connecting'|'connected'|'authenticated'|'disconnecting'|'disconnected'} State */
-    /** @typedef {'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'level_one_futures'|'chart_history_futures'|'error'} Event */
-    /** @typedef {'unknown_error'|'unknown_message'|'unknown_response'|'unknown_notification'|'unknown_data'|'invalid_message'|'connection_refused'|'authentication_failed'} Error */
     /**
      * Add a listener for a given event.
      *
      * @param {State|Event|Error} event The event name
-     * @param {Function} fn Callback function
-     * @returns {void}
+     * @param {EventEmitter.EventListener<any, any>} fn Callback function
+     * @returns {EventEmitter<string | symbol, any>} Event emitter
      */
     on(event, fn) {
         return this[emitter].on(event, fn)
@@ -84,8 +81,8 @@ class Streamer {
      * Add a one-time listener for a given event.
      *
      * @param {State|Event|Error} event The event name
-     * @param {Function} fn Callback function
-     * @returns {void}
+     * @param {EventEmitter.EventListener<any, any>} fn Callback function
+     * @returns {EventEmitter<string | symbol, any>} Event emitter
      */
     once(event, fn) {
         return this[emitter].once(event, fn)
@@ -95,7 +92,7 @@ class Streamer {
      * Remove the listeners of a given event.
      *
      * @param {State|Event} event The event name
-     * @param {Function} fn Callback function
+     * @param {EventEmitter.EventListener<any, any>} fn Callback function
      * @returns {void}
      */
     removeListener(event, fn) {
@@ -109,7 +106,16 @@ class Streamer {
      * @returns {void}
      */
     removeAllListeners(event) {
-        return this[emitter].removeAllListeners(event)
+        const eventNames = event
+            ? [].concat(event)
+            : this.eventNames()
+
+        // do NOT remove built-in listeners
+        eventNames.forEach(name => {
+            this.listeners(name)
+                .filter(listener => ! this[listeners].includes(listener))
+                .forEach(listener => this.removeListener(name, listener))
+        })
     } // removeAllListeners()
 
     /**
@@ -126,7 +132,7 @@ class Streamer {
      * Return the listeners registered for a given event.
      *
      * @param {State|Event|Error} event The event name
-     * @returns {Array<EventEmitter.EventListener>} List of listeners
+     * @returns {Array<EventEmitter.EventListener<any, any>>} List of listeners
      */
     listeners(event) {
         return this[emitter].listeners(event)
@@ -163,7 +169,7 @@ class Streamer {
      * @param {boolean} options.force Disconnect immediately
      * @returns {void}
      */
-    disconnect({ force } = {}) {
+    disconnect({ force } = { force: false }) {
         if (this.state !== STATE.DISCONNECTED) {
             this[emitter].emit(STATE.DISCONNECTING)
             setTimeout(() => this[socket].close(), force ? 0 : 3000)
@@ -183,7 +189,7 @@ class Streamer {
      * Create a request object
      *
      * @param {Request|Request[]} requests The requests to send to the server
-     * @returns {object[]} The requests object
+     * @returns {object} The requests object
      */
     createRequest(requests) {
         const data = { requests: [] }
@@ -233,7 +239,7 @@ class Streamer {
      * @typedef {object} Service
      * @property {string} [requestid] A unique request identifier
      * @property {string} service The service name
-     * @property {object} parameters The service parameters
+     * @property {object} [parameters] The service parameters
      */
     /**
      * Subscribe for service updates
@@ -600,7 +606,7 @@ class Streamer {
      */
     getChartHistoryFutures(symbols, options) {
         return this.sendRequest({
-            requestid: Math.floor(Math.random() * 2000000000),
+            requestid: Math.floor(Math.random() * 2000000000).toString(),
             service: SERVICES.CHART_HISTORY_FUTURES,
             command: COMMANDS.GET,
             parameters: Object.assign({}, options, {
@@ -689,7 +695,7 @@ class Streamer {
             }
         })
     } // unsubsLevelOneFutures()
-} // Streamer()
+} // TDStreamer()
 
 /**
  * Handle messages sent by the server
@@ -708,7 +714,8 @@ function handleMessage(emitter, message) {
             throw Error()
         }
     } catch (error) {
-        return emitter.emit(ERROR.INVALID_MESSAGE, message)
+        emitter.emit(ERROR.INVALID_MESSAGE, message)
+        return
     }
 
     debug('Received message %j', msg)
@@ -777,7 +784,8 @@ function handleResponse(emitter, response) {
  */
 function handleNotification(emitter, notification) {
     if (notification.heartbeat) {
-        return emitter.emit('heartbeat', notification.heartbeat)
+        emitter.emit('heartbeat', notification.heartbeat)
+        return
     }
 
     emitter.emit(ERROR.UNKNOWN_NOTIFICATION, notification)
@@ -900,4 +908,4 @@ function jsonToQueryString(json) {
         .join('&')
 } // jsonToQueryString()
 
-module.exports = Streamer
+module.exports = TDStreamer

@@ -38,14 +38,14 @@ describe('TDAmeritrade (Node.js)', () => {
         }) // test
     }) // group
     describe('.streamer()', () => {
-        it('shoud create a new instance of Streamer', async () => {
+        it('shoud create a new instance of TDStreamer', async () => {
             const td = new TDAmeritrade()
             mockAxios.reset()
             mockAxios.onGet('/userprincipals').reply(200, userPrincipalFixture)
             const streamer = await td.streamer()
             expect(streamer).toBeInstanceOf(require('../src/streamer'))
         }) // test
-        it('should be able to create a new instance of Streamer with fullResponse config enabled', async () => {
+        it('should be able to create a new instance of TDStreamer with fullResponse config enabled', async () => {
             const td = new TDAmeritrade({
                 fullResponse: true
             })

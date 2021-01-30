@@ -1,3 +1,5 @@
 'use strict'
 
-module.exports = require('./streamer')
+const Streamer = require('./streamer')
+
+module.exports = Streamer

@@ -1,33 +1,44 @@
 {
   "source": {
-      "include": ["src/", "package.json", "README.md"],
-      "includePattern": ".js$",
-      "excludePattern": "(node_modules/|docs)"
+    "include": ["src/", "package.json", "README.md"],
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules/|docs)"
   },
-
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": [
+      "jsdoc",
+      "typescript"
+    ]
+  },
   "plugins": [
     "plugins/markdown",
     "typedef-import"
   ],
-
   "markdown": {
     "idInHeadings": true
   },
-  "templates": {
-      "cleverLinks": false,
-      "monospaceLinks": true,
-      "useLongnameInNav": false,
-      "showInheritedInNav": true
-  },
-
   "opts": {
-      "encoding": "utf8",
-      "readme": "./README.md",
-      "destination": "docs/",
-      "recurse": true,
-      "verbose": true,
-      "template": "node_modules/docdash",
-      "theme_opts": {
-      }
+    "template": "node_modules/docdash",
+    "encoding": "utf8",
+    "readme": "./README.md",
+    "destination": "docs/",
+    "recurse": true,
+    "verbose": true,
+    "theme_opts": {}
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": true,
+    "useLongnameInNav": false,
+    "showInheritedInNav": true
+  },
+  "docdash": {
+    "collapse": true,
+    "search": true,
+    "nameInOutputPath": false,
+    "versionInOutputPath": false,
+    "typedefs": true,
+    "sort": false
   }
 }

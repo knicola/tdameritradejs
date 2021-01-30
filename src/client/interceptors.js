@@ -5,12 +5,12 @@
 const axios = require('axios').default
 const get = require('lodash/get')
 
-/** @typedef {import('.')} TDAmeritrade */
+/** @typedef {import('./client')} Client */
 /**
  * Append access token to the request.
  *
  * @private
- * @param {TDAmeritrade} client Client
+ * @param {Client} client Client
  * @returns {void}
  */
 function appendAccessToken(client) {
@@ -27,7 +27,7 @@ function appendAccessToken(client) {
  * Update config when a new token is received.
  *
  * @private
- * @param {TDAmeritrade} client Client
+ * @param {Client} client Client
  * @returns {void}
  */
 function updateConfigOnNewToken(client) {
@@ -46,7 +46,7 @@ function updateConfigOnNewToken(client) {
  * Refresh token and retry request on status code 401.
  *
  * @private
- * @param {TDAmeritrade} client Client
+ * @param {Client} client Client
  * @returns {void}
  */
 function refreshAndRetry(client) {
@@ -73,7 +73,7 @@ function refreshAndRetry(client) {
  * Return the full Axios response.
  *
  * @private
- * @param {TDAmeritrade} client Client
+ * @param {Client} client Client
  * @returns {void}
  */
 function fullResponse(client) {
@@ -150,7 +150,7 @@ const interceptors = {
  * Add all interceptors to the client's axios instance.
  *
  * @private
- * @param {TDAmeritrade} client Client
+ * @param {Client} client Client
  * @returns {void}
  */
 function setup(client) {

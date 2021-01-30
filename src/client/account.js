@@ -1,17 +1,15 @@
 'use strict'
 
-/* eslint jsdoc/valid-types: 0 */
-
-const Client = require('.')
+const Client = require('./client')
 const partial = require('lodash/partial')
 
 /**
  * @class
  * @augments Client
  */
-class Account extends Client {
+class TDAccount extends Client {
     constructor(accountId) {
-        super()
+        super({})
 
         /** @ignore */ this.authorize = undefined
         /** @ignore */ this.login = undefined
@@ -36,7 +34,7 @@ class Account extends Client {
          */
         this.getPreferences = partial(super.getPreferences, accountId)
 
-        /** @typedef {import('./index').Preferences} Preferences */
+        /** @typedef {import('./client').Preferences} Preferences */
         /**
          * Update account preferences. The `directOptionsRouting` and
          * `directEquityRouting` values cannot be modified via this operation.
@@ -55,12 +53,12 @@ class Account extends Client {
          */
         this.getStreamerSubscriptionKeys = partial(super.getStreamerSubscriptionKeys, accountId)
 
-        /** @typedef {import('./index').OrderQuery} OrderQuery */
+        /** @typedef {import('./client').OrdersQuery} OrdersQuery */
         /**
          * Get a list of orders.
          *
          * @function
-         * @param {OrderQuery} params The query parameters
+         * @param {OrdersQuery} params The query parameters
          * @returns {Promise<any>} List of orders
          */
         this.getOrders = partial(super.getOrders, accountId)
@@ -76,6 +74,7 @@ class Account extends Client {
 
         /**
          * Place an order.
+         * Read {@link https://developer.tdameritrade.com/content/place-order-samples Place Order Samples} for more info.
          *
          * @function
          * @param {object} order The order
@@ -103,25 +102,128 @@ class Account extends Client {
          */
         this.cancelOrder = partial(super.cancelOrder, accountId)
 
-        // SAVED ORDERS
+        /**
+         * Save an order.
+         *
+         * @function
+         * @param {object} savedOrder The saved order
+         * @returns {Promise<any>} Success
+         */
         this.createSavedOrder = partial(super.createSavedOrder, accountId)
+
+        /**
+         * Delete a specific saved order.
+         *
+         * @function
+         * @param {string} savedOrderId The saved order id
+         * @returns {Promise<any>} Success
+         */
         this.deleteSavedOrder = partial(super.deleteSavedOrder, accountId)
+
+        /**
+         * Get saved order by its ID.
+         *
+         * @function
+         * @param {string} savedOrderId The saved order id
+         * @returns {Promise<any>} The saved order details
+         */
         this.getSavedOrder = partial(super.getSavedOrder, accountId)
+
+        /**
+         * Get saved orders.
+         *
+         * @function
+         * @returns {Promise<any>} List of saved orders
+         */
         this.getSavedOrders = partial(super.getSavedOrders, accountId)
+
+        /**
+         * Replace an existing saved order for an account. The existing saved order will be replaced by the new order.
+         *
+         * @function
+         * @param {string} savedOrderId The saved order id
+         * @param {object} savedOrder The new saved order
+         * @returns {Promise<any>} Success
+         */
         this.replaceSavedOrder = partial(super.replaceSavedOrder, accountId)
 
-        // WATCHLISTS
+        /** @typedef {import('./client').Watchlist} Watchlist */
+        /**
+         * Create watchlist.
+         *
+         * @function
+         * @param {Watchlist} watchlist The watchlist
+         * @returns {Promise<any>} Success
+         */
         this.createWatchlist = partial(super.createWatchlist, accountId)
+
+        /**
+         * Delete watchlist.
+         *
+         * @function
+         * @param {string} watchlistId The watchlist id
+         * @returns {Promise<any>} Success
+         */
         this.deleteWatchlist = partial(super.deleteWatchlist, accountId)
+
+        /**
+         * Get watchlist.
+         *
+         * @function
+         * @param {string} watchlistId The watchlist id
+         * @returns {Promise<any>} Success
+         */
         this.getWatchlist = partial(super.getWatchlist, accountId)
+
+        /**
+         * Get all watchlists.
+         *
+         * @function
+         * @returns {Promise<any>} List of watchlists
+         */
         this.getWatchlists = partial(super.getWatchlists, accountId)
+
+        /**
+         * Replace watchlist. This method does not verify that the symbol or asset type are valid.
+         *
+         * @function
+         * @param {string} watchlistId The watchlist id
+         * @param {Watchlist} watchlist The watchlist
+         * @returns {Promise<any>} Success
+         */
         this.replaceWatchlist = partial(super.replaceWatchlist, accountId)
+
+        /**
+         * Partially update watchlist: change watchlist name, add to the
+         * beginning/end of a watchlist, update or delete items in a watchlist.
+         * This method does not verify that the symbol or asset type are valid.
+         *
+         * @function
+         * @param {string} watchlistId The watchlist id
+         * @param {Watchlist} watchlist The new watchlist
+         * @returns {Promise<any>} Success
+         */
         this.updateWatchlist = partial(super.updateWatchlist, accountId)
 
-        // TRANSACTIONS
+        /**
+         * Get a transaction.
+         *
+         * @function
+         * @param {string} transactionId The transaction id
+         * @returns {Promise<any>} The transaction details
+         */
         this.getTransaction = partial(super.getTransaction, accountId)
+
+        /** @typedef {import('./client').TransactionQuery} TransactionQuery */
+        /**
+         * Get all transactions.
+         *
+         * @function
+         * @param {TransactionQuery} params The query parameters
+         * @returns {Promise<any>} The transaction history
+         */
         this.getTransactions = partial(super.getTransactions, accountId)
     }
 }
 
-module.exports = Account
+module.exports = TDAccount

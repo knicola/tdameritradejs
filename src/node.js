@@ -9,17 +9,39 @@ const path = require('path')
 
 const { account, streamer } = require('./common')
 
+/** @typedef {import('./client/client').Config} Config */
+
 /**
  * @augments Client
  */
 class TDAmeritrade extends Client {
     /**
+     * @param {Config} config Config
+     * @example
+     * const td = new TDAmeritrade({
+     *     apiKey: process.env.API_KEY,
+     *     redirectUri: 'https://localhost:8443',
+     *     sslKey: './selfsigned.key',
+     *     sslCert: './selfsigned.crt',
+     * })
+     */
+    constructor(config) {
+        super(config)
+    }
+    /**
      * Bootstrap a local web server for oauth2 authorization. Will request
      * access token and update config if authorization is successful.
      *
-     * ** Nodejs only **
+     * **(Available for Nodejs only)**
      *
      * @returns {Promise<any>} Success
+     *
+     * @example
+     * td.authorize().then(token => {
+     *     console.log(token)
+     * }).catch(err => {
+     *     console.log(err)
+     * })
      */
     authorize() {
         return new Promise((resolve, reject) => {
@@ -37,7 +59,7 @@ class TDAmeritrade extends Client {
                     return res.end()
                 }
 
-                this.getAccessToken(decodeURIComponent(_url.query.code))
+                this.getAccessToken(decodeURIComponent(_url.query.code.toString()))
                     .then(data => {
                         res.writeHead(200, { 'Content-Type': 'text/html' })
                         res.write('OK')
@@ -52,7 +74,7 @@ class TDAmeritrade extends Client {
                     })
                     .finally(() => server.close())
             })
-            server.listen(urlObj.port || 8443, urlObj.hostname, () => {
+            server.listen(Number(urlObj.port) || 8443, urlObj.hostname, () => {
                 this.emit(
                     'login',
                     `https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=${this.config.redirectUri}&client_id=${this.config.apiKey}`
@@ -65,9 +87,16 @@ class TDAmeritrade extends Client {
      * Authorize or refresh the access token depending on whether
      * the access and/or refresh token exist and are not expired.
      *
-     * ** Nodejs only **
+     * **(Available for Nodejs only)**
      *
      * @returns {Promise<any>} Success
+     *
+     * @example
+     * td.login().then(token => {
+     *     console.log(token)
+     * }).catch(err => {
+     *     console.log(err)
+     * })
      */
     login() {
         if (! this.isAccessTokenExpired()) {

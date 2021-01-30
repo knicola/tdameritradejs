@@ -1,6 +1,9 @@
 'use strict'
 
-/** @enum */
+/**
+ * @private
+ * @enum {string}
+ */
 const STATE = {
     CONNECTING: 'connecting',
     CONNECTED: 'connected',
@@ -10,7 +13,10 @@ const STATE = {
 }
 Object.freeze(STATE)
 
-/** @enum */
+/**
+ * @private
+ * @enum {string}
+ */
 const EVENT = {
     STATE_CHANGE: 'state_change',
     MESSAGE: 'message',
@@ -32,7 +38,10 @@ const EVENT = {
 }
 Object.freeze(EVENT)
 
-/** @enum */
+/**
+ * @private
+ * @enum {string}
+ */
 const ERROR = {
     UNKNOWN: 'unknown_error',
     UNKNOWN_MESSAGE: 'unknown_message',
@@ -47,7 +56,7 @@ Object.freeze(ERROR)
 
 /**
  * @private
- * @enum
+ * @enum {string}
  */
 const COMMANDS = {
     LOGIN: 'LOGIN', // Log in to Streamer Server to begin subscribing for data
@@ -62,7 +71,10 @@ const COMMANDS = {
 }
 Object.freeze(COMMANDS)
 
-/** @enum */
+/**
+ * @private
+ * @enum {string}
+ */
 const SERVICES = {
     ACCT_ACTIVITY: 'ACCT_ACTIVITY', // Account Activity Notifications
     ADMIN: 'ADMIN', // Admin requests: LOGIN, LOGOUT
@@ -96,9 +108,13 @@ const SERVICES = {
 }
 Object.freeze(SERVICES)
 
-/** @enum */
+/**
+ * @private
+ * @enum {object}
+ */
 const FIELDS = {
     // Quality of Service, or the rate the data will be sent to the client.
+    /** @enum {number} */
     QOS: {
         express: 0, // (500 ms)
         realtime: 1, // (750 ms) default value for http binary protocol
@@ -108,6 +124,7 @@ const FIELDS = {
         delayed: 5, // (5,000 ms)
     },
 
+    /** @enum {number} */
     ACCT_ACTIVITY: {
         subscriptionKey: 0, // Subscription Key
         accountNumber: 1, // Account #
@@ -115,6 +132,7 @@ const FIELDS = {
         messageData: 3, // Message Data
     },
 
+    /** @enum {number} */
     CHART_EQUITY: {
         key: 0, // Ticker symbol in upper case.
         openPrice: 1, // Opening price for the minute
@@ -127,6 +145,7 @@ const FIELDS = {
         chartDay: 8, // Not useful
     },
 
+    /** @enum {number} */
     CHART_FUTURES: {
         key: 0, // Ticker symbol in upper case
         chartTime: 1, // Milliseconds since Epoch
@@ -137,6 +156,7 @@ const FIELDS = {
         volume: 6, // Total volume for the minute
     },
 
+    /** @enum {number} */
     CHART_OPTIONS: {
         key: 0, // Ticker symbol in upper case
         chartTime: 1, // Milliseconds since Epoch
@@ -147,6 +167,7 @@ const FIELDS = {
         volume: 6, // Total volume for the minute
     },
 
+    /** @enum {number} */
     NEWS_HEADLINE: {
         symbol: 0, // Ticker symbol in upper case.
         errorCode: 1, // Specifies if there is any error.
@@ -161,6 +182,7 @@ const FIELDS = {
         storySource: 10,
     },
 
+    /** @enum {number} */
     TIMESALE: {
         symbol: 0, // Ticker symbol in upper case.
         tradeTime: 1, // Trade time of the last trade in milliseconds since epoch
@@ -169,6 +191,7 @@ const FIELDS = {
         lastSequence: 4, // Number of shares for bid
     },
 
+    /** @enum {number} */
     LEVEL_ONE_EQUITY: {
         symbol: 0, // Ticker symbol in upper case.
         bidPrice: 1, // Current Best Bid Price
@@ -225,6 +248,7 @@ const FIELDS = {
         regularMarketTradeTimeInLong: 52, // Regular market trade time in milliseconds since Epoch
     },
 
+    /** @enum {number} */
     LEVEL_ONE_FUTURES: {
         symbol: 0, // Ticker symbol in upper case.
         bidPrice: 1, // Current Best Bid Price

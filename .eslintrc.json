@@ -22,7 +22,8 @@
       "no-nested-ternary": "error",
       "no-unneeded-ternary": "error",
       "no-tabs": "error",
-      "no-whitespace-before-property": "error"
+      "no-whitespace-before-property": "error",
+      "jsdoc/valid-types": 0
     },
     "plugins": [ "jsdoc" ]
   }
