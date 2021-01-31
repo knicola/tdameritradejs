@@ -9,14 +9,14 @@ const path = require('path')
 
 const { account, streamer } = require('./common')
 
-/** @typedef {import('./client/client').Config} Config */
+/** @typedef {import('./client/base').Config} Config */
 
 /**
  * @augments Client
  */
 class TDAmeritrade extends Client {
     /**
-     * @param {Config} config Config
+     * @param {Config} [config] Config
      * @example
      * const td = new TDAmeritrade({
      *     apiKey: process.env.API_KEY,
@@ -28,6 +28,7 @@ class TDAmeritrade extends Client {
     constructor(config) {
         super(config)
     }
+
     /**
      * Bootstrap a local web server for oauth2 authorization. Will request
      * access token and update config if authorization is successful.
@@ -115,3 +116,6 @@ TDAmeritrade.prototype.account = account
 TDAmeritrade.prototype.streamer = streamer
 
 module.exports = { TDAmeritrade }
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = { TDAmeritrade }
