@@ -1,34 +1,23 @@
-'use strict'
-
 /**
  * Get saved order by its ID, for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {string} savedOrderId The saved order id
  * @returns {Promise<any>} The saved order details
  */
-function getSavedOrder(accountId, savedOrderId) {
-    return this.axios.get(`/accounts/${accountId}/savedorders/${savedOrderId}`)
-} // getSavedOrder()
-
+export function getSavedOrder(accountId: string, savedOrderId: string): Promise<any>;
 /**
  * Get saved orders for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @returns {Promise<any>} List of saved orders
  */
-function getSavedOrders(accountId) {
-    return this.axios.get(`/accounts/${accountId}/savedorders`)
-} // getSavedOrdersByPath()
-
+export function getSavedOrders(accountId: string): Promise<any>;
 /**
  * Save an order for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {object} savedOrder The saved order
@@ -54,28 +43,20 @@ function getSavedOrders(accountId) {
  *     ]
  * })
  */
-function createSavedOrder(accountId, savedOrder) {
-    return this.axios.post(`/accounts/${accountId}/savedorders`, savedOrder)
-} // createSavedOrder()
-
+export function createSavedOrder(accountId: string, savedOrder: object): Promise<any>;
 /**
  * Replace an existing saved order for an account. The existing saved order will be replaced by the new order.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {string} savedOrderId The saved order id
  * @param {object} savedOrder The new saved order
  * @returns {Promise<any>} Success
  */
-function replaceSavedOrder(accountId, savedOrderId, savedOrder) {
-    return this.axios.put(`/accounts/${accountId}/savedorders/${savedOrderId}`, savedOrder)
-} // replaceSavedOrder()
-
+export function replaceSavedOrder(accountId: string, savedOrderId: string, savedOrder: object): Promise<any>;
 /**
  * Delete a specific saved order for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {string} savedOrderId The saved order id
@@ -84,14 +65,4 @@ function replaceSavedOrder(accountId, savedOrderId, savedOrder) {
  * @example
  * await td.deleteSavedOrder('45678', '98754')
  */
-function deleteSavedOrder(accountId, savedOrderId) {
-    return this.axios.delete(`/accounts/${accountId}/savedorders/${savedOrderId}`)
-} // deleteSavedOrder()
-
-module.exports = {
-    getSavedOrder,
-    getSavedOrders,
-    createSavedOrder,
-    replaceSavedOrder,
-    deleteSavedOrder,
-}
+export function deleteSavedOrder(accountId: string, savedOrderId: string): Promise<any>;

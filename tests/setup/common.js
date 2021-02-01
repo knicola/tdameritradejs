@@ -1,5 +1,15 @@
 'use strict'
 
+/** @typedef {import('express').Request} Request */
+/** @typedef {import('express').Response} Response */
+/**
+ * Create a mock API response.
+ *
+ * @private
+ * @param {Request} req Request
+ * @param {Response} res Response
+ * @returns {Promise<any>} Request
+ */
 function apiResponse(req, res) {
     return res.json({
         url: req.path,
@@ -10,6 +20,13 @@ function apiResponse(req, res) {
     })
 } // apiResponse()
 
+/**
+ * Mock axios response.
+ *
+ * @private
+ * @param {object} config Config
+ * @returns {Array<any>} Axios response
+ */
 function mockAxiosResponse(config) {
     let data
     try {
@@ -26,6 +43,13 @@ function mockAxiosResponse(config) {
     }]
 } // mockAxiosResponse()
 
+/**
+ * API call assertion.
+ *
+ * @private
+ * @param {object} actual Actual
+ * @param {object} expected Expected
+ */
 function assertApiCall(actual, expected) {
     ! expected.method  || expect(actual.method).toEqual(expected.method)
     ! expected.url     || expect(actual.url).toEqual(expected.url)

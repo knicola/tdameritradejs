@@ -10,7 +10,9 @@ const transactions = require('./resources/transactions')
 
 /**
  * @class
- * @augments Base
+ * @typicalname account
+ * @param {string} accountId The account id to target
+ * @memberof TDAmeritrade
  */
 class TDAccount extends Base {
     constructor(accountId) {

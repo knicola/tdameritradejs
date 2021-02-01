@@ -1,9 +1,26 @@
-'use strict'
-
+export type TransactionQuery = {
+    /**
+     * Only transactions with the specified type will be returned.
+     */
+    type: 'ALL' | 'TRADE' | 'BUY_ONLY' | 'SELL_ONLY' | 'CASH_IN_OR_CASH_OUT' | 'CHECKING' | 'DIVIDEND' | 'INTEREST' | 'OTHER' | 'ADVISOR_FEES';
+    /**
+     * Only transactions with the specified symbol will be returned.
+     */
+    symbol: string;
+    /**
+     * Only transactions after the Start Date will be returned.
+     * Note: The maximum date range is one year. Valid ISO-8601 formats are: `yyyy-MM-dd`.
+     */
+    startDate: string;
+    /**
+     * Only transactions before the End Date will be returned.
+     * Note: The maximum date range is one year. Valid ISO-8601 formats are: `yyyy-MM-dd`.
+     */
+    endDate: string;
+};
 /**
  * Get a transaction for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {string} transactionId The transaction id
@@ -12,12 +29,9 @@
  * @example
  * const transaction = await td.getTransaction('45678', '98754')
  */
-function getTransaction(accountId, transactionId) {
-    return this.axios.get(`/accounts/${accountId}/transactions/${transactionId}`)
-} // getTransaction()
-
+export function getTransaction(accountId: string, transactionId: string): Promise<any>;
 /**
- * @typedef {object} TransactionQuery
+ * @typedef TransactionQuery
  * @property {'ALL'|'TRADE'|'BUY_ONLY'|'SELL_ONLY'|'CASH_IN_OR_CASH_OUT'
  *   |'CHECKING'|'DIVIDEND'|'INTEREST'|'OTHER'|'ADVISOR_FEES'
  * } type Only transactions with the specified type will be returned.
@@ -30,7 +44,6 @@ function getTransaction(accountId, transactionId) {
 /**
  * Get all transactions for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {TransactionQuery} params The query parameters
@@ -43,11 +56,4 @@ function getTransaction(accountId, transactionId) {
  *     endDate: '2021-01-31',
  * })
  */
-function getTransactions(accountId, params) {
-    return this.axios.get(`/accounts/${accountId}/transactions`, { params })
-} // getTransactions()
-
-module.exports = {
-    getTransaction,
-    getTransactions,
-}
+export function getTransactions(accountId: string, params: TransactionQuery): Promise<any>;

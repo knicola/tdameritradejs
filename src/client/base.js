@@ -23,14 +23,14 @@ const tokens = require('./resources/tokens')
  */
 
 /**
- * @private
+ * @ignore
  */
-class Base extends EventEmitter {
+class Base {
     /**
      * @param {Config} [config] Config
      */
     constructor(config) {
-        super()
+        this._emitter = new EventEmitter()
 
         this.config = Object.assign({}, defaults, config, function () {
             if (config) {
@@ -42,12 +42,32 @@ class Base extends EventEmitter {
             }
         }()) // config
 
+        /** @typedef {import('axios').AxiosInstance} AxiosInstance */
+        /**
+         * @name axios
+         * @instance
+         * @memberof TDAmeritrade
+         * @type {AxiosInstance}
+         */
         this.axios = axios.create({ baseURL: this.config.baseURL })
 
         interceptors.setup(this)
     }
 } // Base
 
+/**
+ * Add a listener for a given event.
+ *
+ * @instance
+ * @memberof TDAmeritrade
+ * @param {'login'|'token'} event Event
+ * @param {(...args: any[]) => void} fn Callback
+ * @returns {EventEmitter<string | symbol, any>} EventEmitter
+ */
+function on(event, fn) {
+    return this._emitter.on(event, fn)
+}
+Base.prototype.on = on
 Base.prototype.getAccessToken = tokens.getAccessToken
 Base.prototype.refreshAccessToken = tokens.refreshAccessToken
 Base.prototype.isAccessTokenExpired = tokens.isAccessTokenExpired

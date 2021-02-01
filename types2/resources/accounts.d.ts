@@ -1,23 +1,67 @@
-'use strict'
-
+export type Preferences = {
+    /**
+     * Express trading
+     */
+    expressTrading: boolean;
+    /**
+     * Default equity order leg instruction
+     */
+    defaultEquityOrderLegInstruction: 'BUY' | 'SELL' | 'BUY_TO_COVER' | 'SELL_SHORT' | 'NONE';
+    /**
+     * Default order type
+     */
+    defaultEquityOrderType: 'MARKET' | 'LIMIT' | 'STOP' | 'STOP_LIMIT' | 'TRAILING_STOP' | 'MARKET_ON_CLOSE' | 'NONE';
+    /**
+     * Default equity order price link type
+     */
+    defaultEquityOrderPriceLinkType: 'VALUE' | 'PERCENT' | 'NONE';
+    /**
+     * Default equity order duration
+     */
+    defaultEquityOrderDuration: 'DAY' | 'GOOD_TILL_CANCEL' | 'NONE';
+    /**
+     * Default equity order market session
+     */
+    defaultEquityOrderMarketSession: 'AM' | 'PM' | 'NORMAL' | 'SEAMLESS' | 'NONE';
+    /**
+     * Default equity quantity
+     */
+    defaultEquityQuantity: number;
+    /**
+     * Mutual fund taxlot method
+     */
+    mutualFundTaxLotMethod: 'FIFO' | 'LIFO' | 'HIGH_COST' | 'LOW_COST' | 'MINIMUM_TAX' | 'AVERAGE_COST' | 'NONE';
+    /**
+     * Option taxlot method
+     */
+    optionTaxLotMethod: 'FIFO' | 'LIFO' | 'HIGH_COST' | 'LOW_COST' | 'MINIMUM_TAX' | 'AVERAGE_COST' | 'NONE';
+    /**
+     * Equity taxlot method
+     */
+    equityTaxLotMethod: 'FIFO' | 'LIFO' | 'HIGH_COST' | 'LOW_COST' | 'MINIMUM_TAX' | 'AVERAGE_COST' | 'NONE';
+    /**
+     * Default advanced tool launch
+     */
+    defaultAdvancedToolLaunch: 'TA' | 'N' | 'Y' | 'TOS' | 'NONE' | 'CC2';
+    /**
+     * Auth token timeout
+     */
+    authTokenTimeout: 'FIFTY_FIVE_MINUTES' | 'TWO_HOURS' | 'FOUR_HOURS' | 'EIGHT_HOURS';
+};
+export type UserPrincipalFields = "streamerSubscriptionKeys" | "streamerConnectionInfo" | "preferences" | "surrogateIds";
 /**
  * Get account balances, positions, and orders for all linked accounts.
  *
- * @instance
  * @memberof TDAmeritrade
  * @returns {Promise<any>} List of all accounts
  *
  * @example
  * const accounts = await td.getAccounts()
  */
-function getAccounts() {
-    return this.axios.get('/accounts')
-} // getAccounts()
-
+export function getAccounts(): Promise<any>;
 /**
  * Get account balances, positions, and orders for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @returns {Promise<any>} The requested account
@@ -25,14 +69,10 @@ function getAccounts() {
  * @example
  * const acctInfo = await td.getAccount('45678')
  */
-function getAccount(accountId) {
-    return this.axios.get(`/accounts/${accountId}`)
-} // getAccount()
-
+export function getAccount(accountId: string): Promise<any>;
 /**
  * Get preferences for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @returns {Promise<any>} The account preferences
@@ -40,10 +80,7 @@ function getAccount(accountId) {
  * @example
  * const prefs = await td.getPreferences('45678')
  */
-function getPreferences(accountId) {
-    return this.axios.get(`/accounts/${accountId}/preferences`)
-} // getPreferences()
-
+export function getPreferences(accountId: string): Promise<any>;
 /**
  * @typedef {object} Preferences
  * @property {boolean} expressTrading Express trading
@@ -63,20 +100,15 @@ function getPreferences(accountId) {
  * Update preferences for a specific account. The `directOptionsRouting` and
  * `directEquityRouting` values cannot be modified via this operation.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {Preferences} preferences The updated preferences
  * @returns {Promise<any>} Success
  */
-function updatePreferences(accountId, preferences) {
-    return this.axios.put(`/accounts/${accountId}/preferences`, preferences)
-} // updatePreferences()
-
+export function updatePreferences(accountId: string, preferences: Preferences): Promise<any>;
 /**
  * Get the SubscriptionKey for provided accounts or default accounts.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string|string[]} [accountIds] The account id(s)
  * @returns {Promise<any>} The susbscription keys
@@ -84,21 +116,13 @@ function updatePreferences(accountId, preferences) {
  * @example
  * const subsKeys = await td.getStreamerSubscriptionKeys('45678')
  */
-function getStreamerSubscriptionKeys(accountIds) {
-    return this.axios.get('/userprincipals/streamersubscriptionkeys', {
-        params: {
-            accountIds: [].concat(accountIds).join(',')
-        }
-    })
-} // getStreamerSubscriptionKeys()
-
+export function getStreamerSubscriptionKeys(accountIds?: string | string[]): Promise<any>;
 /**
  * @typedef {'streamerSubscriptionKeys'|'streamerConnectionInfo'|'preferences'|'surrogateIds'} UserPrincipalFields
  */
 /**
  * Get user principal details.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {UserPrincipalFields|UserPrincipalFields[]} [fields] Fields to include
  * @returns {Promise<any>} User principal details
@@ -110,19 +134,4 @@ function getStreamerSubscriptionKeys(accountIds) {
  * // OR
  * const usrPrinc = await td.getUserPrincipals(['streamerSubscriptionKeys', 'streamerConnectionInfo'])
  */
-function getUserPrincipals(fields) {
-    return this.axios.get('/userprincipals', {
-        params: {
-            fields: [].concat(fields).join(',')
-        }
-    })
-} // getUserPrincipals()
-
-module.exports = {
-    getAccounts,
-    getAccount,
-    getPreferences,
-    updatePreferences,
-    getStreamerSubscriptionKeys,
-    getUserPrincipals,
-}
+export function getUserPrincipals(fields?: UserPrincipalFields | UserPrincipalFields[]): Promise<any>;

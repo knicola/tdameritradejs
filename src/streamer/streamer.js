@@ -20,6 +20,8 @@ const listeners = Symbol()
 
 /**
  * @class
+ * @typicalname streamer
+ * @memberof TDAmeritrade
  */
 class TDStreamer {
     constructor(userPrincipals) {

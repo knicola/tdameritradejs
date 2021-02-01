@@ -4,6 +4,9 @@ const debug = require('debug')('ameritrade:client') // eslint-disable-line no-un
 
 const Base = require('./base')
 
+/**
+ * @ignore
+ */
 class Client extends Base {}
 
 const market = require('./resources/market')

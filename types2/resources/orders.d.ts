@@ -1,9 +1,27 @@
-'use strict'
-
+export type OrderStatus = "AWAITING_PARENT_ORDER" | "AWAITING_CONDITION" | "AWAITING_MANUAL_REVIEW" | "ACCEPTED" | "AWAITING_UR_OUT" | "PENDING_ACTIVATION" | "QUEUED" | "WORKING" | "REJECTED" | "PENDING_CANCEL" | "CANCELED" | "PENDING_REPLACE" | "REPLACED" | "FILLED" | "EXPIRED";
+export type OrdersQuery = {
+    /**
+     * The max number of orders to retrieve.
+     */
+    maxResults?: number;
+    /**
+     * Specifies that no orders entered before this time should be returned. Valid
+     * ISO-8601 formats are: `yyyy-MM-dd`. Date must be within 60 days from today's date. `toEnteredTime` must also be set.
+     */
+    fromEnteredTime?: string;
+    /**
+     * Specifies that no orders entered after this time should be returned. Valid
+     * ISO-8601 formats are: `yyyy-MM-dd`. `fromEnteredTime` must also be set.
+     */
+    toEnteredTime?: string;
+    /**
+     * Specifies that only orders of this status should be returned.
+     */
+    status?: OrderStatus;
+};
 /**
  * Get a specific order for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {string} orderId The order id
@@ -12,10 +30,7 @@
  * @example
  * const order = await td.getOrder('45678', '98745')
  */
-function getOrder(accountId, orderId) {
-    return this.axios.get(`/accounts/${accountId}/orders/${orderId}`)
-} // getOrder()
-
+export function getOrder(accountId: string, orderId: string): Promise<any>;
 /**
  * @typedef {'AWAITING_PARENT_ORDER'|'AWAITING_CONDITION'|'AWAITING_MANUAL_REVIEW'
  *   |'ACCEPTED'|'AWAITING_UR_OUT'|'PENDING_ACTIVATION'|'QUEUED'|'WORKING'
@@ -24,7 +39,7 @@ function getOrder(accountId, orderId) {
  * } OrderStatus
  */
 /**
- * @typedef {object} OrdersQuery
+ * @typedef OrdersQuery
  * @property {number} [maxResults] The max number of orders to retrieve.
  * @property {string} [fromEnteredTime] Specifies that no orders entered before this time should be returned. Valid
  * ISO-8601 formats are: `yyyy-MM-dd`. Date must be within 60 days from today's date. `toEnteredTime` must also be set.
@@ -35,7 +50,6 @@ function getOrder(accountId, orderId) {
 /**
  * Get a list of orders for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {OrdersQuery} params The query parameters
@@ -49,14 +63,10 @@ function getOrder(accountId, orderId) {
  *     status: 'FILLED'
  * })
  */
-function getOrders(accountId, params) {
-    return this.axios.get(`/accounts/${accountId}/orders`, { params })
-} // getOrders()
-
+export function getOrders(accountId: string, params: OrdersQuery): Promise<any>;
 /**
  * Get a list of orders from all accounts.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {OrdersQuery} params The query parameters
  * @returns {Promise<any>} List of orders
@@ -69,15 +79,11 @@ function getOrders(accountId, params) {
  *     status: 'FILLED'
  * })
  */
-function getAllOrders(params) {
-    return this.axios.get('/orders', { params })
-} // getAllOrders()
-
+export function getAllOrders(params: OrdersQuery): Promise<any>;
 /**
  * Place an order for a specific account.
  * Read {@link https://developer.tdameritrade.com/content/place-order-samples Place Order Samples} for more info.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {object} order The order
@@ -101,29 +107,21 @@ function getAllOrders(params) {
  *     ]
  * })
  */
-function placeOrder(accountId, order) {
-    return this.axios.post(`/accounts/${accountId}/orders`, order)
-} // placeOrder()
-
+export function placeOrder(accountId: string, order: object): Promise<any>;
 /**
  * Replace an existing order for an account. The existing order will be replaced by the new order.
  * Once replaced, the old order will be canceled and a new order will be created.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {string} orderId The order id
  * @param {object} order The new order
  * @returns {Promise<any>} Success
  */
-function replaceOrder(accountId, orderId, order) {
-    return this.axios.put(`/accounts/${accountId}/orders/${orderId}`, order)
-} // replaceOrder()
-
+export function replaceOrder(accountId: string, orderId: string, order: object): Promise<any>;
 /**
  * Cancel a specific order for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {string} orderId The order id
@@ -132,15 +130,4 @@ function replaceOrder(accountId, orderId, order) {
  * @example
  * await td.cancelOrder('45678', '98745')
  */
-function cancelOrder(accountId, orderId) {
-    return this.axios.delete(`/accounts/${accountId}/orders/${orderId}`)
-} // cancelOrder()
-
-module.exports = {
-    getOrder,
-    getOrders,
-    getAllOrders,
-    placeOrder,
-    replaceOrder,
-    cancelOrder,
-}
+export function cancelOrder(accountId: string, orderId: string): Promise<any>;

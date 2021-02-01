@@ -7,6 +7,7 @@ const get = require('lodash/get')
 /**
  * Create a new instance of Account.
  *
+ * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @returns {TDAccount} A new Account instance
@@ -24,6 +25,7 @@ function account(accountId) {
  * Create a new instance of TDStreamer.
  * For the time being, this will select the first available account.
  *
+ * @instance
  * @memberof TDAmeritrade
  * @returns {Promise<TDStreamer>} A new TDStreamer instance
  *

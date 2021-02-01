@@ -35,7 +35,7 @@ function updateConfigOnNewToken(client) {
         if (response.config.url === '/oauth2/token') {
             const token = parseToken(response.data)
             Object.assign(client.config, token)
-            client.emit('token', token)
+            client._emitter.emit('token', token)
         }
 
         return response

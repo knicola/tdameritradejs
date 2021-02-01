@@ -5,14 +5,9 @@
     "excludePattern": "(node_modules/|docs)"
   },
   "tags": {
-    "allowUnknownTags": true,
-    "dictionaries": [
-      "jsdoc",
-      "typescript"
-    ]
+    "allowUnknownTags": ["typicalname"]
   },
   "plugins": [
-    "plugins/markdown",
     "typedef-import"
   ],
   "markdown": {
@@ -24,7 +19,6 @@
     "readme": "./README.md",
     "destination": "docs/",
     "recurse": true,
-    "verbose": true,
     "theme_opts": {}
   },
   "templates": {

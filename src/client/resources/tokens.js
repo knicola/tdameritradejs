@@ -3,8 +3,8 @@
 /**
  * Get the access token along with an optional refresh token.
  *
+ * @instance
  * @memberof TDAmeritrade
- * @memberof TDAccount
  * @param {string} authCode The authorization code
  * @returns {Promise<any>} The token details
  *
@@ -27,8 +27,8 @@ function getAccessToken(authCode) {
 /**
  * Refresh the access token.
  *
+ * @instance
  * @memberof TDAmeritrade
- * @memberof TDAccount
  * @param {string} [refreshToken] The refresh token
  * @returns {Promise<any>} The token details
  *
@@ -50,8 +50,8 @@ function refreshAccessToken(refreshToken) {
 /**
  * Determine if access token is expired.
  *
+ * @instance
  * @memberof TDAmeritrade
- * @memberof TDAccount
  * @returns {boolean} True if expired, otherwise false
  */
 function isAccessTokenExpired() {
@@ -63,8 +63,8 @@ function isAccessTokenExpired() {
 /**
  * Determine if refresh token is expired.
  *
+ * @instance
  * @memberof TDAmeritrade
- * @memberof TDAccount
  * @returns {boolean} True if expired, otherwise false
  */
 function isRefreshTokenExpired() {

@@ -1,5 +1,29 @@
-'use strict'
-
+export type Watchlist = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Items
+     */
+    watchlistItems: WatchlistItem[];
+};
+export type WatchlistItem = {
+    /**
+     * Instrument
+     */
+    instrument: WatchlistInstrument;
+};
+export type WatchlistInstrument = {
+    /**
+     * Symbol
+     */
+    symbol: string;
+    /**
+     * Asset type
+     */
+    assetType: 'EQUITY' | 'OPTION' | 'MUTUAL_FUND' | 'FIXED_INCOME' | 'INDEX';
+};
 /**
  * @typedef {object} Watchlist
  * @property {string} name Name
@@ -15,20 +39,15 @@
 /**
  * Create watchlist for specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {Watchlist} watchlist The watchlist
  * @returns {Promise<any>} Success
  */
-function createWatchlist(accountId, watchlist) {
-    return this.axios.post(`/accounts/${accountId}/watchlists`, watchlist)
-} // createWatchlist()
-
+export function createWatchlist(accountId: string, watchlist: Watchlist): Promise<any>;
 /**
  * Delete watchlist for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {string} watchlistId The watchlist id
@@ -37,14 +56,10 @@ function createWatchlist(accountId, watchlist) {
  * @example
  * await td.deleteWatchlist('45678', '98754')
  */
-function deleteWatchlist(accountId, watchlistId) {
-    return this.axios.delete(`/accounts/${accountId}/watchlists/${watchlistId}`)
-} // deleteWatchlist()
-
+export function deleteWatchlist(accountId: string, watchlistId: string): Promise<any>;
 /**
  * Get watchlist for a specific account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {string} watchlistId The watchlist id
@@ -53,14 +68,10 @@ function deleteWatchlist(accountId, watchlistId) {
  * @example
  * const watchlist = await td.getWatchlist('45678', '98754')
  */
-function getWatchlist(accountId, watchlistId) {
-    return this.axios.get(`/accounts/${accountId}/watchlists/${watchlistId}`)
-} // getWatchlist()
-
+export function getWatchlist(accountId: string, watchlistId: string): Promise<any>;
 /**
  * Get all watchlists of an account.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @returns {Promise<any>} List of watchlists
@@ -68,60 +79,36 @@ function getWatchlist(accountId, watchlistId) {
  * @example
  * const watchlists = await td.getWatchlists('45678')
  */
-function getWatchlists(accountId) {
-    return this.axios.get(`/accounts/${accountId}/watchlists`)
-} // getWatchlists()
-
+export function getWatchlists(accountId: string): Promise<any>;
 /**
  * All watchlists for all of the user's linked accounts.
  *
- * @instance
  * @memberof TDAmeritrade
  * @returns {Promise<any>} List of watchlists
  *
  * @example
  * const watchlists = await td.getAllWatchlists()
  */
-function getAllWatchlists() {
-    return this.axios.get('/accounts/watchlists')
-} // getAllWatchlists()
-
+export function getAllWatchlists(): Promise<any>;
 /**
  * Replace watchlist for a specific account. This method does not verify that the symbol or asset type are valid.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {string} watchlistId The watchlist id
  * @param {Watchlist} watchlist The watchlist
  * @returns {Promise<any>} Success
  */
-function replaceWatchlist(accountId, watchlistId, watchlist) {
-    return this.axios.put(`/accounts/${accountId}/watchlists/${watchlistId}`, watchlist)
-} // replaceWatchlist()
-
+export function replaceWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise<any>;
 /**
  * Partially update watchlist for a specific account: change watchlist name, add
  * to the beginning/end of a watchlist, update or delete items in a watchlist.
  * This method does not verify that the symbol or asset type are valid.
  *
- * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
  * @param {string} watchlistId The watchlist id
  * @param {Watchlist} watchlist The new watchlist
  * @returns {Promise<any>} Success
  */
-function updateWatchlist(accountId, watchlistId, watchlist) {
-    return this.axios.patch(`/accounts/${accountId}/watchlists/${watchlistId}`, watchlist)
-} // updateWatchlist()
-
-module.exports = {
-    createWatchlist,
-    deleteWatchlist,
-    getWatchlist,
-    getWatchlists,
-    getAllWatchlists,
-    replaceWatchlist,
-    updateWatchlist,
-}
+export function updateWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise<any>;

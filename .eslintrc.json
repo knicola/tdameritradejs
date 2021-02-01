@@ -23,7 +23,8 @@
       "no-unneeded-ternary": "error",
       "no-tabs": "error",
       "no-whitespace-before-property": "error",
-      "jsdoc/valid-types": 0
+      "jsdoc/valid-types": 0,
+      "jsdoc/check-tag-names": ["warn", { "definedTags": ["typicalname"] }]
     },
     "plugins": [ "jsdoc" ]
   }
