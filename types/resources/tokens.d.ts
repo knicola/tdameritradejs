@@ -3,8 +3,8 @@
  *
  * @memberof TDAmeritrade
  * @memberof TDAccount
- * @param {string} authCode The authorization code
- * @returns {Promise<any>} The token details
+ * @param authCode The authorization code
+ * @returns The token details
  *
  * @example
  * const token = await td.getAccessToken('authorization-code-goes-here')
@@ -15,8 +15,8 @@ export function getAccessToken(authCode: string): Promise<any>;
  *
  * @memberof TDAmeritrade
  * @memberof TDAccount
- * @param {string} [refreshToken] The refresh token
- * @returns {Promise<any>} The token details
+ * @param refreshToken The refresh token
+ * @returns The token details
  *
  * @example
  * const token = await td.refreshAccessToken('refresh-token-goes-here')
@@ -27,7 +27,7 @@ export function refreshAccessToken(refreshToken?: string): Promise<any>;
  *
  * @memberof TDAmeritrade
  * @memberof TDAccount
- * @returns {boolean} True if expired, otherwise false
+ * @returns True if expired, otherwise false
  */
 export function isAccessTokenExpired(): boolean;
 /**
@@ -35,6 +35,6 @@ export function isAccessTokenExpired(): boolean;
  *
  * @memberof TDAmeritrade
  * @memberof TDAccount
- * @returns {boolean} True if expired, otherwise false
+ * @returns True if expired, otherwise false
  */
 export function isRefreshTokenExpired(): boolean;

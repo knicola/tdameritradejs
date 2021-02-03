@@ -1,0 +1,13 @@
+{
+  "plugin": [
+    "dmd-readable"
+  ],
+  "no-cache": true,
+  "property-list-format": "list",
+  "param-list-format": "list",
+  "global-index-format": "none",
+  "module-index-format": "none",
+  "example-lang": "js",
+  "configure": "jsdoc.json",
+  "source": "src/node.js"
+}

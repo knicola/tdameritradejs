@@ -22,8 +22,12 @@ const listeners = Symbol()
  * @class
  * @typicalname streamer
  * @memberof TDAmeritrade
+ * @instance
  */
 class TDStreamer {
+    /**
+     * @param {object} userPrincipals User principals object
+     */
     constructor(userPrincipals) {
         this.userPrincipals = userPrincipals
         this[emitter] = new EventEmitter()

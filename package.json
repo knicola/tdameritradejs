@@ -11,7 +11,7 @@
   "main": "src/node.js",
   "browser": "src/browser.js",
   "type": "commonjs",
-  "types": "types2/index.d.ts",
+  "types": "types/index.d.ts",
   "files": [
     "src/",
     "types/",
@@ -24,6 +24,8 @@
     "lint": "eslint ./src",
     "test": "jest --notify",
     "coverage": "jest --coverage",
+    "docs:md": "jsdoc2md",
+    "docs:html": "jsdoc -c jsdoc.json",
     "build": "rollup -c"
   },
   "jest": {

@@ -10,6 +10,7 @@
  *
  * @typedef {object} WatchlistInstrument
  * @property {string} symbol Symbol
+ * @property {string} description Description
  * @property {'EQUITY'|'OPTION'|'MUTUAL_FUND'|'FIXED_INCOME'|'INDEX'} assetType Asset type
  */
 /**

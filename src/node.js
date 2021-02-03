@@ -2,7 +2,7 @@
 
 const Client = require('./client')
 
-const oauth2 = require('./client/resources/oauth2')
+const { authorize, login } = require('./client/resources/oauth2')
 
 const { account, streamer } = require('./common')
 
@@ -22,15 +22,13 @@ const { account, streamer } = require('./common')
  */
 class TDAmeritrade extends Client {}
 
-// static
-TDAmeritrade.TDAccount = require('./client/account')
-TDAmeritrade.TDStreamer = require('./streamer')
+TDAmeritrade.prototype.TDAccount = require('./client/account')
+TDAmeritrade.prototype.TDStreamer = require('./streamer')
 
-//instance
 TDAmeritrade.prototype.account = account
 TDAmeritrade.prototype.streamer = streamer
-TDAmeritrade.prototype.authorize = oauth2.authorize
-TDAmeritrade.prototype.login = oauth2.login
+TDAmeritrade.prototype.authorize = authorize
+TDAmeritrade.prototype.login = login
 
 module.exports = { TDAmeritrade }
 

@@ -2,26 +2,26 @@
  * Get saved order by its ID, for a specific account.
  *
  * @memberof TDAmeritrade
- * @param {string} accountId The account id
- * @param {string} savedOrderId The saved order id
- * @returns {Promise<any>} The saved order details
+ * @param accountId The account id
+ * @param savedOrderId The saved order id
+ * @returns The saved order details
  */
 export function getSavedOrder(accountId: string, savedOrderId: string): Promise<any>;
 /**
  * Get saved orders for a specific account.
  *
  * @memberof TDAmeritrade
- * @param {string} accountId The account id
- * @returns {Promise<any>} List of saved orders
+ * @param accountId The account id
+ * @returns List of saved orders
  */
 export function getSavedOrders(accountId: string): Promise<any>;
 /**
  * Save an order for a specific account.
  *
  * @memberof TDAmeritrade
- * @param {string} accountId The account id
- * @param {object} savedOrder The saved order
- * @returns {Promise<any>} Success
+ * @param accountId The account id
+ * @param savedOrder The saved order
+ * @returns Success
  *
  * @example
  * await td.createSavedOrder('45678', {
@@ -48,19 +48,19 @@ export function createSavedOrder(accountId: string, savedOrder: object): Promise
  * Replace an existing saved order for an account. The existing saved order will be replaced by the new order.
  *
  * @memberof TDAmeritrade
- * @param {string} accountId The account id
- * @param {string} savedOrderId The saved order id
- * @param {object} savedOrder The new saved order
- * @returns {Promise<any>} Success
+ * @param accountId The account id
+ * @param savedOrderId The saved order id
+ * @param savedOrder The new saved order
+ * @returns Success
  */
 export function replaceSavedOrder(accountId: string, savedOrderId: string, savedOrder: object): Promise<any>;
 /**
  * Delete a specific saved order for a specific account.
  *
  * @memberof TDAmeritrade
- * @param {string} accountId The account id
- * @param {string} savedOrderId The saved order id
- * @returns {Promise<any>} Success
+ * @param accountId The account id
+ * @param savedOrderId The saved order id
+ * @returns Success
  *
  * @example
  * await td.deleteSavedOrder('45678', '98754')
