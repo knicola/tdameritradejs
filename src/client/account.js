@@ -8,16 +8,19 @@ const savedOrders = require('./resources/savedOrders')
 const watchlists = require('./resources/watchlists')
 const transactions = require('./resources/transactions')
 
+/** @typedef {import('./config').Config} Config */
 /**
  * @class
  * @typicalname account
  * @param {string} accountId The account id to target
- * @memberof TDAmeritrade
- * @instance
  */
 class TDAccount extends Base {
-    constructor(accountId) {
-        super()
+    /**
+     * @param {string} accountId The account id
+     * @param {Config} [config] Config
+     */
+    constructor(accountId, config) {
+        super(config)
         this.accountId = accountId
     }
 }

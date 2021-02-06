@@ -1,5 +1,5 @@
 
-import { TDStreamer } from './streamer';
+export import { TDStreamer } from './streamer';
 import tokens = require("./resources/tokens");
 import market = require("./resources/market");
 import accounts = require("./resources/accounts");
@@ -12,43 +12,47 @@ import { AxiosInstance } from 'axios'
 
 export type Config = {
     /**
-     * Api key / Client id
+     * TD Ameritrade's API URL
+     */
+    baseURL?: string;
+    /**
+     * The API key (Client ID) provided by TD Ameritrade
      */
     apiKey?: string;
     /**
-     * Refresh and retry on a 401 response
+     * Refresh token and retry request if a 401 response is received
      */
     refreshAndRetry?: boolean;
     /**
-     * Return the axios response instead of just the data
+     * Return the full axios response instead of only the data
      */
     returnFullResponse?: boolean;
     /**
-     * Access token
+     * The OAuth2 access token
      */
     accessToken?: string;
     /**
-     * Refresh token
+     * The OAuth2 refresh token
      */
     refreshToken?: string;
     /**
-     * Access token date and time of expiration
+     * The access token's date and time of expiration
      */
     accessTokenExpiresAt?: string;
     /**
-     * Refresh token date and time of expiration
+     * The refresh token's date and time of expiration
      */
     refreshTokenExpiresAt?: string;
     /**
-     * OAuth2 redirect uri
+     * The local uri to receive the access code from TD Ameritrade's OAuth2
      */
     redirectUri?: string;
     /**
-     * Path to SSL key
+     * The path to your private SSL key
      */
     sslKey?: string;
     /**
-     * Path to SSL cert
+     * The path to your public SSL key
      */
     sslCert?: string;
 };
@@ -65,8 +69,6 @@ export class TDAmeritrade extends Base {
      * })
      */
     constructor(config?: Config);
-    TDAccount: TDAccount;
-    TDStreamer: TDStreamer;
     /**
      * Bootstrap a local web server for oauth2 authorization. Will request
      * access token and update config if authorization is successful.
@@ -170,7 +172,7 @@ declare class Base {
 }
 
 export class TDAccount extends Base {
-    constructor(accountId: string);
+    constructor(accountId: string, config?: Config);
     accountId: string;
     getAccount(): Promise<any>;
     getPreferences(): Promise<any>;

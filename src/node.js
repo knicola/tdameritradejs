@@ -1,15 +1,15 @@
 'use strict'
 
 const Client = require('./client')
-
 const { authorize, login } = require('./client/resources/oauth2')
-
 const { account, streamer } = require('./common')
+const TDAccount = require('./client/account')
+const TDStreamer = require('./streamer')
 
-/** @typedef {import('./client/base').Config} Config */
-
+/** @typedef {import('./client/config').Config} Config */
 /**
  * @class
+ * @classdesc TD Ameritrade API client
  * @typicalname td
  * @param {Config} [config] Config
  * @example
@@ -22,15 +22,12 @@ const { account, streamer } = require('./common')
  */
 class TDAmeritrade extends Client {}
 
-TDAmeritrade.prototype.TDAccount = require('./client/account')
-TDAmeritrade.prototype.TDStreamer = require('./streamer')
-
 TDAmeritrade.prototype.account = account
 TDAmeritrade.prototype.streamer = streamer
 TDAmeritrade.prototype.authorize = authorize
 TDAmeritrade.prototype.login = login
 
-module.exports = { TDAmeritrade }
+module.exports = { TDAmeritrade, TDStreamer, TDAccount }
 
 // Allow use of default import syntax in TypeScript
-module.exports.default = { TDAmeritrade }
+module.exports.default = { TDAmeritrade, TDStreamer, TDAccount }

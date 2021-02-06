@@ -31,22 +31,10 @@ describe('TDAmeritrade (Node.js)', () => {
         const td = new TDAmeritrade(config)
         expect(td).toBeInstanceOf(require('../src/client'))
     })
-    describe('.TDAccount', () => {
-        it('should create a new instance of TDAccount', () => {
-            const td = new TDAmeritrade()
-            expect(new td.TDAccount()).toBeInstanceOf(require('../src/client/account'))
-        }) // test
-    }) // group
     describe('.account()', () => {
         it('should create a new instance of TDAccount', () => {
             const td = new TDAmeritrade()
             expect(td.account(12345)).toBeInstanceOf(require('../src/client/account'))
-        }) // test
-    }) // group
-    describe('.TDStreamer', () => {
-        it('should create a new instance of TDStreamer', () => {
-            const td = new TDAmeritrade()
-            expect(new td.TDStreamer()).toBeInstanceOf(require('../src/streamer'))
         }) // test
     }) // group
     describe('.streamer()', () => {

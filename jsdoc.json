@@ -8,7 +8,7 @@
     "allowUnknownTags": ["typicalname"]
   },
   "plugins": [
-    "typedef-import"
+    ".doc_template/jsdoc-mods"
   ],
   "markdown": {
     "idInHeadings": true
@@ -18,8 +18,7 @@
     "encoding": "utf8",
     "readme": "./README.md",
     "destination": "docs/",
-    "recurse": true,
-    "theme_opts": {}
+    "recurse": true
   },
   "templates": {
     "cleverLinks": false,

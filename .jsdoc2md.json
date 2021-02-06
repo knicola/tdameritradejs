@@ -1,7 +1,4 @@
 {
-  "plugin": [
-    "dmd-readable"
-  ],
   "no-cache": true,
   "property-list-format": "list",
   "param-list-format": "list",
@@ -9,5 +6,8 @@
   "module-index-format": "none",
   "example-lang": "js",
   "configure": "jsdoc.json",
-  "source": "src/node.js"
+  "source": "src/node.js",
+  "template": ".doc_template/template.hbs",
+  "helper": ".doc_template/helpers/*.js",
+  "partial": ".doc_template/partials/*.hbs"
 }

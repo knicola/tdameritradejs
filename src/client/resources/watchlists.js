@@ -1,17 +1,19 @@
 'use strict'
 
 /**
- * @typedef {object} Watchlist
- * @property {string} name Name
- * @property {WatchlistItem[]} watchlistItems Items
- *
- * @typedef {object} WatchlistItem
- * @property {WatchlistInstrument} instrument Instrument
- *
  * @typedef {object} WatchlistInstrument
  * @property {string} symbol Symbol
  * @property {string} description Description
  * @property {'EQUITY'|'OPTION'|'MUTUAL_FUND'|'FIXED_INCOME'|'INDEX'} assetType Asset type
+ */
+/**
+ * @typedef {object} WatchlistItem
+ * @property {WatchlistInstrument} instrument Instrument
+ */
+/**
+ * @typedef {object} Watchlist
+ * @property {string} name Name
+ * @property {WatchlistItem[]} watchlistItems Items
  */
 /**
  * Create watchlist for specific account.
