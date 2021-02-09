@@ -291,7 +291,7 @@ const FIELDS = {
 deepFreeze(FIELDS)
 
 /**
- * Deep freeze.
+ * Freeze object recursively.
  *
  * @private
  * @param {object} obj Object

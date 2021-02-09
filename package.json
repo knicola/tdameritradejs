@@ -24,8 +24,8 @@
     "lint": "eslint ./src",
     "test": "jest --notify",
     "coverage": "jest --coverage",
-    "docs:md": "jsdoc2md > DOCUMENTATION.md",
-    "docs:html": "jsdoc -c jsdoc.json",
+    "types": "node scripts/types/generate",
+    "docs": "node scripts/docs/generate",
     "build": "rollup -c"
   },
   "jest": {
@@ -46,13 +46,13 @@
     "@types/ws": "^7.4.0",
     "axios-mock-adapter": "^1.19.0",
     "change-case": "^4.1.2",
-    "docdash": "^1.2.0",
     "eslint": "^6.8.0",
     "eslint-plugin-jsdoc": "^31.6.0",
     "jest": "^25.5.4",
     "jest-websocket-mock": "^2.2.0",
     "jsdoc": "^3.6.6",
     "jsdoc-to-markdown": "^6.0.1",
+    "jsdoc-ts-utils": "^1.1.2",
     "mock-socket": "^9.0.3",
     "rollup": "^2.38.5",
     "rollup-plugin-terser": "^7.0.2"

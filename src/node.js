@@ -6,7 +6,9 @@ const { account, streamer } = require('./common')
 const TDAccount = require('./client/account')
 const TDStreamer = require('./streamer')
 
-/** @typedef {import('./client/config').Config} Config */
+/**
+ * @typedef {import('./client/config').Config} Config
+ */
 /**
  * @class
  * @classdesc TD Ameritrade API client

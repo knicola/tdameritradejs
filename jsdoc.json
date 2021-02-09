@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["src/", "package.json", "README.md"],
+    "include": ["src/"],
     "includePattern": ".js$",
     "excludePattern": "(node_modules/|docs)"
   },
@@ -8,30 +8,20 @@
     "allowUnknownTags": ["typicalname"]
   },
   "plugins": [
-    ".doc_template/jsdoc-mods"
+    "jsdoc-ts-utils"
   ],
-  "markdown": {
-    "idInHeadings": true
-  },
   "opts": {
-    "template": "node_modules/docdash",
     "encoding": "utf8",
-    "readme": "./README.md",
-    "destination": "docs/",
     "recurse": true
   },
-  "templates": {
-    "cleverLinks": false,
-    "monospaceLinks": true,
-    "useLongnameInNav": false,
-    "showInheritedInNav": true
-  },
-  "docdash": {
-    "collapse": true,
-    "search": true,
-    "nameInOutputPath": false,
-    "versionInOutputPath": false,
-    "typedefs": true,
-    "sort": false
+  "tsUtils": {
+    "typedefImports": true,
+    "typeOfTypes": true,
+    "extendTypes": true,
+    "modulesOnMemberOf": true,
+    "modulesTypesShortName": true,
+    "parentTag": true,
+    "typeScriptUtilityTypes": true,
+    "tagsReplacement": {}
   }
 }

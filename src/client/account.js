@@ -8,7 +8,9 @@ const savedOrders = require('./resources/savedOrders')
 const watchlists = require('./resources/watchlists')
 const transactions = require('./resources/transactions')
 
-/** @typedef {import('./config').Config} Config */
+/**
+ * @typedef {import('./config').Config} Config
+ */
 /**
  * @class
  * @typicalname account
@@ -45,7 +47,9 @@ TDAccount.prototype.getPreferences = function () {
     return accounts.getPreferences.call(this, [this.accountId])
 }
 
-/** @typedef {import('./resources/accounts').Preferences} Preferences */
+/**
+ * @typedef {import('./resources/accounts').Preferences} Preferences
+ */
 /**
  * Update account preferences. The `directOptionsRouting` and
  * `directEquityRouting` values cannot be modified via this operation.
@@ -68,7 +72,9 @@ TDAccount.prototype.getStreamerSubscriptionKeys = function () {
     return accounts.getStreamerSubscriptionKeys.call(this, [this.accountId])
 }
 
-/** @typedef {import('./resources/orders').OrdersQuery} OrdersQuery */
+/**
+ * @typedef {import('./resources/orders').OrdersQuery} OrdersQuery
+ */
 /**
  * Get a list of orders.
  *
@@ -182,7 +188,9 @@ TDAccount.prototype.replaceSavedOrder = function (savedOrderId, savedOrder) {
     return savedOrders.replaceSavedOrder.call(this, [this.accountId, savedOrderId, savedOrder])
 }
 
-/** @typedef {import('./resources/watchlists').Watchlist} Watchlist */
+/**
+ * @typedef {import('./resources/watchlists').Watchlist} Watchlist
+ */
 /**
  * Create watchlist.
  *
@@ -263,7 +271,9 @@ TDAccount.prototype.getTransaction = function (transactionId) {
     return transactions.getTransaction.call(this, [this.accountId, transactionId])
 }
 
-/** @typedef {import('./resources/transactions').TransactionQuery} TransactionQuery */
+/**
+ * @typedef {import('./resources/transactions').TransactionQuery} TransactionQuery
+ */
 /**
  * Get all transactions.
  *

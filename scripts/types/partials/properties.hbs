@@ -1,0 +1,6 @@
+{{#each properties}}
+    /**
+     * {{{prefixLines description "* "}}}
+     */
+    {{name}}{{#if optional}}?{{/if}}: {{>types}};
+{{/each~}}

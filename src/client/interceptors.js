@@ -5,12 +5,14 @@
 const axios = require('axios').default
 const get = require('lodash/get')
 
-/** @typedef {import('./base')} Base */
+/**
+ * @typedef {import('./base')} Base
+ */
 /**
  * Append access token to the request.
  *
  * @private
- * @param {Base} client Base
+ * @param {Base} client Client
  * @returns {void}
  */
 function appendAccessToken(client) {
@@ -27,7 +29,7 @@ function appendAccessToken(client) {
  * Update config when a new token is received.
  *
  * @private
- * @param {Base} client Base
+ * @param {Base} client Client
  * @returns {void}
  */
 function updateConfigOnNewToken(client) {
@@ -46,7 +48,7 @@ function updateConfigOnNewToken(client) {
  * Refresh token and retry request on status code 401.
  *
  * @private
- * @param {Base} client Base
+ * @param {Base} client Client
  * @returns {void}
  */
 function refreshAndRetry(client) {
@@ -73,7 +75,7 @@ function refreshAndRetry(client) {
  * Return the full Axios response.
  *
  * @private
- * @param {Base} client Base
+ * @param {Base} client Client
  * @returns {void}
  */
 function fullResponse(client) {
@@ -150,7 +152,7 @@ const interceptors = {
  * Add all interceptors to the client's axios instance.
  *
  * @private
- * @param {Base} client Base
+ * @param {Base} client Client
  * @returns {void}
  */
 function setup(client) {

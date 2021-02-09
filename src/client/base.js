@@ -8,7 +8,9 @@ const apiKeySuffix = '@AMER.OAUTHAP'
 
 const tokens = require('./resources/tokens')
 
-/** @typedef {import('./config').Config} Config */
+/**
+ * @typedef {import('./config').Config} Config
+ */
 
 /**
  * @ignore
@@ -30,8 +32,14 @@ class Base {
             }
         }()) // config
 
-        /** @typedef {import('axios').AxiosInstance} AxiosInstance */
         /**
+         * @typedef {import('axios').AxiosInstance} AxiosInstance
+         * @external AxiosInstance
+         * @see https://github.com/axios/axios/blob/7d3b626a595e5b911c59dfb28a8080e56d840602/index.d.ts#L130
+         */
+        /**
+         * The axios instance used by the client.
+         *
          * @name axios
          * @instance
          * @memberof TDAmeritrade
@@ -48,13 +56,14 @@ class Base {
  *
  * @instance
  * @memberof TDAmeritrade
- * @param {'login'|'token'} event Event
- * @param {(...args: any[]) => void} fn Callback
- * @returns {EventEmitter<string | symbol, any>} EventEmitter
+ * @param {'login'|'token'} event The event name
+ * @param {EventEmitter.EventListener<any, any>} fn Callback function
+ * @returns {EventEmitter<string | symbol, any>} Event emitter
  */
 function on(event, fn) {
     return this._emitter.on(event, fn)
 }
+
 Base.prototype.on = on
 Base.prototype.getAccessToken = tokens.getAccessToken
 Base.prototype.refreshAccessToken = tokens.refreshAccessToken

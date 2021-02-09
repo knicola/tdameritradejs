@@ -1,0 +1,11 @@
+{{#if (eq kind "typedef")}}
+{{#if properties}}
+export type {{name}} = {{>open-curly}}
+{{>properties}}
+{{>close-curly}};
+{{else if params}}
+export type {{name}} = ({{>params}}) => {{#if returns}}{{>returns}}{{else}}void{{/if}};
+{{else}}
+export type {{name}} = {{>types}}
+{{/if}}
+{{/if}}

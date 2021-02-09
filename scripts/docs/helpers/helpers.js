@@ -8,9 +8,7 @@
 
 const path = require('path');
 const changeCase = require('change-case');
-const packageJson = require('../../package.json');
-
-exports.jstr = (obj) => JSON.stringify(obj, null, 2)
+const packageJson = require(path.resolve('./package.json'));
 
 /**
  * Reads info from the package.json file.

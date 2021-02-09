@@ -1,0 +1,20 @@
+{{#children inherited=undefined ~}}
+{{#if (isClassMember)}}
+    /**{{#if description}}
+     * {{{prefixLines description "* "}}}{{/if}}{{#each params}}
+     * @param {{name}} {{{prefixLines description "* "}}}{{/each}}
+     {{#each returns}}
+     * @returns {{{prefixLines description "* "}}}
+     {{/each}}
+     {{#each examples}}
+     * @example
+     * {{{prefixLines this "* "}}}
+     {{/each}}
+     */
+    {{#if (eq kind "constructor")}}constructor{{else if (ne name memberof)}}{{name}}{{/if~}}
+    {{#if (eq kind "function" "constructor")}}{{>open-paren}}{{>params~}}{{>close-paren}}{{/if~}}
+    {{#if (eq kind "function")}}{{>returns~}}{{/if~}}
+    {{#if (eq kind "member")}}: {{>types}}{{/if~}}
+    {{#if (eq kind "function" "member")}};{{/if}}
+{{/if}}
+{{/children~}}

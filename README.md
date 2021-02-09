@@ -33,6 +33,9 @@ Using yarn:
 $ yarn add @knicola/tdameritrade
 ```
 
+## API
+See [API Docs](API.md) file.
+
 ## Usage
 
 In order to use TD Ameritrade's API services you will need a `Consumer Key` (also called `Client ID` and `API Key`). To get one first create a [developer account](https://developer.tdameritrade.com/user/register) and [add a new app](https://developer.tdameritrade.com/user/me/apps/add). The key will be listed under the newly created app.
