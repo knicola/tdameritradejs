@@ -6,14 +6,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.0] - 2021-02-09
+### Added
+* Jsdoc comments everywhere 🎉.
+* API documentation. See [API.md](API.md).
+* Script to generate API documentation from jsdoc comments.
+* Script to generate type declarations from jsdoc comments.
+* Dev dependencies:
+  * @rollup/plugin-babel: 5.2.3
+  * @rollup/plugin-commonjs: 17.1.0
+  * @rollup/plugin-json: 4.1.0
+  * @rollup/plugin-node-resolve: 11.1.1
+  * @types/ws: 7.4.0
+  * eslint-plugin-jsdoc: 31.6.0
+  * jsdoc: 3.6.6
+  * jsdoc-to-markdown: 6.0.1
+  * jsdoc-ts-utils: 1.1.2
+  * change-case: 4.1.2
+
+### Changed
+* Rewired a lot of parts of the api client to allow for a cleaner file structure. Everything works just as before with
+  the exception of `TDAccount` and `TDStreamer` interfaces, which have been moved back to the main module.
+* Improved type declarations. See [index.d.ts](types/index.d.ts).
+* Fixed browser distribution.
+* Fixed bug with `td.streamer()` not being able to retrieve `userPrincipals` correctly when enabling the full axios
+  response option. Thanks to [@kjanoudi](https://github.com/kjanoudi) for catching this!
+* Moved `debug` package from `devDependencies` to `dependencies`.
+* Bump `ws` from 7.4.2 to 7.4.3
+
 ## [0.4.1] - 2021-01-07
 ### Added
 * Rollup dev dependency to build a browser distribution. See `dist/index.min.js`.
 
 ### Changed
-* Bump axios from 0.19.2 to 0.21.1
-* Bump axios-mock-adapter from 1.18.2 to 1.19.0
-* Bump debug from 4.2.0 to 4.3.1
+* Bump `axios` from 0.19.2 to 0.21.1
+* Bump `axios-mock-adapter` from 1.18.2 to 1.19.0
+* Bump `debug` from 4.2.0 to 4.3.1
 
 ## [0.4.0] - 2020-09-19
 ### Added
