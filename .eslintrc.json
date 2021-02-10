@@ -1,5 +1,5 @@
 {
-    "extends": "eslint:recommended",
+    "extends": ["eslint:recommended", "plugin:jsdoc/recommended"],
     "env": { "node": true, "browser": true, "es6": true, "jest": true },
     "parserOptions": { "ecmaVersion": 8 },
     "rules": {
@@ -11,8 +11,6 @@
         "avoidEscape": true
       }],
       "no-console": "warn",
-      "require-jsdoc": "off",
-      "valid-jsdoc": "warn",
       "no-unused-vars": "warn",
       "no-trailing-spaces": "error",
       "curly": "error",
@@ -24,6 +22,9 @@
       "no-nested-ternary": "error",
       "no-unneeded-ternary": "error",
       "no-tabs": "error",
-      "no-whitespace-before-property": "error"
-    }
+      "no-whitespace-before-property": "error",
+      "jsdoc/valid-types": 0,
+      "jsdoc/check-tag-names": ["warn", { "definedTags": ["typicalname"] }]
+    },
+    "plugins": [ "jsdoc" ]
   }

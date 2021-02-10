@@ -1,61 +1,35 @@
 'use strict'
 
-const url = require('url')
-const https = require('https')
-const fs = require('fs')
-const path = require('path')
-const TDAmeritrade = require('./tdAmeritrade')
+const Client = require('./client')
+const { authorize, login } = require('./client/resources/oauth2')
+const { account, streamer } = require('./common')
+const TDAccount = require('./client/account')
+const TDStreamer = require('./streamer')
 
-TDAmeritrade.prototype.authorize = function authorize() {
-    return new Promise((resolve, reject) => {
-        const serverOptions = {
-            key: fs.readFileSync(path.resolve(this.config.sslKey)),
-            cert: fs.readFileSync(path.resolve(this.config.sslCert)),
-        }
-        const urlObj = url.parse(this.config.redirectUri)
-        const server = https.createServer(serverOptions, (req, res) => {
-            const _url = url.parse(req.url, true)
+/**
+ * @typedef {import('./client/config').Config} Config
+ */
+/**
+ * @class
+ * @classdesc TD Ameritrade API client
+ * @typicalname td
+ * @param {Config} [config] Config
+ * @example
+ * const td = new TDAmeritrade({
+ *     apiKey: process.env.API_KEY,
+ *     redirectUri: 'https://localhost:8443',
+ *     sslKey: './selfsigned.key',
+ *     sslCert: './selfsigned.crt',
+ * })
+ */
+class TDAmeritrade extends Client {}
 
-            if (! _url.query.code) {
-                res.writeHead(422, {'Content-Type': 'text/html'})
-                res.write('Authorization code is required.')
-                return res.end()
-            }
+TDAmeritrade.prototype.account = account
+TDAmeritrade.prototype.streamer = streamer
+TDAmeritrade.prototype.authorize = authorize
+TDAmeritrade.prototype.login = login
 
-            this.getAccessToken(decodeURIComponent(_url.query.code))
-                .then(data => {
-                    res.writeHead(200, { 'Content-Type': 'text/html' })
-                    res.write('OK')
-                    res.end()
-                    resolve(data)
-                })
-                .catch(err => {
-                    res.writeHead(500, { 'Content-Type': 'text/html' })
-                    res.write('Failed to get access token.')
-                    res.end()
-                    reject(err)
-                })
-                .finally(() => server.close())
-        })
-        server.listen(urlObj.port || 8443, urlObj.hostname, () => {
-            this._emitter.emit(
-                'login',
-                `https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=${this.config.redirectUri}&client_id=${this.config.apiKey}`
-            )
-        })
-    }) // Promise()
-} // authorize()
+module.exports = { TDAmeritrade, TDStreamer, TDAccount }
 
-TDAmeritrade.prototype.login = function () {
-    if (! this.isAccessTokenExpired()) {
-        return Promise.resolve()
-    }
-
-    if (! this.isRefreshTokenExpired()) {
-        return this.refreshAccessToken()
-    }
-
-    return this.authorize()
-} // login()
-
-module.exports = { TDAmeritrade }
+// Allow use of default import syntax in TypeScript
+module.exports.default = { TDAmeritrade, TDStreamer, TDAccount }

@@ -16,6 +16,7 @@ const config = {
     sslKey: 'tests/setup/selfsigned.key',
     sslCert: 'tests/setup/selfsigned.crt',
 }
+const userPrincipalFixture = require('./setup/userPrincipals.fixture')
 
 describe('TDAmeritrade (Node.js)', () => {
     beforeEach(() => {
@@ -28,8 +29,32 @@ describe('TDAmeritrade (Node.js)', () => {
     })
     it('should be instance of TDAmeritrade', () => {
         const td = new TDAmeritrade(config)
-        expect(td).toBeInstanceOf(require('../src/tdAmeritrade').default)
+        expect(td).toBeInstanceOf(require('../src/client'))
     })
+    describe('.account()', () => {
+        it('should create a new instance of TDAccount', () => {
+            const td = new TDAmeritrade()
+            expect(td.account(12345)).toBeInstanceOf(require('../src/client/account'))
+        }) // test
+    }) // group
+    describe('.streamer()', () => {
+        it('shoud create a new instance of TDStreamer', async () => {
+            const td = new TDAmeritrade()
+            mockAxios.reset()
+            mockAxios.onGet('/userprincipals').reply(200, userPrincipalFixture)
+            const streamer = await td.streamer()
+            expect(streamer).toBeInstanceOf(require('../src/streamer'))
+        }) // test
+        it('should be able to create a new instance of TDStreamer with fullResponse config enabled', async () => {
+            const td = new TDAmeritrade({
+                fullResponse: true
+            })
+            mockAxios.reset()
+            mockAxios.onGet('/userprincipals').reply(200, userPrincipalFixture)
+            const streamer = await td.streamer()
+            expect(streamer).toBeInstanceOf(require('../src/streamer'))
+        }) // test
+    }) // group
     describe('.authorize()', () => {
         it('should setup https server, emit event when ready and request an access token', () => {
             const td = new TDAmeritrade(config)

@@ -1,0 +1,27 @@
+{
+  "source": {
+    "include": ["src/"],
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules/|docs)"
+  },
+  "tags": {
+    "allowUnknownTags": ["typicalname"]
+  },
+  "plugins": [
+    "jsdoc-ts-utils"
+  ],
+  "opts": {
+    "encoding": "utf8",
+    "recurse": true
+  },
+  "tsUtils": {
+    "typedefImports": true,
+    "typeOfTypes": true,
+    "extendTypes": true,
+    "modulesOnMemberOf": true,
+    "modulesTypesShortName": true,
+    "parentTag": true,
+    "typeScriptUtilityTypes": true,
+    "tagsReplacement": {}
+  }
+}

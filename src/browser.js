@@ -1,15 +1,18 @@
 'use strict'
 
-const TDAmeritrade = require('./tdAmeritrade')
+const Client = require('./client')
+const { account, streamer } = require('./common')
+const TDAccount = require('./client/account')
+const TDStreamer = require('./streamer')
 
-TDAmeritrade.prototype.authorize = function () {
-    // noop
-    return Promise.resolve()
-}
+class TDAmeritrade extends Client {}
 
-TDAmeritrade.prototype.login = function () {
-    // noop
-    return Promise.resolve()
-}
+TDAmeritrade.prototype.account = account
+TDAmeritrade.prototype.streamer = streamer
+TDAmeritrade.prototype.authorize = () => Promise.resolve() // noop
+TDAmeritrade.prototype.login = () => Promise.resolve() // noop
 
-module.exports = { TDAmeritrade }
+module.exports = { TDAmeritrade, TDStreamer, TDAccount }
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = { TDAmeritrade, TDStreamer, TDAccount }
