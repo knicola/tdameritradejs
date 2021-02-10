@@ -3,7 +3,7 @@ import { AxiosInstance } from 'axios'
 
 export class TDAccount {
     /**
-     * @param accountId The account id to target
+     * @param accountId The account id
      * @param config Config
      */
     constructor(accountId: string, config?: Config)
@@ -11,43 +11,43 @@ export class TDAccount {
      * Get account balances, positions, and orders.
      * @returns The requested account
      */
-    getAccount(): Promise.<any>;
+    getAccount(): Promise<any>;
     /**
      * Get account preferences.
      * @returns The account preferences
      */
-    getPreferences(): Promise.<any>;
+    getPreferences(): Promise<any>;
     /**
      * Update account preferences. The `directOptionsRouting` and
      * `directEquityRouting` values cannot be modified via this operation.
      * @param preferences The updated preferences
      * @returns Success
      */
-    updatePreferences(preferences: Preferences): Promise.<any>;
+    updatePreferences(preferences: Preferences): Promise<any>;
     /**
      * Get the SubscriptionKey.
      * @returns The susbscription keys
      */
-    getStreamerSubscriptionKeys(): Promise.<any>;
+    getStreamerSubscriptionKeys(): Promise<any>;
     /**
      * Get a list of orders.
      * @param params The query parameters
      * @returns List of orders
      */
-    getOrders(params: OrdersQuery): Promise.<any>;
+    getOrders(params: OrdersQuery): Promise<any>;
     /**
      * Get a specific order.
      * @param orderId The order id
      * @returns The order details
      */
-    getOrder(orderId: string): Promise.<any>;
+    getOrder(orderId: string): Promise<any>;
     /**
      * Place an order.
      * Read {@link https://developer.tdameritrade.com/content/place-order-samples Place Order Samples} for more info.
      * @param order The order
      * @returns Success
      */
-    placeOrder(order: object): Promise.<any>;
+    placeOrder(order: object): Promise<any>;
     /**
      * Replace an existing order. The existing order will be replaced by the new order.
      * Once replaced, the old order will be canceled and a new order will be created.
@@ -55,73 +55,73 @@ export class TDAccount {
      * @param order The new order
      * @returns Success
      */
-    replaceOrder(orderId: string, order: object): Promise.<any>;
+    replaceOrder(orderId: string, order: object): Promise<any>;
     /**
      * Cancel a specific order.
      * @param orderId The order id
      * @returns Success
      */
-    cancelOrder(orderId: string): Promise.<any>;
+    cancelOrder(orderId: string): Promise<any>;
     /**
      * Save an order.
      * @param savedOrder The saved order
      * @returns Success
      */
-    createSavedOrder(savedOrder: object): Promise.<any>;
+    createSavedOrder(savedOrder: object): Promise<any>;
     /**
      * Delete a specific saved order.
      * @param savedOrderId The saved order id
      * @returns Success
      */
-    deleteSavedOrder(savedOrderId: string): Promise.<any>;
+    deleteSavedOrder(savedOrderId: string): Promise<any>;
     /**
      * Get saved order by its ID.
      * @param savedOrderId The saved order id
      * @returns The saved order details
      */
-    getSavedOrder(savedOrderId: string): Promise.<any>;
+    getSavedOrder(savedOrderId: string): Promise<any>;
     /**
      * Get saved orders.
      * @returns List of saved orders
      */
-    getSavedOrders(): Promise.<any>;
+    getSavedOrders(): Promise<any>;
     /**
      * Replace an existing saved order for an account. The existing saved order will be replaced by the new order.
      * @param savedOrderId The saved order id
      * @param savedOrder The new saved order
      * @returns Success
      */
-    replaceSavedOrder(savedOrderId: string, savedOrder: object): Promise.<any>;
+    replaceSavedOrder(savedOrderId: string, savedOrder: object): Promise<any>;
     /**
      * Create watchlist.
      * @param watchlist The watchlist
      * @returns Success
      */
-    createWatchlist(watchlist: Watchlist): Promise.<any>;
+    createWatchlist(watchlist: Watchlist): Promise<any>;
     /**
      * Delete watchlist.
      * @param watchlistId The watchlist id
      * @returns Success
      */
-    deleteWatchlist(watchlistId: string): Promise.<any>;
+    deleteWatchlist(watchlistId: string): Promise<any>;
     /**
      * Get watchlist.
      * @param watchlistId The watchlist id
      * @returns Success
      */
-    getWatchlist(watchlistId: string): Promise.<any>;
+    getWatchlist(watchlistId: string): Promise<any>;
     /**
      * Get all watchlists.
      * @returns List of watchlists
      */
-    getWatchlists(): Promise.<any>;
+    getWatchlists(): Promise<any>;
     /**
      * Replace watchlist. This method does not verify that the symbol or asset type are valid.
      * @param watchlistId The watchlist id
      * @param watchlist The watchlist
      * @returns Success
      */
-    replaceWatchlist(watchlistId: string, watchlist: Watchlist): Promise.<any>;
+    replaceWatchlist(watchlistId: string, watchlist: Watchlist): Promise<any>;
     /**
      * Partially update watchlist: change watchlist name, add to the
      * beginning/end of a watchlist, update or delete items in a watchlist.
@@ -130,19 +130,19 @@ export class TDAccount {
      * @param watchlist The new watchlist
      * @returns Success
      */
-    updateWatchlist(watchlistId: string, watchlist: Watchlist): Promise.<any>;
+    updateWatchlist(watchlistId: string, watchlist: Watchlist): Promise<any>;
     /**
      * Get a transaction.
      * @param transactionId The transaction id
      * @returns The transaction details
      */
-    getTransaction(transactionId: string): Promise.<any>;
+    getTransaction(transactionId: string): Promise<any>;
     /**
      * Get all transactions.
      * @param params The query parameters
      * @returns The transaction history
      */
-    getTransactions(params: TransactionQuery): Promise.<any>;
+    getTransactions(params: TransactionQuery): Promise<any>;
 }
 export class TDAmeritrade {
     /**
@@ -166,14 +166,14 @@ export class TDAmeritrade {
      * @param fn Callback function
      * @returns Event emitter
      */
-    on(event: 'login'|'token', fn: EventEmitter.EventListener.<any, any>): EventEmitter.<(string|symbol), any>;
+    on(event: 'login'|'token', fn: EventEmitter.EventListener<any, any>): EventEmitter<(string|symbol), any>;
     /**
      * Get account balances, positions, and orders for all linked accounts.
      * @returns List of all accounts
      * @example
      * const accounts = await td.getAccounts()
      */
-    getAccounts(): Promise.<any>;
+    getAccounts(): Promise<any>;
     /**
      * Get account balances, positions, and orders for a specific account.
      * @param accountId The account id
@@ -181,7 +181,7 @@ export class TDAmeritrade {
      * @example
      * const acctInfo = await td.getAccount('45678')
      */
-    getAccount(accountId: string): Promise.<any>;
+    getAccount(accountId: string): Promise<any>;
     /**
      * Get preferences for a specific account.
      * @param accountId The account id
@@ -189,7 +189,7 @@ export class TDAmeritrade {
      * @example
      * const prefs = await td.getPreferences('45678')
      */
-    getPreferences(accountId: string): Promise.<any>;
+    getPreferences(accountId: string): Promise<any>;
     /**
      * Update preferences for a specific account. The `directOptionsRouting` and
      * `directEquityRouting` values cannot be modified via this operation.
@@ -197,7 +197,7 @@ export class TDAmeritrade {
      * @param preferences The updated preferences
      * @returns Success
      */
-    updatePreferences(accountId: string, preferences: Preferences): Promise.<any>;
+    updatePreferences(accountId: string, preferences: Preferences): Promise<any>;
     /**
      * Get the SubscriptionKey for provided accounts or default accounts.
      * @param accountIds The account id(s)
@@ -205,7 +205,7 @@ export class TDAmeritrade {
      * @example
      * const subsKeys = await td.getStreamerSubscriptionKeys('45678')
      */
-    getStreamerSubscriptionKeys(accountIds?: string|Array.<string>): Promise.<any>;
+    getStreamerSubscriptionKeys(accountIds?: string|Array<string>): Promise<any>;
     /**
      * Get user principal details.
      * @param fields Fields to include
@@ -217,7 +217,7 @@ export class TDAmeritrade {
      * // OR
      * const usrPrinc = await td.getUserPrincipals(['streamerSubscriptionKeys', 'streamerConnectionInfo'])
      */
-    getUserPrincipals(fields?: UserPrincipalFields|Array.<UserPrincipalFields>): Promise.<any>;
+    getUserPrincipals(fields?: UserPrincipalFields|Array<UserPrincipalFields>): Promise<any>;
     /**
      * Get the market hours for the specified market(s).
      * @param markets The market(s) for which you're requesting market hours
@@ -228,7 +228,7 @@ export class TDAmeritrade {
      * // OR
      * td.getMarketHours(['EQUITY', 'FUTURE'], '2021-01-21')
      */
-    getMarketHours(markets: Market|Array.<Market>, date: string): Promise.<any>;
+    getMarketHours(markets: Market|Array<Market>, date: string): Promise<any>;
     /**
      * Get mover information by index symbol, direction type and change.
      * @param index The index symbol
@@ -238,7 +238,7 @@ export class TDAmeritrade {
      * @example
      * const movers = await td.getMovers('$DJI', 'up', 'percent')
      */
-    getMovers(index: '$COMPX'|'$DJI'|'$SPX.X', direction: 'up'|'down', change: 'value'|'percent'): Promise.<any>;
+    getMovers(index: '$COMPX'|'$DJI'|'$SPX.X', direction: 'up'|'down', change: 'value'|'percent'): Promise<any>;
     /**
      * Get quote data for one or more symbols.
      * @param symbols The ticker symbol(s)
@@ -246,7 +246,7 @@ export class TDAmeritrade {
      * @example
      * const data = await td.getQuotes(['ABC', 'XYZ'])
      */
-    getQuotes(symbols: string|Array.<string>): Promise.<any>;
+    getQuotes(symbols: string|Array<string>): Promise<any>;
     /**
      * Get quote data for a specified symbol.
      * @param symbol The ticker symbol
@@ -254,7 +254,7 @@ export class TDAmeritrade {
      * @example
      * const data = await td.getQuote('XYZ')
      */
-    getQuote(symbol: string): Promise.<any>;
+    getQuote(symbol: string): Promise<any>;
     /**
      * Get price history for a specified symbol.
      * @param symbol The ticker symbol
@@ -268,14 +268,14 @@ export class TDAmeritrade {
      *     needExtendedHoursData: false
      * })
      */
-    getPriceHistory(symbol: string, params: PriceHistoryQuery): Promise.<any>;
+    getPriceHistory(symbol: string, params: PriceHistoryQuery): Promise<any>;
     /**
      * Get Option Chains for optionable symbols.
      * @param symbol The ticker symbol
      * @param params The query parameters
      * @returns The option chain
      */
-    getOptionChain(symbol: string, params: OptionChainQuery): Promise.<any>;
+    getOptionChain(symbol: string, params: OptionChainQuery): Promise<any>;
     /**
      * Search or retrieve instrument data, including fundamental data.
      * @param symbol The ticker symbol
@@ -292,7 +292,7 @@ export class TDAmeritrade {
      * @example
      * const res = await td.searchInstruments('XYZ', 'symbol-search')
      */
-    searchInstruments(symbol: string, projection: 'symbol-search'|'symbol-regex'|'desc-search'|'desc-regex'|'fundamental'): Promise.<any>;
+    searchInstruments(symbol: string, projection: 'symbol-search'|'symbol-regex'|'desc-search'|'desc-regex'|'fundamental'): Promise<any>;
     /**
      * Get an instrument by its CUSIP.
      * @param cusip The CUSIP identifier
@@ -300,7 +300,7 @@ export class TDAmeritrade {
      * @example
      * const instr = await td.getInstrument('03074K100')
      */
-    getInstrument(cusip: string): Promise.<any>;
+    getInstrument(cusip: string): Promise<any>;
     /**
      * Bootstrap a local web server for oauth2 authorization. Will request
      * access token and update config if authorization is successful.
@@ -314,7 +314,7 @@ export class TDAmeritrade {
      *     console.log(err)
      * })
      */
-    authorize(): Promise.<any>;
+    authorize(): Promise<any>;
     /**
      * Authorize or refresh the access token depending on whether
      * the access and/or refresh token exist and are not expired.
@@ -328,7 +328,7 @@ export class TDAmeritrade {
      *     console.log(err)
      * })
      */
-    login(): Promise.<any>;
+    login(): Promise<any>;
     /**
      * Get a specific order for a specific account.
      * @param accountId The account id
@@ -337,7 +337,7 @@ export class TDAmeritrade {
      * @example
      * const order = await td.getOrder('45678', '98745')
      */
-    getOrder(accountId: string, orderId: string): Promise.<any>;
+    getOrder(accountId: string, orderId: string): Promise<any>;
     /**
      * Get a list of orders for a specific account.
      * @param accountId The account id
@@ -351,7 +351,7 @@ export class TDAmeritrade {
      *     status: 'FILLED'
      * })
      */
-    getOrders(accountId: string, params: OrdersQuery): Promise.<any>;
+    getOrders(accountId: string, params: OrdersQuery): Promise<any>;
     /**
      * Get a list of orders from all accounts.
      * @param params The query parameters
@@ -364,7 +364,7 @@ export class TDAmeritrade {
      *     status: 'FILLED'
      * })
      */
-    getAllOrders(params: OrdersQuery): Promise.<any>;
+    getAllOrders(params: OrdersQuery): Promise<any>;
     /**
      * Place an order for a specific account.
      * Read {@link https://developer.tdameritrade.com/content/place-order-samples Place Order Samples} for more info.
@@ -389,7 +389,7 @@ export class TDAmeritrade {
      *     ]
      * })
      */
-    placeOrder(accountId: string, order: object): Promise.<any>;
+    placeOrder(accountId: string, order: object): Promise<any>;
     /**
      * Replace an existing order for an account. The existing order will be replaced by the new order.
      * Once replaced, the old order will be canceled and a new order will be created.
@@ -398,7 +398,7 @@ export class TDAmeritrade {
      * @param order The new order
      * @returns Success
      */
-    replaceOrder(accountId: string, orderId: string, order: object): Promise.<any>;
+    replaceOrder(accountId: string, orderId: string, order: object): Promise<any>;
     /**
      * Cancel a specific order for a specific account.
      * @param accountId The account id
@@ -407,20 +407,20 @@ export class TDAmeritrade {
      * @example
      * await td.cancelOrder('45678', '98745')
      */
-    cancelOrder(accountId: string, orderId: string): Promise.<any>;
+    cancelOrder(accountId: string, orderId: string): Promise<any>;
     /**
      * Get saved order by its ID, for a specific account.
      * @param accountId The account id
      * @param savedOrderId The saved order id
      * @returns The saved order details
      */
-    getSavedOrder(accountId: string, savedOrderId: string): Promise.<any>;
+    getSavedOrder(accountId: string, savedOrderId: string): Promise<any>;
     /**
      * Get saved orders for a specific account.
      * @param accountId The account id
      * @returns List of saved orders
      */
-    getSavedOrders(accountId: string): Promise.<any>;
+    getSavedOrders(accountId: string): Promise<any>;
     /**
      * Save an order for a specific account.
      * @param accountId The account id
@@ -446,7 +446,7 @@ export class TDAmeritrade {
      *     ]
      * })
      */
-    createSavedOrder(accountId: string, savedOrder: object): Promise.<any>;
+    createSavedOrder(accountId: string, savedOrder: object): Promise<any>;
     /**
      * Replace an existing saved order for an account. The existing saved order will be replaced by the new order.
      * @param accountId The account id
@@ -454,7 +454,7 @@ export class TDAmeritrade {
      * @param savedOrder The new saved order
      * @returns Success
      */
-    replaceSavedOrder(accountId: string, savedOrderId: string, savedOrder: object): Promise.<any>;
+    replaceSavedOrder(accountId: string, savedOrderId: string, savedOrder: object): Promise<any>;
     /**
      * Delete a specific saved order for a specific account.
      * @param accountId The account id
@@ -463,7 +463,7 @@ export class TDAmeritrade {
      * @example
      * await td.deleteSavedOrder('45678', '98754')
      */
-    deleteSavedOrder(accountId: string, savedOrderId: string): Promise.<any>;
+    deleteSavedOrder(accountId: string, savedOrderId: string): Promise<any>;
     /**
      * Get the access token along with an optional refresh token.
      * @param authCode The authorization code
@@ -471,7 +471,7 @@ export class TDAmeritrade {
      * @example
      * const token = await td.getAccessToken('authorization-code-goes-here')
      */
-    getAccessToken(authCode: string): Promise.<any>;
+    getAccessToken(authCode: string): Promise<any>;
     /**
      * Refresh the access token.
      * @param refreshToken The refresh token
@@ -479,7 +479,7 @@ export class TDAmeritrade {
      * @example
      * const token = await td.refreshAccessToken('refresh-token-goes-here')
      */
-    refreshAccessToken(refreshToken?: string): Promise.<any>;
+    refreshAccessToken(refreshToken?: string): Promise<any>;
     /**
      * Determine if access token is expired.
      * @returns True if expired, otherwise false
@@ -498,7 +498,7 @@ export class TDAmeritrade {
      * @example
      * const transaction = await td.getTransaction('45678', '98754')
      */
-    getTransaction(accountId: string, transactionId: string): Promise.<any>;
+    getTransaction(accountId: string, transactionId: string): Promise<any>;
     /**
      * Get all transactions for a specific account.
      * @param accountId The account id
@@ -511,14 +511,14 @@ export class TDAmeritrade {
      *     endDate: '2021-01-31',
      * })
      */
-    getTransactions(accountId: string, params: TransactionQuery): Promise.<any>;
+    getTransactions(accountId: string, params: TransactionQuery): Promise<any>;
     /**
      * Create watchlist for specific account.
      * @param accountId The account id
      * @param watchlist The watchlist
      * @returns Success
      */
-    createWatchlist(accountId: string, watchlist: Watchlist): Promise.<any>;
+    createWatchlist(accountId: string, watchlist: Watchlist): Promise<any>;
     /**
      * Delete watchlist for a specific account.
      * @param accountId The account id
@@ -527,7 +527,7 @@ export class TDAmeritrade {
      * @example
      * await td.deleteWatchlist('45678', '98754')
      */
-    deleteWatchlist(accountId: string, watchlistId: string): Promise.<any>;
+    deleteWatchlist(accountId: string, watchlistId: string): Promise<any>;
     /**
      * Get watchlist for a specific account.
      * @param accountId The account id
@@ -536,7 +536,7 @@ export class TDAmeritrade {
      * @example
      * const watchlist = await td.getWatchlist('45678', '98754')
      */
-    getWatchlist(accountId: string, watchlistId: string): Promise.<any>;
+    getWatchlist(accountId: string, watchlistId: string): Promise<any>;
     /**
      * Get all watchlists of an account.
      * @param accountId The account id
@@ -544,14 +544,14 @@ export class TDAmeritrade {
      * @example
      * const watchlists = await td.getWatchlists('45678')
      */
-    getWatchlists(accountId: string): Promise.<any>;
+    getWatchlists(accountId: string): Promise<any>;
     /**
      * All watchlists for all of the user's linked accounts.
      * @returns List of watchlists
      * @example
      * const watchlists = await td.getAllWatchlists()
      */
-    getAllWatchlists(): Promise.<any>;
+    getAllWatchlists(): Promise<any>;
     /**
      * Replace watchlist for a specific account. This method does not verify that the symbol or asset type are valid.
      * @param accountId The account id
@@ -559,7 +559,7 @@ export class TDAmeritrade {
      * @param watchlist The watchlist
      * @returns Success
      */
-    replaceWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise.<any>;
+    replaceWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise<any>;
     /**
      * Partially update watchlist for a specific account: change watchlist name, add
      * to the beginning/end of a watchlist, update or delete items in a watchlist.
@@ -569,7 +569,7 @@ export class TDAmeritrade {
      * @param watchlist The new watchlist
      * @returns Success
      */
-    updateWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise.<any>;
+    updateWatchlist(accountId: string, watchlistId: string, watchlist: Watchlist): Promise<any>;
     /**
      * Create a new instance of Account.
      * @param accountId The account id
@@ -585,7 +585,7 @@ export class TDAmeritrade {
      * @example
      * const streamer = await td.streamer()
      */
-    streamer(): Promise.<TDStreamer>;
+    streamer(): Promise<TDStreamer>;
 }
 export class TDStreamer {
     /**
@@ -602,21 +602,21 @@ export class TDStreamer {
      * @param fn Callback function
      * @returns Event emitter
      */
-    on(event: State|Event|Error, fn: EventEmitter.EventListener.<any, any>): EventEmitter.<(string|symbol), any>;
+    on(event: State|Event|Error, fn: EventEmitter.EventListener<any, any>): EventEmitter<(string|symbol), any>;
     /**
      * Add a one-time listener for a given event.
      * @param event The event name
      * @param fn Callback function
      * @returns Event emitter
      */
-    once(event: State|Event|Error, fn: EventEmitter.EventListener.<any, any>): EventEmitter.<(string|symbol), any>;
+    once(event: State|Event|Error, fn: EventEmitter.EventListener<any, any>): EventEmitter<(string|symbol), any>;
     /**
      * Remove the listeners of a given event.
      * @param event The event name
      * @param fn Callback function
      * @returns 
      */
-    removeListener(event: State|Event, fn: EventEmitter.EventListener.<any, any>): void;
+    removeListener(event: State|Event, fn: EventEmitter.EventListener<any, any>): void;
     /**
      * Remove all listeners, or those of the specified event.
      * @param event The event name
@@ -628,13 +628,13 @@ export class TDStreamer {
      * the streamer has registered listeners.
      * @returns event names
      */
-    eventNames(): Array.<(string|symbol)>;
+    eventNames(): Array<(string|symbol)>;
     /**
      * Return the listeners registered for a given event.
      * @param event The event name
      * @returns List of listeners
      */
-    listeners(event: State|Event|Error): Array.<EventEmitter.EventListener.<any, any>>;
+    listeners(event: State|Event|Error): Array<EventEmitter.EventListener<any, any>>;
     /**
      * Return the number of listeners listening to a given event.
      * @param event The event name
@@ -657,13 +657,13 @@ export class TDStreamer {
      * @param requests The requests to send to the server
      * @returns The requests object
      */
-    createRequest(requests: Request|Array.<Request>): object;
+    createRequest(requests: Request|Array<Request>): object;
     /**
      * Send a request to the server
      * @param requests The requests to send to the server
      * @returns The requests sent to the server
      */
-    sendRequest(requests: Request|Array.<Request>): Array.<object>;
+    sendRequest(requests: Request|Array<Request>): Array<object>;
     /**
      * Send a message to the server
      * @param message The JSON message to send to server
@@ -675,167 +675,167 @@ export class TDStreamer {
      * @param services The services to subscribe to
      * @returns The request objects sent to the server
      */
-    subscribe(services: Service|Array.<Service>): Array.<object>;
+    subscribe(services: Service|Array<Service>): Array<object>;
     /**
      * Unsubscribe from services updates
      * @param services The services to unsubscribe from
      * @returns The request objects sent to the server
      */
-    unsubscribe(services: Service|Array.<Service>): Array.<object>;
+    unsubscribe(services: Service|Array<Service>): Array<object>;
     /**
      * Set Quality of Service
      * @param level level
      * @returns The request objects sent to the server
      */
-    setQOS(level: 'express'|'realtime'|'fast'|'moderate'|'slow'|'delayed'): Array.<object>;
+    setQOS(level: 'express'|'realtime'|'fast'|'moderate'|'slow'|'delayed'): Array<object>;
     /**
      * Subscribe to Account Activity updates
      * @param fields Fields to include (default all)
      * @returns The request objects sent to the server
      */
-    subsAccountActivity(fields?: Array.<('subscriptionKey'|'accountNumber'|'messageType'|'messageData')>): Array.<object>;
+    subsAccountActivity(fields?: Array<('subscriptionKey'|'accountNumber'|'messageType'|'messageData')>): Array<object>;
     /**
      * Unsubscribe from Account Activity updates
      * @returns The request objects sent to the server
      */
-    unsubsAccountActivity(): Array.<object>;
+    unsubsAccountActivity(): Array<object>;
     /**
      * Susbscribe to Chart Equity updates
      * @param symbols Ticker symbols to subscribe to
      * @param fields Fields to include (default all)
      * @returns The request objects sent to the server
      */
-    subsChartEquity(symbols: string|Array.<string>, fields?: Array.<('key'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'|'sequence'|'chartTime'|'chartDay')>): Array.<object>;
+    subsChartEquity(symbols: string|Array<string>, fields?: Array<('key'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume'|'sequence'|'chartTime'|'chartDay')>): Array<object>;
     /**
      * Unsubscribe from Chart Equity updates
      * @param symbols Ticker symbols to unsubscribe from
      * @returns The request objects sent to the server
      */
-    unsubsChartEquity(symbols: string|Array.<string>): Array.<object>;
+    unsubsChartEquity(symbols: string|Array<string>): Array<object>;
     /**
      * Susbscribe to Chart Futures updates
      * @param symbols Ticker symbols to subscribe to
      * @param fields Fields to include (default all)
      * @returns The request objects sent to the server
      */
-    subsChartFutures(symbols: string|Array.<string>, fields?: Array.<('key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume')>): Array.<object>;
+    subsChartFutures(symbols: string|Array<string>, fields?: Array<('key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume')>): Array<object>;
     /**
      * Unsubscribe from Chart Futures updates
      * @param symbols Ticker symbols to unsubscribe from
      * @returns The request objects sent to the server
      */
-    unsubsChartFutures(symbols: string|Array.<string>): Array.<object>;
+    unsubsChartFutures(symbols: string|Array<string>): Array<object>;
     /**
      * Subscribe to Chart Options updates
      * @param symbols Ticker symbols to subscribe to
      * @param fields Fields to include (default all)
      * @returns The request objects sent to the server
      */
-    subsChartOptions(symbols: string|Array.<string>, fields?: Array.<('key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume')>): Array.<object>;
+    subsChartOptions(symbols: string|Array<string>, fields?: Array<('key'|'chartTime'|'openPrice'|'highPrice'|'lowPrice'|'closePrice'|'volume')>): Array<object>;
     /**
      * Unsbscribe from Chart Options updates
      * @param symbols Ticker symbols to unsubscribe from
      * @returns The request objects sent to the server
      */
-    unsubsChartOptions(symbols: string|Array.<string>): Array.<object>;
+    unsubsChartOptions(symbols: string|Array<string>): Array<object>;
     /**
      * Subscribe to News Headline updates
      * @param symbols Ticker symbols to subscribe to
      * @param fields Fields to include (default all)
      * @returns The request objects sent to the server
      */
-    subsNewsHeadline(symbols: string|Array.<string>, fields?: Array.<('symbol'|'errorCode'|'storyDatetime'|'headlineId'|'status'|'headline'|'storyId'|'countForKeyword'|'keywordArray'|'isHot'|'storySource')>): Array.<object>;
+    subsNewsHeadline(symbols: string|Array<string>, fields?: Array<('symbol'|'errorCode'|'storyDatetime'|'headlineId'|'status'|'headline'|'storyId'|'countForKeyword'|'keywordArray'|'isHot'|'storySource')>): Array<object>;
     /**
      * Unsbscribe from News Headline updates
      * @param symbols Ticker symbols to unsubscribe from
      * @returns The request objects sent to the server
      */
-    unsubsNewsHeadline(symbols: string|Array.<string>): Array.<object>;
+    unsubsNewsHeadline(symbols: string|Array<string>): Array<object>;
     /**
      * Subscribe to Timesale Equity updates
      * @param symbols Ticker symbols to subscribe to
      * @param fields Fields to include (default all)
      * @returns The request objects sent to the server
      */
-    subsTimesaleEquity(symbols: string|Array.<string>, fields?: Array.<('symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence')>): Array.<object>;
+    subsTimesaleEquity(symbols: string|Array<string>, fields?: Array<('symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence')>): Array<object>;
     /**
      * Unsbscribe from Timesale Equity updates
      * @param symbols Ticker symbols to unsubscribe from
      * @returns The request objects sent to the server
      */
-    unsubsTimesaleEquity(symbols: string|Array.<string>): Array.<object>;
+    unsubsTimesaleEquity(symbols: string|Array<string>): Array<object>;
     /**
      * Subscribe to Timesale Futures updates
      * @param symbols Ticker symbols to subscribe to
      * @param fields Fields to include (default all)
      * @returns The request objects sent to the server
      */
-    subsTimesaleFutures(symbols: string|Array.<string>, fields?: Array.<('symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence')>): Array.<object>;
+    subsTimesaleFutures(symbols: string|Array<string>, fields?: Array<('symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence')>): Array<object>;
     /**
      * Unsbscribe from Timesale Futures updates
      * @param symbols Ticker symbols to unsubscribe from
      * @returns The request objects sent to the server
      */
-    unsubsTimesaleFutures(symbols: string|Array.<string>): Array.<object>;
+    unsubsTimesaleFutures(symbols: string|Array<string>): Array<object>;
     /**
      * Subscribe to Timesale Options updates
      * @param symbols Ticker symbols to subscribe to
      * @param fields Fields to include (default all)
      * @returns The request objects sent to the server
      */
-    subsTimesaleOptions(symbols: string|Array.<string>, fields?: Array.<('symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence')>): Array.<object>;
+    subsTimesaleOptions(symbols: string|Array<string>, fields?: Array<('symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence')>): Array<object>;
     /**
      * Unsbscribe from Timesale Options updates
      * @param symbols Ticker symbols to unsubscribe from
      * @returns The request objects sent to the server
      */
-    unsubsTimesaleOptions(symbols: string|Array.<string>): Array.<object>;
+    unsubsTimesaleOptions(symbols: string|Array<string>): Array<object>;
     /**
      * Subscribe to Timesale Forex updates
      * @param symbols Ticker symbols to subscribe to
      * @param fields Fields to include (default all)
      * @returns The request objects sent to the server
      */
-    subsTimesaleForex(symbols: string|Array.<string>, fields?: Array.<('symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence')>): Array.<object>;
+    subsTimesaleForex(symbols: string|Array<string>, fields?: Array<('symbol'|'tradeTime'|'lastPrice'|'lastSize'|'lastSequence')>): Array<object>;
     /**
      * Unsbscribe from Timesale Forex updates
      * @param symbols Ticker symbols to unsubscribe from
      * @returns The request objects sent to the server
      */
-    unsubsTimesaleForex(symbols: string|Array.<string>): Array.<object>;
+    unsubsTimesaleForex(symbols: string|Array<string>): Array<object>;
     /**
      * Get historical data for Futures
      * @param symbols Ticker symbols
      * @param options Chart history futures options
      * @returns The request objects sent to the server
      */
-    getChartHistoryFutures(symbols: string|Array.<string>, options: ChartHistoryFuturesOptions): Array.<object>;
+    getChartHistoryFutures(symbols: string|Array<string>, options: ChartHistoryFuturesOptions): Array<object>;
     /**
      * Subscribe to Level One Equity service
      * @param symbols Ticker symbols to subscribe to
      * @param fields Fields to include (default all)
      * @returns object
      */
-    subsLevelOneEquity(symbols: string|Array.<string>, fields?: Array.<('symbol'|'bidPrice'|'askPrice'|'lastPrice'|'bidSize'|'askSize'|'askID'|'bidID'|'totalVolume'|'lastSize'|'tradeTime'|'quoteTime'|'highPrice'|'lowPrice'|'bidTick'|'closePrice'|'exchangeID'|'marginable'|'shortable'|'quoteDay'|'tradeDay'|'volatility'|'description'|'lastID'|'digits'|'openPrice'|'netChange'|'52WeekHigh'|'52WeekLow'|'peRatio'|'dividendAmount'|'dividendYield'|'nav'|'fundPrice'|'exchangeName'|'dividendDate'|'regularMarketQuote'|'regularMarketTrade'|'regularMarketLastPrice'|'regularMarketLastSize'|'regularMarketTradeTime'|'regularMarketTradeDay'|'regularMarketNetChange'|'securityStatus'|'mark'|'quoteTimeInLong'|'tradeTimeInLong'|'regularMarketTradeTimeInLong')>): Array.<object>;
+    subsLevelOneEquity(symbols: string|Array<string>, fields?: Array<('symbol'|'bidPrice'|'askPrice'|'lastPrice'|'bidSize'|'askSize'|'askID'|'bidID'|'totalVolume'|'lastSize'|'tradeTime'|'quoteTime'|'highPrice'|'lowPrice'|'bidTick'|'closePrice'|'exchangeID'|'marginable'|'shortable'|'quoteDay'|'tradeDay'|'volatility'|'description'|'lastID'|'digits'|'openPrice'|'netChange'|'52WeekHigh'|'52WeekLow'|'peRatio'|'dividendAmount'|'dividendYield'|'nav'|'fundPrice'|'exchangeName'|'dividendDate'|'regularMarketQuote'|'regularMarketTrade'|'regularMarketLastPrice'|'regularMarketLastSize'|'regularMarketTradeTime'|'regularMarketTradeDay'|'regularMarketNetChange'|'securityStatus'|'mark'|'quoteTimeInLong'|'tradeTimeInLong'|'regularMarketTradeTimeInLong')>): Array<object>;
     /**
      * Unsbscribe from Level One Equity service
      * @param symbols Ticker symbols to unsubscribe from
      * @returns The request objects sent to the server
      */
-    unsubsLevelOneEquity(symbols: string|Array.<string>): Array.<object>;
+    unsubsLevelOneEquity(symbols: string|Array<string>): Array<object>;
     /**
      * Subscribe to Level One Equity service
      * @param symbols Ticker symbols to subscribe to
      * @param fields Fields to include (default all)
      * @returns object
      */
-    subsLevelOneFutures(symbols: string|Array.<string>, fields?: Array.<('symbol'|'bidPrice'|'askPrice'|'lastPrice'|'bidSize'|'askSize'|'askID'|'bidID'|'totalVolume'|'lastSize'|'quoteTime'|'tradeTime'|'highPrice'|'lowPrice'|'closePrice'|'exchangeID'|'description'|'lastID'|'openPrice'|'netChange'|'futurePercentChange'|'exhangeName'|'securityStatus'|'openInterest'|'mark'|'tick'|'tickAmount'|'product'|'futurePriceFormat'|'futureTradingHours'|'futureIsTradable'|'futureMultiplier'|'futureIsActive'|'futureSettlementPrice'|'futureActiveSymbol'|'futureExpirationDate')>): Array.<object>;
+    subsLevelOneFutures(symbols: string|Array<string>, fields?: Array<('symbol'|'bidPrice'|'askPrice'|'lastPrice'|'bidSize'|'askSize'|'askID'|'bidID'|'totalVolume'|'lastSize'|'quoteTime'|'tradeTime'|'highPrice'|'lowPrice'|'closePrice'|'exchangeID'|'description'|'lastID'|'openPrice'|'netChange'|'futurePercentChange'|'exhangeName'|'securityStatus'|'openInterest'|'mark'|'tick'|'tickAmount'|'product'|'futurePriceFormat'|'futureTradingHours'|'futureIsTradable'|'futureMultiplier'|'futureIsActive'|'futureSettlementPrice'|'futureActiveSymbol'|'futureExpirationDate')>): Array<object>;
     /**
      * Unsbscribe from Level One Futures service
      * @param symbols Ticker symbols to unsubscribe from
      * @returns The request objects sent to the server
      */
-    unsubsLevelOneFutures(symbols: string|Array.<string>): Array.<object>;
+    unsubsLevelOneFutures(symbols: string|Array<string>): Array<object>;
 }
 export type Config = {
     /**
@@ -1111,7 +1111,7 @@ export type Watchlist = {
     /**
      * Items
      */
-    watchlistItems: Array.<WatchlistItem>;
+    watchlistItems: Array<WatchlistItem>;
 };
 export type State = 'connecting'|'connected'|'authenticated'|'disconnecting'|'disconnected'
 export type Event = 'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'level_one_futures'|'chart_history_futures'|'error'
