@@ -14,7 +14,6 @@ const transactions = require('./resources/transactions')
 /**
  * @class
  * @typicalname account
- * @param {string} accountId The account id to target
  */
 class TDAccount extends Base {
     /**

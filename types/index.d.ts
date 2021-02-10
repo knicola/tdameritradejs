@@ -4,8 +4,9 @@ import { AxiosInstance } from 'axios'
 export class TDAccount {
     /**
      * @param accountId The account id to target
+     * @param config Config
      */
-    constructor(accountId: string)
+    constructor(accountId: string, config?: Config)
     /**
      * Get account balances, positions, and orders.
      * @returns The requested account

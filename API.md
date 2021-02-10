@@ -984,7 +984,7 @@ const streamer = await td.streamer()
 
 
 * [TDAccount](#TDAccount)
-    * [new TDAccount(accountId)](#new_TDAccount_new)
+    * [new TDAccount(accountId, [config])](#new_TDAccount_new)
     * [account.getAccount()](#TDAccount+getAccount) ⇒ <code>Promise.&lt;any&gt;</code>
     * [account.getPreferences()](#TDAccount+getPreferences) ⇒ <code>Promise.&lt;any&gt;</code>
     * [account.updatePreferences(preferences)](#TDAccount+updatePreferences) ⇒ <code>Promise.&lt;any&gt;</code>
@@ -1011,11 +1011,12 @@ const streamer = await td.streamer()
 
 <br><a name="new_TDAccount_new"></a>
 
-### new TDAccount(accountId)
+### new TDAccount(accountId, [config])
 
 **Arguments**
 
-- **accountId (<code>string</code>)** : The account id to target
+- **accountId (<code>string</code>)** : The account id
+- **[config] ([<code>Config</code>](#Config))** : Config
 
 
 
