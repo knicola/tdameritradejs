@@ -64,11 +64,6 @@ class TDStreamer {
 
         // logout
         this[emitter].on(STATE.DISCONNECTING, () => this.sendRequest(logout()))
-
-        // make a list of built-in listeners
-        this[listeners] = this[emitter].eventNames().reduce((result, name) => {
-            return result.concat(this[emitter].listeners(name))
-        }, [])
     } // constructor()
 
     /**
@@ -118,16 +113,7 @@ class TDStreamer {
      * @returns {void}
      */
     removeAllListeners(event) {
-        const eventNames = event
-            ? [].concat(event)
-            : this.eventNames()
-
-        // do NOT remove built-in listeners
-        eventNames.forEach(name => {
-            this.listeners(name)
-                .filter(listener => ! this[listeners].includes(listener))
-                .forEach(listener => this.removeListener(name, listener))
-        })
+        this[emitter].removeAllListeners(event)
     } // removeAllListeners()
 
     /**
