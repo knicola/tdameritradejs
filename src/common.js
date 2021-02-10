@@ -37,7 +37,7 @@ function streamer() {
         'streamerSubscriptionKeys',
         'streamerConnectionInfo',
     ]).then(res => {
-        const userPrincipals = this.config.fullResponse ? get(res, 'data') : res
+        const userPrincipals = this.config.returnFullResponse ? get(res, 'data') : res
         const instance = new TDStreamer(userPrincipals)
         return instance
     })
