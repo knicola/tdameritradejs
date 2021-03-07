@@ -304,7 +304,7 @@ export class TDAmeritrade {
     /**
      * Bootstrap a local web server for oauth2 authorization. Will request
      * access token and update config if authorization is successful.
-     * 
+     *
      * **(Available for Nodejs only)**
      * @returns Success
      * @example
@@ -318,7 +318,7 @@ export class TDAmeritrade {
     /**
      * Authorize or refresh the access token depending on whether
      * the access and/or refresh token exist and are not expired.
-     * 
+     *
      * **(Available for Nodejs only)**
      * @returns Success
      * @example
@@ -614,13 +614,13 @@ export class TDStreamer {
      * Remove the listeners of a given event.
      * @param event The event name
      * @param fn Callback function
-     * @returns 
+     * @returns
      */
     removeListener(event: State|Event, fn: EventEmitter.EventListener<any, any>): void;
     /**
      * Remove all listeners, or those of the specified event.
      * @param event The event name
-     * @returns 
+     * @returns
      */
     removeAllListeners(event?: State|Event|Error): void;
     /**
@@ -643,13 +643,13 @@ export class TDStreamer {
     listenerCount(event: State|Event|Error): number;
     /**
      * Connect to the server
-     * @returns 
+     * @returns
      */
     connect(): void;
     /**
      * Disconnect from the server
      * @param options Options
-     * @returns 
+     * @returns
      */
     disconnect(options: DisconnectOptions): void;
     /**
@@ -667,7 +667,7 @@ export class TDStreamer {
     /**
      * Send a message to the server
      * @param message The JSON message to send to server
-     * @returns 
+     * @returns
      */
     send(message: object): void;
     /**
@@ -955,7 +955,7 @@ export type PriceHistoryQuery = {
      *      - `year` : daily, weekly, monthly*
      *      - `ytd` : daily, weekly*
      */
-    frequencyType: 'day'|'month'|'year'|'ytd';
+    frequencyType: 'minute'|'daily'|'weekly'|'monthly';
     /**
      * Start date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided
      */
