@@ -97,13 +97,13 @@ function getQuote(symbol) {
  *      - `month` : 1*, 2, 3, 6
  *      - `year` : 1*, 2, 3, 5, 10, 15, 20
  *      - `ytd` : 1*
- * @property {'day'|'month'|'year'|'ytd'} frequencyType The type of frequency with which a new candle is formed
+ * @property {'minute'|'daily'|'weekly'|'monthly'} frequencyType The type of frequency with which a new candle is formed
  *      - `day` : minute*
  *      - `month` : daily, weekly*
  *      - `year` : daily, weekly, monthly*
  *      - `ytd` : daily, weekly*
- * @property {string} startDate Start date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided
- * @property {string} endDate End date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided. Default is previous trading day
+ * @property {string} [startDate] Start date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided
+ * @property {string} [endDate] End date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided. Default is previous trading day
  * @property {boolean} [needExtendedHoursData=true] Include extended hours data. Default is `true`
  */
 /**
