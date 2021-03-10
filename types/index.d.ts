@@ -955,15 +955,15 @@ export type PriceHistoryQuery = {
      *      - `year` : daily, weekly, monthly*
      *      - `ytd` : daily, weekly*
      */
-    frequencyType: 'day'|'month'|'year'|'ytd';
+    frequencyType: 'minute'|'daily'|'weekly'|'monthly';
     /**
      * Start date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided
      */
-    startDate: string;
+    startDate?: string;
     /**
      * End date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided. Default is previous trading day
      */
-    endDate: string;
+    endDate?: string;
     /**
      * Include extended hours data. Default is `true`
      */
