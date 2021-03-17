@@ -81,6 +81,11 @@ function fullResponse(client) {
         return client.config.returnFullResponse
             ? response
             : get(response, 'data')
+    }, error => {
+        return {
+            'status': error.response.status,
+            'error' : error.response.data.error
+        }
     })
 } // fullResponse()
 
