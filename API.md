@@ -2036,11 +2036,17 @@ Unsbscribe from Level One Futures service
      - `month` : 1*, 2, 3, 6
      - `year` : 1*, 2, 3, 5, 10, 15, 20
      - `ytd` : 1*
-- **frequencyType (<code>&#x27;day&#x27;</code> \| <code>&#x27;month&#x27;</code> \| <code>&#x27;year&#x27;</code> \| <code>&#x27;ytd&#x27;</code>)** : The type of frequency with which a new candle is formed
+- **frequencyType (<code>&#x27;minute&#x27;</code> \| <code>&#x27;daily&#x27;</code> \| <code>&#x27;weekly&#x27;</code> \| <code>&#x27;monthly&#x27;</code>)** : The type of frequency with which a new candle is formed
      - `day` : minute*
      - `month` : daily, weekly*
      - `year` : daily, weekly, monthly*
      - `ytd` : daily, weekly*
+- **frequency (<code>1</code> \| <code>5</code> \| <code>10</code> \| <code>15</code> \| <code>30</code>)** : The number of the `frequencyType` to be included in each candle.
+Valid frequencies by `frequencyType` (defaults marked with an asterisk):
+     - minute: 1*, 5, 10, 15, 30
+     - daily: 1*
+     - weekly: 1*
+     - monthly: 1*
 - **startDate (<code>string</code>)** : Start date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided
 - **endDate (<code>string</code>)** : End date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided. Default is previous trading day
 - **needExtendedHoursData (<code>boolean</code>)** : Include extended hours data. Default is `true`

@@ -102,6 +102,12 @@ function getQuote(symbol) {
  *      - `month` : daily, weekly*
  *      - `year` : daily, weekly, monthly*
  *      - `ytd` : daily, weekly*
+ * @property {1|5|10|15|30} frequency The number of the `frequencyType` to be included in each candle.
+ * Valid frequencies by `frequencyType` (defaults marked with an asterisk):
+ *      - minute: 1*, 5, 10, 15, 30
+ *      - daily: 1*
+ *      - weekly: 1*
+ *      - monthly: 1*
  * @property {string} [startDate] Start date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided
  * @property {string} [endDate] End date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided. Default is previous trading day
  * @property {boolean} [needExtendedHoursData=true] Include extended hours data. Default is `true`
