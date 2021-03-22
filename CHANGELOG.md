@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.1] - 2021-03-21
+### Added
+* Missing `frequency` jsdoc property in `getPriceHistory()`.
+
+### Changed 
+* `frequencyType` jsdoc property values in `getPriceHistory()`. Thank you [@kevinsherman](https://github.com/kevinsherman)!
+
 ## [0.5.0] - 2021-02-09
 ### Added
 * Jsdoc comments everywhere 🎉.
