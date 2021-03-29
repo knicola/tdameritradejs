@@ -957,6 +957,15 @@ export type PriceHistoryQuery = {
      */
     frequencyType: 'minute'|'daily'|'weekly'|'monthly';
     /**
+     * The number of the `frequencyType` to be included in each candle.
+     * Valid frequencies by `frequencyType` (defaults marked with an asterisk):
+     *      - minute: 1*, 5, 10, 15, 30
+     *      - daily: 1*
+     *      - weekly: 1*
+     *      - monthly: 1*
+     */
+    frequency: 1|5|10|15|30;
+    /**
      * Start date as milliseconds since epoch. If `startDate` and `endDate` are provided, period should not be provided
      */
     startDate?: string;
