@@ -79,16 +79,20 @@ function authorize() {
  *     console.log(err)
  * })
  */
-function login() {
-    if (! this.isAccessTokenExpired()) {
+function login(auth) {
+
+	var createNewRefreshToken
+
+    if(true === auth) {
+        return this.authorize()
+    } else if (this.isRefreshTokenExpired()) {
+        return this.refreshAccessToken(null, createNewRefreshToken = true)
+    } else if (this.isAccessTokenExpired()) {
+        return this.refreshAccessToken(null, createNewRefreshToken = false)
+    } else {
         return Promise.resolve()
     }
 
-    if (! this.isRefreshTokenExpired()) {
-        return this.refreshAccessToken()
-    }
-
-    return this.authorize()
 } // login()
 
 module.exports = {
