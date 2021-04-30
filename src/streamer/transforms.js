@@ -11,7 +11,8 @@ function accountActivity(data) {
     return Object.assign({}, data, {
         content: data.content.map(entry => {
             return {
-                subscriptionKey: entry[0],
+                key: entry.key,
+                seq: entry.seq,
                 accountNumber: entry[1],
                 messageType: entry[2],
                 messageData: entry[3],
