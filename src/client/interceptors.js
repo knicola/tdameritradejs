@@ -81,6 +81,29 @@ function fullResponse(client) {
         return client.config.returnFullResponse
             ? response
             : get(response, 'data')
+    }, error => {
+        // we don't want to Promise.reject() as it will
+        // trigger an ERR_UNHANDLED_REJECTION error.
+
+        // axios response
+        if (client.config.returnFullResponse) {
+            throw error
+        }
+
+        // custom error response
+        if (error.response) {
+            const customError = {
+                status: get(error, 'response.status'),
+                error: get(error, 'response.data.error'),
+            }
+
+            throw customError
+        }
+
+        // extract error
+        const customError = new Error(error.message)
+        customError.stack = error.stack
+        throw customError
     })
 } // fullResponse()
 

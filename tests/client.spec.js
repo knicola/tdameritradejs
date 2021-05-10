@@ -900,7 +900,7 @@ describe('Client', () => {
                     })
                 })
         }) // test
-        it('should return the full axios response, if `returnFullResponse` is set to true', () => {
+        it('should return axios response, if `returnFullResponse` is TRUE', () => {
             const api = new Client(Object.assign({}, config, {
                 returnFullResponse: true
             }))
@@ -917,6 +917,63 @@ describe('Client', () => {
                         headers: expectedAuthorization,
                     })
                 })
+        }) // test
+        it('should return the axios error reponse, if `returnFullResponse` is TRUE', async () => {
+            const api = new Client(Object.assign({}, config, {
+                returnFullResponse: true
+            }))
+            mockAxios.reset()
+            mockAxios.onAny().replyOnce(404, {
+                error: 'nothing to see here'
+            })
+            mockAxios.onAny().networkErrorOnce()
+            // server error
+            await api
+                .getQuote('symbol')
+                .then(() => 'should never happen')
+                .catch(err => {
+                    expect(err).toHaveProperty('isAxiosError', true)
+                })
+                .then(res => expect(res).toBeUndefined())
+            // network error
+            await api
+                .getQuote('symbol')
+                .then(() => 'should never happen')
+                .catch(err => {
+                    expect(err).toHaveProperty('isAxiosError', true)
+                })
+                .then(res => expect(res).toBeUndefined())
+        }) // test
+        it('should return custom error, if `returnFullResponse` is FALSE', async () => {
+            const api = new Client(Object.assign({}, config, {
+                returnFullResponse: false
+            }))
+            mockAxios.reset()
+            mockAxios.onAny().replyOnce(404, {
+                error: 'nothing to see here'
+            })
+            mockAxios.onAny().networkErrorOnce()
+            // server error
+            await api
+                .getQuote('symbol')
+                .then(() => 'should never happen')
+                .catch(err => {
+                    expect(err).toStrictEqual({
+                        error: 'nothing to see here',
+                        status: 404
+                    })
+                })
+                .then(res => expect(res).toBeUndefined())
+            // network error
+            await api
+                .getQuote('symbol')
+                .then(() => 'should never happen')
+                .catch(err => {
+                    expect(err).toHaveProperty('message', 'Network Error')
+                    expect(err).toHaveProperty('stack')
+                    expect(err.stack.startsWith('Error: Network Error')).toBeTruthy()
+                })
+                .then(res => expect(res).toBeUndefined())
         }) // test
         it('should refresh token on 401 response and retry request, if `refreshAndRetry` is set to TRUE', () => {
             const api = new Client(Object.assign({}, config, {
