@@ -119,7 +119,7 @@ describe('TDAmeritrade (Node.js)', () => {
             })
             return td.authorize().catch(err => {
                 expect(err).not.toBeUndefined()
-                expect(err.response.status).toEqual(500)
+                expect(err.status).toEqual(500)
             })
         }) // test
         it('should default to port 8443 if redirectUri does not specify one', () => {
@@ -133,7 +133,7 @@ describe('TDAmeritrade (Node.js)', () => {
             })
             return td.authorize().then(res => {
                 expect(res).toEqual({ success: true })
-            })
+            }).catch(err => expect(err).toBeUndefined())
         }) // test
     }) // group
     describe('.login()', () => {
