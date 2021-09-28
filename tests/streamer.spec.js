@@ -972,6 +972,63 @@ describe('TDStreamer', () => {
             })
         }) // test
     }) // group
+    
+    describe('.subsLevelOneOption()', () => {
+        it('should subscribe for Level One Option updates', async () => {
+            streamer.subsLevelOneOption('SYMBOL')
+            await expect(server).toReceiveMessage({
+                requests: [{
+                    requestid: 'test_requestid',
+                    source: 'test_appId',
+                    account: '123456789',
+                    service: 'OPTION',
+                    command: 'SUBS',
+                    parameters: {
+                        keys: 'SYMBOL',
+                        fields: '0,1,2,3,4,5,6,7,8,9,10,11,'  +
+                                '12,13,14,15,16,17,18,19,20,' +
+                                '21,22,23,24,25,26,27,28,29,' +
+                                '30,31,32,33,34,35,36,37,38,' + 
+                                '39,40,41',
+                    }
+                }]
+            })
+        }) // test
+        it('should choose which fields to subscribe for', async () => {
+            streamer.subsLevelOneOption('SYMBOL', ['symbol', 'askPrice', 'askSize'])
+            await expect(server).toReceiveMessage({
+                requests: [{
+                    requestid: 'test_requestid',
+                    source: 'test_appId',
+                    account: '123456789',
+                    service: 'OPTION',
+                    command: 'SUBS',
+                    parameters: {
+                        keys: 'SYMBOL',
+                        fields: '0,3,21'
+                    }
+                }]
+            })
+        }) // test
+    }) // group
+
+    describe('.unsubsLevelOneOption()', () => {
+        it('should unsubscribe from level one Options updates', async () => {
+            streamer.unsubsLevelOneOption('SYMBOL')
+            await expect(server).toReceiveMessage({
+                requests: [{
+                    requestid: 'test_requestid',
+                    source: 'test_appId',
+                    account: '123456789',
+                    service: 'OPTION',
+                    command: 'UNSUBS',
+                    parameters: {
+                        keys: 'SYMBOL'
+                    }
+                }]
+            })
+        }) // test
+    }) // group
 
     describe('Events and Transforms', () => {
         it('should receive CHART_EQUITY data and emit `chart` event', async () => {
@@ -1320,6 +1377,113 @@ describe('TDStreamer', () => {
                 }],
                 service: 'LEVELONE_FUTURES',
                 timestamp: 1596072756064
+            })
+        }) // test
+        it('should receive OPTION data and emit `level_one_option` event', async () => {
+            const cb = jest.fn()
+            streamer.once('level_one_option', cb)
+            server.send({
+                data: [{
+                    service: 'OPTION',
+                    timestamp: 1632792429190,
+                    command: 'SUBS',
+                    content: [{
+                        'key': 'SPY_100121C444',
+                        '1': 'SPY Oct 1 2021 444 Call (Weekly)',
+                        '2': 1.61,
+                        '3': 1.63,
+                        '4': 1.64,
+                        '5': 2.55,
+                        '6': 1.52,
+                        '7': 2.855,
+                        '8': 27345,
+                        '9': 8099,
+                        '10': 11.2577,
+                        '11': 58500,
+                        '12': 58417,
+                        '13': -1.36,
+                        '14': 18897,
+                        '15': 18897,
+                        '16': 2021,
+                        '17': 100,
+                        '18': 2,
+                        '19': 2.14,
+                        '20': 70,
+                        '21': 70,
+                        '22': 3,
+                        '23': -1.215,
+                        '24': 444,
+                        '25': 'C',
+                        '26': 'SPY',
+                        '27': 10,
+                        '28': undefined,
+                        '29': 1.64,
+                        '30': 1,
+                        '31': 4,
+                        '32': 0.4068,
+                        '33': 0.0688,
+                        '34': -0.2332,
+                        '35': 0.1943,
+                        '36': 0.0225,
+                        '37': 'Normal',
+                        '38': 1.635,
+                        '39': 442.64,
+                        '40': 'S',
+                        '41': 1.635
+                    }],
+                    key: 'SPY_100121C444'
+                }]
+            })
+            await expect(cb).toBeCalledTimes(1)
+            await expect(cb).toBeCalledWith({
+                service: 'OPTION',
+                timestamp: 1632792429190,
+                command: 'SUBS',
+                key: 'SPY_100121C444',
+                content: [{
+                    symbol: 'SPY_100121C444',
+                    description: 'SPY Oct 1 2021 444 Call (Weekly)',
+                    bidPrice: 1.61,
+                    askPrice: 1.63,
+                    lastPrice: 1.64,
+                    highPrice: 2.55,
+                    lowPrice: 1.52,
+                    closePrice: 2.855,
+                    totalVolume: 27345,
+                    openInterest: 8099,
+                    volatility: 11.2577,
+                    quoteTime: 58500,
+                    tradeTime: 58417,
+                    intrinsicValue: -1.36,
+                    quoteDay: 18897,
+                    tradeDay: 18897,
+                    expirationYear: 2021,
+                    multiplier: 100,
+                    digits: 2,
+                    openPrice: 2.14,
+                    bidSize: 70,
+                    askSize: 70,
+                    lastSize: 3,
+                    netChange: -1.215,
+                    strikePrice: 444,
+                    contractType: 'C',
+                    underlying: 'SPY',
+                    expirationMonth: 10,
+                    deliverables: undefined,
+                    timeValue: 1.64,
+                    expirationDay: 1,
+                    daysToExpiration: 4,
+                    delta: 0.4068,
+                    gamma: 0.0688,
+                    theta: -0.2332,
+                    vega: 0.1943,
+                    rho: 0.0225,
+                    securityStatus: 'Normal',
+                    theoreticalOptionValue: 1.635,
+                    underlyingPrice: 442.64,
+                    uvExpirationType: 'S',
+                    mark: 1.635
+                }]
             })
         }) // test
         it('should receive CHART_HISTORY_FUTURES data and emit `chart_history_futures` event', async () => {

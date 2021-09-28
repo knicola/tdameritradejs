@@ -19,7 +19,7 @@ const listeners = Symbol()
  */
 /**
  * @typedef {'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'
- * |'level_one_equity'|'level_one_futures'|'chart_history_futures'|'error'} Event
+ * |'level_one_equity'|'level_one_futures'|'level_one_option'|'chart_history_futures'|'error'} Event
  */
 /**
  * @typedef {'unknown_error'|'unknown_message'|'unknown_response'|'unknown_notification'
