@@ -696,6 +696,45 @@ class TDStreamer {
             }
         })
     } // unsubsLevelOneFutures()
+    
+    /**
+     * Subscribe to Level One Option service
+     *
+     * @param {string|string[]} symbols Ticker symbols to subscribe to
+     * @param {Array<'symbol'|'bidPrice'|'askPrice'|'lastPrice'|'bidSize'|'askSize'|'askID'|'bidID'|'totalVolume'|
+     * 'lastSize'|'quoteTime'|'tradeTime'|'highPrice'|'lowPrice'|'closePrice'|'exchangeID'|'description'|'lastID'|
+     * 'openPrice'|'netChange'|'futurePercentChange'|'exhangeName'|'securityStatus'|'openInterest'|'mark'|'tick'|
+     * 'tickAmount'|'product'|'futurePriceFormat'|'futureTradingHours'|'futureIsTradable'|'futureMultiplier'|
+     * 'futureIsActive'|'futureSettlementPrice'|'futureActiveSymbol'|'futureExpirationDate'>
+     * } [fields] Fields to include (default all)
+     * @returns {object[]} object
+     */
+    subsLevelOneOption(symbols, fields) {
+        return this.subscribe({
+            service: SERVICES.LEVEL_ONE_OPTION,
+            parameters: {
+                keys: [].concat(symbols).join(',').toUpperCase(),
+                fields: fields
+                    ? fields.map(field => FIELDS.LEVEL_ONE_OPTION[field]).join(',')
+                    : Object.values(FIELDS.LEVEL_ONE_OPTION).join(',')
+            }
+        })
+    } // subsLevelOneFutures()
+
+    /**
+     * Unsbscribe from Level One Option service
+     *
+     * @param {string|string[]} symbols Ticker symbols to unsubscribe from
+     * @returns {object[]} The request objects sent to the server
+     */
+    unsubsLevelOneOption(symbols) {
+        return this.unsubscribe({
+            service: SERVICES.LEVEL_ONE_OPTION,
+            parameters: {
+                keys: [].concat(symbols).join(',').toUpperCase(),
+            }
+        })
+    } // unsubsLevelOneFutures()
 } // TDStreamer()
 
 /**
@@ -819,6 +858,9 @@ function handleData(emitter, data) {
     case SERVICES.TIMESALE_OPTIONS:
     case SERVICES.TIMESALE_FOREX:
         emitter.emit(EVENT.TIMESALE, transform.timesale(data))
+        break
+    case SERVICES.LEVEL_ONE_OPTION:
+        emitter.emit(EVENT.LEVEL_ONE_OPTION, transform.levelOneOption(data))
         break
     case SERVICES.QUOTE:
         emitter.emit(EVENT.LEVEL_ONE_EQUITY, transform.levelOneEquity(data))

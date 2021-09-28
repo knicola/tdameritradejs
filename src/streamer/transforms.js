@@ -279,6 +279,65 @@ function chartHistoryFutures(data) {
     })
 } // chartHistoryFutures()
 
+/**
+ * Transform option level one data.
+ *
+ * @private
+ * @param {object} data Data
+ * @returns {object} Data
+ */
+function levelOneOption(data) {
+    return Object.assign({}, data, {
+        key: data.content[0].key,
+        content: data.content.map(entry => {
+            return {
+                symbol: entry.key,
+                description: entry[1],
+                bidPrice: entry[2],
+                askPrice: entry[3],
+                lastPrice: entry[4],
+                highPrice: entry[5],
+                lowPrice: entry[6],
+                closePrice: entry[7],
+                totalVolume: entry[8],
+                openInterest: entry[9],
+                volatility: entry[10],
+                quoteTime: entry[11],
+                tradeTime: entry[12],
+                intrinsicValue: entry[13],
+                quoteDay: entry[14],
+                tradeDay: entry[15],
+                expirationYear: entry[16],
+                multiplier: entry[17],
+                digits: entry[18],
+                openPrice: entry[19],
+                bidSize: entry[20],
+                askSize: entry[21],
+                lastSize: entry[22],
+                netChange: entry[23],
+                strikePrice: entry[24],
+                contractType: entry[25],
+                underlying: entry[26],
+                expirationMonth: entry[27],
+                deliverables: entry[28],
+                timeValue: entry[29],
+                expirationDay: entry[30],
+                daysToExpiration: entry[31],
+                delta: entry[32],
+                gamma: entry[33],
+                theta: entry[34],
+                vega: entry[35],
+                rho: entry[36],
+                securityStatus: entry[37],
+                theoreticalOptionValue: entry[38],
+                underlyingPrice: entry[39],
+                uvExpirationType: entry[40],
+                mark: entry[41],
+            }
+        })
+    })
+} // chartHistoryFutures()
+
 module.exports = {
     accountActivity,
     // chartEquity,
@@ -289,4 +348,5 @@ module.exports = {
     levelOneEquity,
     levelOneFutures,
     chartHistoryFutures,
+    levelOneOption
 }

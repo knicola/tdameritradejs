@@ -30,6 +30,7 @@ const EVENT = {
     // TIMESALE_EQUITY: 'timesale_equity',
     // TIMESALE_FUTURES: 'timesale_futures',
     // TIMESALE_OPTIONS: 'timesale_options',
+    LEVEL_ONE_OPTION: 'level_one_option',
     // TIMESALE_FOREX: 'timesale_forex',
     LEVEL_ONE_EQUITY: 'level_one_equity',
     LEVEL_ONE_FUTURES: 'level_one_futures',
@@ -95,7 +96,7 @@ const SERVICES = {
     LEVELONE_FUTURES: 'LEVELONE_FUTURES', // Level 1 Equity Futures
     LEVELONE_FOREX: 'LEVELONE_FOREX', // Level 1 Forex
     LEVELONE_FUTURES_OPTIONS: 'LEVELONE_FUTURES_OPTIONS', // Level 1 Futures Options
-    OPTION: 'OPTION', // Level 1 Options
+    LEVEL_ONE_OPTION: 'OPTION', // Level 1 Options
     LEVELTWO_FUTURES: 'LEVELTWO_FUTURES', // Level 2 Futures
     NEWS_HEADLINE: 'NEWS_HEADLINE', // News headline
     NEWS_STORY: 'NEWS_STORY', // News Content
@@ -286,6 +287,51 @@ const FIELDS = {
         futureSettlementPrice: 33, // Closing price
         futureActiveSymbol: 34, // Symbol of the active contract
         futureExpirationDate: 35, // Expiration date of this contract
+    },
+    /** @enum {number} */
+    LEVEL_ONE_OPTION: {
+        symbol: 0,
+        description: 1,
+        bidPrice: 2,
+        askPrice: 3,
+        lastPrice: 4,
+        highPrice: 5,
+        lowPrice: 6,
+        closePrice: 7,
+        totalVolume: 8,
+        openInterest: 9,
+        volatility: 10,
+        quoteTime: 11,
+        tradeTime: 12,
+        intrinsicValue: 13,
+        quoteDay: 14,
+        tradeDay: 15,
+        expirationYear: 16,
+        multiplier: 17,
+        digits: 18,
+        openPrice: 19,
+        bidSize: 20,
+        askSize: 21,
+        lastSize: 22,
+        netChange: 23,
+        strikePrice: 24,
+        contractType: 25,
+        underlying: 26,
+        expirationMonth: 27,
+        deliverables: 28,
+        timeValue: 29,
+        expirationDay: 30,
+        daysToExpiration: 31,
+        delta: 32,
+        gamma: 33,
+        theta: 34,
+        vega: 35,
+        rho: 36,
+        securityStatus: 37,
+        theoreticalOptionValue: 38,
+        underlyingPrice: 39,
+        uvExpirationType: 40,
+        mark: 41,
     },
 } // FIELDS
 deepFreeze(FIELDS)
