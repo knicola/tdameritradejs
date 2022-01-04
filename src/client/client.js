@@ -26,6 +26,7 @@ Client.prototype.searchInstruments = market.searchInstruments
 Client.prototype.getInstrument = market.getInstrument
 Client.prototype.getAccounts = accounts.getAccounts
 Client.prototype.getAccount = accounts.getAccount
+Client.prototype.getPositions = accounts.getPositions
 Client.prototype.getPreferences = accounts.getPreferences
 Client.prototype.updatePreferences = accounts.updatePreferences
 Client.prototype.getStreamerSubscriptionKeys = accounts.getStreamerSubscriptionKeys

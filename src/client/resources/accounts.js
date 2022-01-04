@@ -30,6 +30,21 @@ function getAccount(accountId) {
 } // getAccount()
 
 /**
+ * Get account positions for a specific account.
+ *
+ * @instance
+ * @memberof TDAmeritrade
+ * @param {string} accountId The account id
+ * @returns {Promise<any>} The requested account's positions
+ *
+ * @example
+ * const acctInfo = await td.getPositions('45678')
+ */
+function getPositions(accountId) {
+    return this.axios.get(`/accounts/${accountId}?fields=positions`)
+} // getPositions()
+
+/**
  * Get preferences for a specific account.
  *
  * @instance
@@ -121,6 +136,7 @@ function getUserPrincipals(fields) {
 module.exports = {
     getAccounts,
     getAccount,
+    getPositions,
     getPreferences,
     updatePreferences,
     getStreamerSubscriptionKeys,
