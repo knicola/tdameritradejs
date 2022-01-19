@@ -27,13 +27,17 @@ class TDAccount extends Base {
 }
 
 /**
+ * @typedef {import('./resources/accounts').AccountFields} AccountFields
+ */
+/**
  * Get account balances, positions, and orders.
  *
+ * @param {AccountFields|AccountFields[]} [fields] Fields to include
  * @function
  * @returns {Promise<any>} The requested account
  */
-TDAccount.prototype.getAccount = function () {
-    return accounts.getAccount.call(this, [this.accountId])
+TDAccount.prototype.getAccount = function (fields) {
+    return accounts.getAccount.call(this, [this.accountId, fields])
 }
 
 /**

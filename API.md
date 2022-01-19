@@ -20,7 +20,8 @@ TD Ameritrade API client
     * [td.axios](#TDAmeritrade+axios) : <code>AxiosInstance</code>
     * [td.on(event, fn)](#TDAmeritrade+on) ⇒ <code>EventEmitter.&lt;(string\|symbol), any&gt;</code>
     * [td.getAccounts()](#TDAmeritrade+getAccounts) ⇒ <code>Promise.&lt;any&gt;</code>
-    * [td.getAccount(accountId)](#TDAmeritrade+getAccount) ⇒ <code>Promise.&lt;any&gt;</code>
+    * [td.getAccount(accountId, [fields])](#TDAmeritrade+getAccount) ⇒ <code>Promise.&lt;any&gt;</code>
+    * [td.getPositions(accountId)](#TDAmeritrade+getPositions) ⇒ <code>Promise.&lt;any&gt;</code>
     * [td.getPreferences(accountId)](#TDAmeritrade+getPreferences) ⇒ <code>Promise.&lt;any&gt;</code>
     * [td.updatePreferences(accountId, preferences)](#TDAmeritrade+updatePreferences) ⇒ <code>Promise.&lt;any&gt;</code>
     * [td.getStreamerSubscriptionKeys([accountIds])](#TDAmeritrade+getStreamerSubscriptionKeys) ⇒ <code>Promise.&lt;any&gt;</code>
@@ -125,13 +126,14 @@ const accounts = await td.getAccounts()
 
 <br><a name="TDAmeritrade+getAccount"></a>
 
-### td.getAccount(accountId) ⇒ <code>Promise.&lt;any&gt;</code>
+### td.getAccount(accountId, [fields]) ⇒ <code>Promise.&lt;any&gt;</code>
 
 Get account balances, positions, and orders for a specific account.
 
 **Arguments**
 
 - **accountId (<code>string</code>)** : The account id
+- **[fields] ([<code>AccountFields</code>](#AccountFields) | [<code>Array.&lt;AccountFields&gt;</code>](#AccountFields))** : Fields to include
 
 **Returns**
 
@@ -141,6 +143,26 @@ Get account balances, positions, and orders for a specific account.
 **Example**  
 ```js
 const acctInfo = await td.getAccount('45678')
+```
+
+<br><a name="TDAmeritrade+getPositions"></a>
+
+### td.getPositions(accountId) ⇒ <code>Promise.&lt;any&gt;</code>
+
+Get account positions for a specific account.
+
+**Arguments**
+
+- **accountId (<code>string</code>)** : The account id
+
+**Returns**
+
+- **<code>Promise.&lt;any&gt;</code>** : The requested account's positions
+
+
+**Example**  
+```js
+const acctInfo = await td.getPositions('45678')
 ```
 
 <br><a name="TDAmeritrade+getPreferences"></a>
@@ -985,7 +1007,8 @@ const streamer = await td.streamer()
 
 * [TDAccount](#TDAccount)
     * [new TDAccount(accountId, [config])](#new_TDAccount_new)
-    * [account.getAccount()](#TDAccount+getAccount) ⇒ <code>Promise.&lt;any&gt;</code>
+    * [account.getAccount([fields])](#TDAccount+getAccount) ⇒ <code>Promise.&lt;any&gt;</code>
+    * [account.getPositions()](#TDAccount+getPositions) ⇒ <code>Promise.&lt;any&gt;</code>
     * [account.getPreferences()](#TDAccount+getPreferences) ⇒ <code>Promise.&lt;any&gt;</code>
     * [account.updatePreferences(preferences)](#TDAccount+updatePreferences) ⇒ <code>Promise.&lt;any&gt;</code>
     * [account.getStreamerSubscriptionKeys()](#TDAccount+getStreamerSubscriptionKeys) ⇒ <code>Promise.&lt;any&gt;</code>
@@ -1022,13 +1045,28 @@ const streamer = await td.streamer()
 
 <br><a name="TDAccount+getAccount"></a>
 
-### account.getAccount() ⇒ <code>Promise.&lt;any&gt;</code>
+### account.getAccount([fields]) ⇒ <code>Promise.&lt;any&gt;</code>
 
 Get account balances, positions, and orders.
+
+**Arguments**
+
+- **[fields] ([<code>AccountFields</code>](#AccountFields) | [<code>Array.&lt;AccountFields&gt;</code>](#AccountFields))** : Fields to include
 
 **Returns**
 
 - **<code>Promise.&lt;any&gt;</code>** : The requested account
+
+
+<br><a name="TDAccount+getPositions"></a>
+
+### account.getPositions() ⇒ <code>Promise.&lt;any&gt;</code>
+
+Get account positions.
+
+**Returns**
+
+- **<code>Promise.&lt;any&gt;</code>** : The requested account's positions
 
 
 <br><a name="TDAccount+getPreferences"></a>
@@ -1387,6 +1425,8 @@ Get all transactions.
     * [streamer.unsubsLevelOneEquity(symbols)](#TDStreamer+unsubsLevelOneEquity) ⇒ <code>Array.&lt;object&gt;</code>
     * [streamer.subsLevelOneFutures(symbols, [fields])](#TDStreamer+subsLevelOneFutures) ⇒ <code>Array.&lt;object&gt;</code>
     * [streamer.unsubsLevelOneFutures(symbols)](#TDStreamer+unsubsLevelOneFutures) ⇒ <code>Array.&lt;object&gt;</code>
+    * [streamer.subsLevelOneOption(symbols, [fields])](#TDStreamer+subsLevelOneOption) ⇒ <code>Array.&lt;object&gt;</code>
+    * [streamer.unsubsLevelOneOption(symbols)](#TDStreamer+unsubsLevelOneOption) ⇒ <code>Array.&lt;object&gt;</code>
 
 
 <br><a name="new_TDStreamer_new"></a>
@@ -1966,6 +2006,37 @@ Unsbscribe from Level One Futures service
 - **<code>Array.&lt;object&gt;</code>** : The request objects sent to the server
 
 
+<br><a name="TDStreamer+subsLevelOneOption"></a>
+
+### streamer.subsLevelOneOption(symbols, [fields]) ⇒ <code>Array.&lt;object&gt;</code>
+
+Subscribe to Level One Option service
+
+**Arguments**
+
+- **symbols (<code>string</code> | <code>Array.&lt;string&gt;</code>)** : Ticker symbols to subscribe to
+- **[fields] (<code>Array.&lt;(&#x27;symbol&#x27;\|&#x27;bidPrice&#x27;\|&#x27;askPrice&#x27;\|&#x27;lastPrice&#x27;\|&#x27;bidSize&#x27;\|&#x27;askSize&#x27;\|&#x27;askID&#x27;\|&#x27;bidID&#x27;\|&#x27;totalVolume&#x27;\|&#x27;lastSize&#x27;\|&#x27;quoteTime&#x27;\|&#x27;tradeTime&#x27;\|&#x27;highPrice&#x27;\|&#x27;lowPrice&#x27;\|&#x27;closePrice&#x27;\|&#x27;exchangeID&#x27;\|&#x27;description&#x27;\|&#x27;lastID&#x27;\|&#x27;openPrice&#x27;\|&#x27;netChange&#x27;\|&#x27;futurePercentChange&#x27;\|&#x27;exhangeName&#x27;\|&#x27;securityStatus&#x27;\|&#x27;openInterest&#x27;\|&#x27;mark&#x27;\|&#x27;tick&#x27;\|&#x27;tickAmount&#x27;\|&#x27;product&#x27;\|&#x27;futurePriceFormat&#x27;\|&#x27;futureTradingHours&#x27;\|&#x27;futureIsTradable&#x27;\|&#x27;futureMultiplier&#x27;\|&#x27;futureIsActive&#x27;\|&#x27;futureSettlementPrice&#x27;\|&#x27;futureActiveSymbol&#x27;\|&#x27;futureExpirationDate&#x27;)&gt;</code>)** : Fields to include (default all)
+
+**Returns**
+
+- **<code>Array.&lt;object&gt;</code>** : object
+
+
+<br><a name="TDStreamer+unsubsLevelOneOption"></a>
+
+### streamer.unsubsLevelOneOption(symbols) ⇒ <code>Array.&lt;object&gt;</code>
+
+Unsbscribe from Level One Option service
+
+**Arguments**
+
+- **symbols (<code>string</code> | <code>Array.&lt;string&gt;</code>)** : Ticker symbols to unsubscribe from
+
+**Returns**
+
+- **<code>Array.&lt;object&gt;</code>** : The request objects sent to the server
+
+
 <br><a name="TypeDefinitions"></a>
 
 ## Type Definitions
@@ -1988,6 +2059,12 @@ Unsbscribe from Level One Futures service
 - **redirectUri (<code>string</code>)** : The local uri to receive the access code from TD Ameritrade's OAuth2
 - **sslKey (<code>string</code>)** : The path to your private SSL key
 - **sslCert (<code>string</code>)** : The path to your public SSL key
+
+
+<br><a name="AccountFields"></a>
+
+## AccountFields : <code>&#x27;positions&#x27;</code> \| <code>&#x27;orders&#x27;</code>
+
 
 
 <br><a name="Preferences"></a>
@@ -2169,7 +2246,7 @@ Note: The maximum date range is one year. Valid ISO-8601 formats are: `yyyy-MM-d
 
 <br><a name="Event"></a>
 
-## Event : <code>&#x27;state\_change&#x27;</code> \| <code>&#x27;message&#x27;</code> \| <code>&#x27;account\_activity&#x27;</code> \| <code>&#x27;chart&#x27;</code> \| <code>&#x27;news\_headline&#x27;</code> \| <code>&#x27;timesale&#x27;</code> \| <code>&#x27;level\_one\_equity&#x27;</code> \| <code>&#x27;level\_one\_futures&#x27;</code> \| <code>&#x27;chart\_history\_futures&#x27;</code> \| <code>&#x27;error&#x27;</code>
+## Event : <code>&#x27;state\_change&#x27;</code> \| <code>&#x27;message&#x27;</code> \| <code>&#x27;account\_activity&#x27;</code> \| <code>&#x27;chart&#x27;</code> \| <code>&#x27;news\_headline&#x27;</code> \| <code>&#x27;timesale&#x27;</code> \| <code>&#x27;level\_one\_equity&#x27;</code> \| <code>&#x27;level\_one\_futures&#x27;</code> \| <code>&#x27;level\_one\_option&#x27;</code> \| <code>&#x27;chart\_history\_futures&#x27;</code> \| <code>&#x27;error&#x27;</code>
 
 
 

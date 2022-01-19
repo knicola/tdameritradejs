@@ -15,18 +15,26 @@ function getAccounts() {
 } // getAccounts()
 
 /**
+ * @typedef {'positions'|'orders'} AccountFields
+ */
+/**
  * Get account balances, positions, and orders for a specific account.
  *
  * @instance
  * @memberof TDAmeritrade
  * @param {string} accountId The account id
+ * @param {AccountFields|AccountFields[]} [fields] Fields to include
  * @returns {Promise<any>} The requested account
  *
  * @example
  * const acctInfo = await td.getAccount('45678')
  */
-function getAccount(accountId) {
-    return this.axios.get(`/accounts/${accountId}`)
+function getAccount(accountId, fields) {
+    return this.axios.get(`/accounts/${accountId}`, {
+        params: {
+            fields: [].concat(fields || []).join(',')
+        }
+    })
 } // getAccount()
 
 /**
@@ -41,7 +49,11 @@ function getAccount(accountId) {
  * const acctInfo = await td.getPositions('45678')
  */
 function getPositions(accountId) {
-    return this.axios.get(`/accounts/${accountId}?fields=positions`)
+    return this.axios.get(`/accounts/${accountId}`, {
+        params: {
+            fields: 'positions'
+        }
+    })
 } // getPositions()
 
 /**
@@ -102,7 +114,7 @@ function updatePreferences(accountId, preferences) {
 function getStreamerSubscriptionKeys(accountIds) {
     return this.axios.get('/userprincipals/streamersubscriptionkeys', {
         params: {
-            accountIds: [].concat(accountIds).join(',')
+            accountIds: [].concat(accountIds || []).join(',')
         }
     })
 } // getStreamerSubscriptionKeys()
@@ -128,7 +140,7 @@ function getStreamerSubscriptionKeys(accountIds) {
 function getUserPrincipals(fields) {
     return this.axios.get('/userprincipals', {
         params: {
-            fields: [].concat(fields).join(',')
+            fields: [].concat(fields || []).join(',')
         }
     })
 } // getUserPrincipals()

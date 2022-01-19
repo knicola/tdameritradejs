@@ -9,9 +9,15 @@ export class TDAccount {
     constructor(accountId: string, config?: Config)
     /**
      * Get account balances, positions, and orders.
+     * @param fields Fields to include
      * @returns The requested account
      */
-    getAccount(): Promise<any>;
+    getAccount(fields?: AccountFields|Array<AccountFields>): Promise<any>;
+    /**
+     * Get account positions.
+     * @returns The requested account's positions
+     */
+    getPositions(): Promise<any>;
     /**
      * Get account preferences.
      * @returns The account preferences
@@ -177,11 +183,20 @@ export class TDAmeritrade {
     /**
      * Get account balances, positions, and orders for a specific account.
      * @param accountId The account id
+     * @param fields Fields to include
      * @returns The requested account
      * @example
      * const acctInfo = await td.getAccount('45678')
      */
-    getAccount(accountId: string): Promise<any>;
+    getAccount(accountId: string, fields?: AccountFields|Array<AccountFields>): Promise<any>;
+    /**
+     * Get account positions for a specific account.
+     * @param accountId The account id
+     * @returns The requested account's positions
+     * @example
+     * const acctInfo = await td.getPositions('45678')
+     */
+    getPositions(accountId: string): Promise<any>;
     /**
      * Get preferences for a specific account.
      * @param accountId The account id
@@ -836,6 +851,19 @@ export class TDStreamer {
      * @returns The request objects sent to the server
      */
     unsubsLevelOneFutures(symbols: string|Array<string>): Array<object>;
+    /**
+     * Subscribe to Level One Option service
+     * @param symbols Ticker symbols to subscribe to
+     * @param fields Fields to include (default all)
+     * @returns object
+     */
+    subsLevelOneOption(symbols: string|Array<string>, fields?: Array<('symbol'|'bidPrice'|'askPrice'|'lastPrice'|'bidSize'|'askSize'|'askID'|'bidID'|'totalVolume'|'lastSize'|'quoteTime'|'tradeTime'|'highPrice'|'lowPrice'|'closePrice'|'exchangeID'|'description'|'lastID'|'openPrice'|'netChange'|'futurePercentChange'|'exhangeName'|'securityStatus'|'openInterest'|'mark'|'tick'|'tickAmount'|'product'|'futurePriceFormat'|'futureTradingHours'|'futureIsTradable'|'futureMultiplier'|'futureIsActive'|'futureSettlementPrice'|'futureActiveSymbol'|'futureExpirationDate')>): Array<object>;
+    /**
+     * Unsbscribe from Level One Option service
+     * @param symbols Ticker symbols to unsubscribe from
+     * @returns The request objects sent to the server
+     */
+    unsubsLevelOneOption(symbols: string|Array<string>): Array<object>;
 }
 export type Config = {
     /**
@@ -883,6 +911,7 @@ export type Config = {
      */
     sslCert?: string;
 };
+export type AccountFields = 'positions'|'orders'
 export type Preferences = {
     /**
      * Express trading
@@ -1123,7 +1152,7 @@ export type Watchlist = {
     watchlistItems: Array<WatchlistItem>;
 };
 export type State = 'connecting'|'connected'|'authenticated'|'disconnecting'|'disconnected'
-export type Event = 'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'level_one_futures'|'chart_history_futures'|'error'
+export type Event = 'state_change'|'message'|'account_activity'|'chart'|'news_headline'|'timesale'|'level_one_equity'|'level_one_futures'|'level_one_option'|'chart_history_futures'|'error'
 export type Error = 'unknown_error'|'unknown_message'|'unknown_response'|'unknown_notification'|'unknown_data'|'invalid_message'|'connection_refused'|'authentication_failed'
 export type DisconnectOptions = {
     /**
