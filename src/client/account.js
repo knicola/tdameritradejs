@@ -37,6 +37,16 @@ TDAccount.prototype.getAccount = function () {
 }
 
 /**
+ * Get account positions.
+ *
+ * @function
+ * @returns {Promise<any>} The requested account's positions
+ */
+TDAccount.prototype.getPositions = function () {
+    return accounts.getPositions.call(this, [this.accountId])
+}
+
+/**
  * Get account preferences.
  *
  * @function
