@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.6.0] - 2022-01-19
+### Added
+* Level one options capability. See [#38](https://github.com/knicola/tdameritradejs/pull/38) by [@ryanblenis](https://github.com/ryanblenis)
+* Method `getPositions()` to client. See [#40](https://github.com/knicola/tdameritradejs/pull/40) by [@kevinsherman](https://github.com/kevinsherman)
+* Optional fields, positions and orders, to `getAccount()` and `getAccounts()`.
+### Changed
+* **[Breaking]** Return error response body instead of AxiosError. See [#27](https://github.com/knicola/tdameritradejs/pull/27) by [@marknokes](https://github.com/marknokes)
 
 ## [0.5.1] - 2021-03-21
 ### Added
