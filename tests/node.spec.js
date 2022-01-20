@@ -133,7 +133,9 @@ describe('TDAmeritrade (Node.js)', () => {
             })
             return td.authorize().then(res => {
                 expect(res).toEqual({ success: true })
-            }).catch(err => expect(err).toBeUndefined())
+            }).catch(err => {
+                expect(err).toBeUndefined()
+            })
         }) // test
     }) // group
     describe('.login()', () => {

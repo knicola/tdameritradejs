@@ -43,15 +43,16 @@ function authorize() {
                     res.writeHead(200, { 'Content-Type': 'text/html' })
                     res.write('OK')
                     res.end()
+                    server.close()
                     resolve(data)
                 })
                 .catch(err => {
                     res.writeHead(500, { 'Content-Type': 'text/html' })
                     res.write('Failed to get access token.')
                     res.end()
+                    server.close()
                     reject(err)
                 })
-                .finally(() => server.close())
         })
         server.listen(Number(urlObj.port) || 8443, urlObj.hostname, () => {
             this._emitter.emit(
