@@ -175,11 +175,12 @@ export class TDAmeritrade {
     on(event: 'login'|'token', fn: EventEmitter.EventListener<any, any>): EventEmitter<(string|symbol), any>;
     /**
      * Get account balances, positions, and orders for all linked accounts.
+     * @param fields Fields to include
      * @returns List of all accounts
      * @example
      * const accounts = await td.getAccounts()
      */
-    getAccounts(): Promise<any>;
+    getAccounts(fields?: AccountFields|Array<AccountFields>): Promise<any>;
     /**
      * Get account balances, positions, and orders for a specific account.
      * @param accountId The account id

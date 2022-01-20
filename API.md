@@ -19,7 +19,7 @@ TD Ameritrade API client
     * [new TDAmeritrade([config])](#new_TDAmeritrade_new)
     * [td.axios](#TDAmeritrade+axios) : <code>AxiosInstance</code>
     * [td.on(event, fn)](#TDAmeritrade+on) ⇒ <code>EventEmitter.&lt;(string\|symbol), any&gt;</code>
-    * [td.getAccounts()](#TDAmeritrade+getAccounts) ⇒ <code>Promise.&lt;any&gt;</code>
+    * [td.getAccounts([fields])](#TDAmeritrade+getAccounts) ⇒ <code>Promise.&lt;any&gt;</code>
     * [td.getAccount(accountId, [fields])](#TDAmeritrade+getAccount) ⇒ <code>Promise.&lt;any&gt;</code>
     * [td.getPositions(accountId)](#TDAmeritrade+getPositions) ⇒ <code>Promise.&lt;any&gt;</code>
     * [td.getPreferences(accountId)](#TDAmeritrade+getPreferences) ⇒ <code>Promise.&lt;any&gt;</code>
@@ -110,9 +110,13 @@ Add a listener for a given event.
 
 <br><a name="TDAmeritrade+getAccounts"></a>
 
-### td.getAccounts() ⇒ <code>Promise.&lt;any&gt;</code>
+### td.getAccounts([fields]) ⇒ <code>Promise.&lt;any&gt;</code>
 
 Get account balances, positions, and orders for all linked accounts.
+
+**Arguments**
+
+- **[fields] ([<code>AccountFields</code>](#AccountFields) | [<code>Array.&lt;AccountFields&gt;</code>](#AccountFields))** : Fields to include
 
 **Returns**
 

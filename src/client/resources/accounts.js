@@ -5,13 +5,18 @@
  *
  * @instance
  * @memberof TDAmeritrade
+ * @param {AccountFields|AccountFields[]} [fields] Fields to include
  * @returns {Promise<any>} List of all accounts
  *
  * @example
  * const accounts = await td.getAccounts()
  */
-function getAccounts() {
-    return this.axios.get('/accounts')
+function getAccounts(fields) {
+    return this.axios.get('/accounts', {
+        params: {
+            fields: [].concat(fields || []).join(',')
+        }
+    })
 } // getAccounts()
 
 /**
