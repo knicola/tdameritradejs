@@ -39,6 +39,18 @@ describe('Client', () => {
                     })
                 })
         }) // test
+        it('should be able to include positions and orders', () => {
+            return api
+                .getAccounts(['orders', 'positions'])
+                .then(data => {
+                    assertApiCall(data, {
+                        method: 'GET',
+                        url: '/accounts',
+                        headers: expectedAuthorization,
+                        params: { fields: 'orders,positions' },
+                    })
+                })
+        }) // test
     }) // group
     describe('.getAccount()', () => {
         it('should get a single account', () => {
@@ -49,6 +61,32 @@ describe('Client', () => {
                         method: 'GET',
                         url: '/accounts/123',
                         headers: expectedAuthorization,
+                    })
+                })
+        }) // test
+        it('should be able to include positions and orders', () => {
+            return api
+                .getAccount('123', [ 'orders', 'positions' ])
+                .then(data => {
+                    assertApiCall(data, {
+                        method: 'GET',
+                        url: '/accounts/123',
+                        headers: expectedAuthorization,
+                        params: { fields: 'orders,positions' },
+                    })
+                })
+        }) // test
+    }) // group
+    describe('.getPositions', () => {
+        it('should get account positions', () => {
+            return api
+                .getPositions('123')
+                .then(data => {
+                    assertApiCall(data, {
+                        method: 'GET',
+                        url: '/accounts/123',
+                        headers: expectedAuthorization,
+                        params: { fields: 'positions' }
                     })
                 })
         }) // test
