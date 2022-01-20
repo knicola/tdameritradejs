@@ -26,6 +26,7 @@
     "coverage": "jest --coverage",
     "types": "node scripts/types/generate",
     "docs": "node scripts/docs/generate",
+    "gen": "npm run types &&  npm run docs",
     "build": "rollup -c"
   },
   "jest": {
